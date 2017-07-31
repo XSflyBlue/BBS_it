@@ -31,15 +31,23 @@ nav a{
 }
 body{
 	background-color: #eeeef2;
+	font-family: "Helvetica Neue",Helvetica,"Microsoft Yahei","Hiragino Sans GB","WenQuanYi Micro Hei","微软雅黑","华文细黑",STHeiti,sans-serif;
 }
 .col-md-3{
 	padding:0px 0px 0px 11px;
 }
-.col-md-9{
+.col-md-9>div{
 	border:1px solid #d9d9d9;
 	background-color: white;
 }
+.col-md-9{
+	padding-right:0px;	
+	padding-left:0px;	
+}
 /**************************custom************************/
+.bbs_subNav{
+	margin: 15px 15px;
+}
 .block{
 	display: block;
 }
@@ -49,6 +57,10 @@ body{
 .bbs_listTitle{
 	font-size: 1.2em;
 	color: black;
+}
+.bbs_subTitle{
+	font-size: 1.25em;
+	font-weight: bold;
 }
 .bbs_bold{
 	font-weight: bold;
@@ -66,6 +78,7 @@ body{
 .bbs_table>tbody>tr>td, .bbs_table>tbody>tr>th, .bbs_table>tfoot>tr>td, .bbs_table>tfoot>tr>th, .bbs_table>thead>tr>td, .bbs_table>thead>tr>th{
 	border-top: none;
 	border-bottom: 1px solid #ddd;
+	padding-left: 36px
 }
 .bbs_rightBox{
 	background-color: white;
@@ -79,4 +92,19 @@ body{
 }
 .bbs_rightBox a:hover{
 	color:blue;
+}
+
+#bbs_comment{
+	padding: 16px;
+	margin-top: 12px;
+}
+#inputForm{
+	margin:15px auto;
+	width:576px;
+	padding:30px 5% 75px;
+	background-color: white;
+	border-radius: 15px;
+}
+#inputForm form{
+	margin-top: 18px;
 }

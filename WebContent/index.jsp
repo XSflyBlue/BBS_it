@@ -54,8 +54,8 @@
 						</ul></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="#">苗总</a></li>
-					<li><a href="#">退出</a></li>
+					<li><a href='<c:url value="/login.jsp"></c:url>'>登录</a></li>
+					<li><a href='<c:url value="/regist.jsp"></c:url>'>注册</a></li>
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->
@@ -65,94 +65,96 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-9">
-				<ul class="nav nav-tabs">
-					<li role="presentation" class="active"><a href="#">主题帖</a></li>
-					<li role="presentation"><a href="#">精华帖</a></li>
-				</ul>
-				<table class="table table-hover bbs_table">
-					<tr>
-						<td>
-							<a class="bbs_list" href="#">
-								<span class="bbs_listSubTitle">[程序发布]</span>
-								<span class="bbs_listTitle">xiuno4采集免费分享，支持指定用户和马甲发贴。</span>
-								<span class="bbs_listSubTitle block">axiuno 10月前 ← JOJO 20小时前</span>
-							</a>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<a class="bbs_list" href="#">
-								<span class="bbs_listSubTitle">[程序发布]</span>
-								<span class="bbs_listTitle bbs_bold">Xiuno BBS 4.0 beta 5 发布 （最后更新：2017/4/8） </span>
-								<span class="bbs_listSubTitle block">axiuno 10月前 ← JOJO 20小时前</span>
-							</a>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<a class="bbs_list" href="#">
-								<span class="bbs_listSubTitle">[线下交流]</span>
-								<span class="bbs_listTitle bbs_bold">[8月12日][沙龙] 揭秘 “二次元” 企业背后的技术实践丨又拍云 Open Talk NO.34</span>
-								<span class="bbs_listSubTitle block">axiuno 10月前 ← JOJO 20小时前</span>
-							</a>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<a class="bbs_list" href="#">
-								<span class="bbs_listSubTitle">[程序发布]</span>
-								<span class="bbs_listTitle bbs_bold">Xiuno BBS 4.0 beta 5 发布 （最后更新：2017/4/8） </span>
-								<span class="bbs_listSubTitle block">axiuno 10月前 ← JOJO 20小时前</span>
-							</a>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<a class="bbs_list" href="#">
-								<span class="bbs_listSubTitle">[问题求助]</span>
-								<span class="bbs_listTitle">求教登陆不进去后台 </span>
-								<span class="bbs_listSubTitle block">axiuno 10月前 ← JOJO 20小时前</span>
-							</a>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<a class="bbs_list" href="#">
-								<span class="bbs_listSubTitle">[程序发布]</span>
-								<span class="bbs_listTitle">xiuno改造，已经完成70%，二次开发xiuno绝对是最好选择。。</span>
-								<span class="bbs_listSubTitle block">axiuno 10月前 ← JOJO 20小时前</span>
-							</a>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<a class="bbs_list" href="#">
-								<span class="bbs_listSubTitle">[程序发布]</span>
-								<span class="bbs_listTitle bbs_bold">Xiuno BBS 4.0 beta 5 发布 （最后更新：2017/4/8） </span>
-								<span class="bbs_listSubTitle block">axiuno 10月前 ← JOJO 20小时前</span>
-							</a>
-						</td>
-					</tr>
-				</table>
-				<nav aria-label="Page navigation" style="text-align: center;">
-				  <ul class="pagination">
-				    <li>
-				      <a href="#" aria-label="Previous">
-				        <span aria-hidden="true">&laquo;</span>
-				      </a>
-				    </li>
-				    <li><a href="#">1</a></li>
-				    <li><a href="#">2</a></li>
-				    <li><a href="#">3</a></li>
-				    <li><a href="#">4</a></li>
-				    <li><a href="#">5</a></li>
-				    <li>
-				      <a href="#" aria-label="Next">
-				        <span aria-hidden="true">&raquo;</span>
-				      </a>
-				    </li>
-				  </ul>
-				</nav>
+				<div>
+					<ul class="nav nav-tabs bbs_subNav">
+						<li role="presentation" class="active"><a href="#">主题帖</a></li>
+						<li role="presentation"><a href="#">精华帖</a></li>
+					</ul>
+					<table class="table table-hover bbs_table">
+						<tr>
+							<td>
+								<a class="bbs_list" href="post.jsp">
+									<span class="bbs_listSubTitle">[程序发布]</span>
+									<span class="bbs_listTitle">xiuno4采集免费分享，支持指定用户和马甲发贴。</span>
+									<span class="bbs_listSubTitle block">axiuno 10月前 ← JOJO 20小时前</span>
+								</a>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<a class="bbs_list" href="#">
+									<span class="bbs_listSubTitle">[程序发布]</span>
+									<span class="bbs_listTitle bbs_bold">Xiuno BBS 4.0 beta 5 发布 （最后更新：2017/4/8） </span>
+									<span class="bbs_listSubTitle block">axiuno 10月前 ← JOJO 20小时前</span>
+								</a>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<a class="bbs_list" href="#">
+									<span class="bbs_listSubTitle">[线下交流]</span>
+									<span class="bbs_listTitle bbs_bold">[8月12日][沙龙] 揭秘 “二次元” 企业背后的技术实践丨又拍云 Open Talk NO.34</span>
+									<span class="bbs_listSubTitle block">axiuno 10月前 ← JOJO 20小时前</span>
+								</a>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<a class="bbs_list" href="#">
+									<span class="bbs_listSubTitle">[程序发布]</span>
+									<span class="bbs_listTitle bbs_bold">Xiuno BBS 4.0 beta 5 发布 （最后更新：2017/4/8） </span>
+									<span class="bbs_listSubTitle block">axiuno 10月前 ← JOJO 20小时前</span>
+								</a>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<a class="bbs_list" href="#">
+									<span class="bbs_listSubTitle">[问题求助]</span>
+									<span class="bbs_listTitle">求教登陆不进去后台 </span>
+									<span class="bbs_listSubTitle block">axiuno 10月前 ← JOJO 20小时前</span>
+								</a>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<a class="bbs_list" href="#">
+									<span class="bbs_listSubTitle">[程序发布]</span>
+									<span class="bbs_listTitle">xiuno改造，已经完成70%，二次开发xiuno绝对是最好选择。。</span>
+									<span class="bbs_listSubTitle block">axiuno 10月前 ← JOJO 20小时前</span>
+								</a>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<a class="bbs_list" href="#">
+									<span class="bbs_listSubTitle">[程序发布]</span>
+									<span class="bbs_listTitle bbs_bold">Xiuno BBS 4.0 beta 5 发布 （最后更新：2017/4/8） </span>
+									<span class="bbs_listSubTitle block">axiuno 10月前 ← JOJO 20小时前</span>
+								</a>
+							</td>
+						</tr>
+					</table>
+					<nav aria-label="Page navigation" style="text-align: center;">
+					  <ul class="pagination">
+					    <li>
+					      <a href="#" aria-label="Previous">
+					        <span aria-hidden="true">&laquo;</span>
+					      </a>
+					    </li>
+					    <li><a href="#">1</a></li>
+					    <li><a href="#">2</a></li>
+					    <li><a href="#">3</a></li>
+					    <li><a href="#">4</a></li>
+					    <li><a href="#">5</a></li>
+					    <li>
+					      <a href="#" aria-label="Next">
+					        <span aria-hidden="true">&raquo;</span>
+					      </a>
+					    </li>
+					  </ul>
+					</nav>
+				</div>
 			</div>
 			<div class="col-md-3">
 				<button type="button" class="btn" style="width: 100%; background-color: #bfb9e0;">发新帖</button>
