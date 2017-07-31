@@ -1,0 +1,82 @@
+@charset "UTF-8";
+/************************** about nav **********************/
+.navbar{
+	border-radius:0px;
+	background-color: rgba(0,0,0,.8)!important;
+}
+nav a{
+	color: #c0c0c0;
+}
+.dropdown-menu > li{
+	background-color:  rgba(0,0,0,.8)!important;
+}
+.dropdown-menu > li > a{
+	color: #c0c0c0;
+}
+.dropdown-menu > li > a:hover{
+	background: rgba(0,0,0,.8)!important;
+	color:white;
+}
+.nav>li>a:focus, .nav>li>a:hover{
+	background: rgba(0,0,0,.8)!important;
+	color:white;
+}
+.nav .open>a, .nav .open>a:focus, .nav .open>a:hover{
+	background: rgba(0,0,0,.8)!important;
+}
+
+/************************** main **********************/
+.container{
+	margin-top: 60px;
+}
+body{
+	background-color: #eeeef2;
+}
+.col-md-3{
+	padding:0px 0px 0px 11px;
+}
+.col-md-9{
+	border:1px solid #d9d9d9;
+	background-color: white;
+}
+/**************************custom************************/
+.block{
+	display: block;
+}
+.bbs_list:hover{
+	text-decoration: none;
+}
+.bbs_listTitle{
+	font-size: 1.2em;
+	color: black;
+}
+.bbs_bold{
+	font-weight: bold;
+}
+.bbs_listTitle:hover{
+	text-decoration: underline;
+	color: #00007b;
+}
+.bbs_listSubTitle{
+	color:gray;
+}
+.bbs_table{
+	margin-top: 15px;
+}
+.bbs_table>tbody>tr>td, .bbs_table>tbody>tr>th, .bbs_table>tfoot>tr>td, .bbs_table>tfoot>tr>th, .bbs_table>thead>tr>td, .bbs_table>thead>tr>th{
+	border-top: none;
+	border-bottom: 1px solid #ddd;
+}
+.bbs_rightBox{
+	background-color: white;
+	min-height: 100px;
+	border:1px solid #d9d9d9;
+	margin-top: 12px;
+	padding: 16px 12px;
+}
+.bbs_rightBox a{
+	color: #3d3d3d;
+}
+.bbs_rightBox a:hover{
+	color:blue;
+}
