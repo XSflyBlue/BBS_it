@@ -2,15 +2,35 @@ package com.neusoft.bbs.domain;
 
 import java.util.Date;
 
+/***
+ * 经验记录类
+ * @author flyblue
+ *
+ */
 public class ExpRecord {
+	/***
+	 * 经验记录ID
+	 */
     private Long expRecordId;
 
+    /***
+     * 经验ID
+     */
     private Long expId;
 
+    /***
+     * 获取经验数
+     */
     private Long expGetNum;
 
+    /***
+     * 获取原因
+     */
     private String expGetCause;
 
+    /***
+     * 获取经验时间
+     */
     private Date expGetTime;
 
     public Long getExpRecordId() {

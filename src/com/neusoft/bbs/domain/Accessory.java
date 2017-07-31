@@ -2,26 +2,60 @@ package com.neusoft.bbs.domain;
 
 import java.math.BigDecimal;
 import java.util.Date;
-
+/***
+ * 附件类
+ * @author flyblue
+ *
+ */
 public class Accessory {
+	/***
+	 * 附件ID
+	 */
     private Long accessoryId;
 
+    /***
+     * 帖子ID
+     */
     private Long postId;
 
+    /***
+     * 文件名
+     */
     private String fileName;
 
+    /***
+     * 路径
+     */
     private String path;
 
+    /***
+     * 作者
+     */
     private String author;
 
+    /***
+     * 上传时间
+     */
     private Date uploadTime;
 
+    /***
+     * 附件描述
+     */
     private String accessoryDescri;
 
+    /***
+     * 附件大小
+     */
     private BigDecimal fileSize;
 
+    /***
+     * 下载次数
+     */
     private Long downloadNum;
 
+    /***
+     * 所需消耗金币
+     */
     private Long costCoin;
 
     public Long getAccessoryId() {

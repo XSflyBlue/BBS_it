@@ -1,10 +1,24 @@
 package com.neusoft.bbs.domain;
 
+/***
+ * 分区表类（范围大于板块）
+ * @author flyblue
+ *
+ */
 public class Distrcits {
+	/***
+	 * 分区ID
+	 */
     private Long districtId;
 
+    /***
+     * 分区名
+     */
     private String districtName;
 
+    /***
+     * 分区描述
+     */
     private String districtDescri;
 
     public Long getDistrictId() {

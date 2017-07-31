@@ -1,5 +1,10 @@
 package com.neusoft.bbs.domain;
 
+/***
+ * 示范类
+ * @author flyblue
+ *
+ */
 public class User {
 
 	private String user;

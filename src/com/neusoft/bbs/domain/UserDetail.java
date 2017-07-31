@@ -2,23 +2,56 @@ package com.neusoft.bbs.domain;
 
 import java.util.Date;
 
+/***
+ * 用户详情类
+ * @author flyblue
+ *
+ */
 public class UserDetail {
+	/***
+	 * 用户ID
+	 */
     private Long userId;
 
+    /***
+     * 头像（路径）
+     */
     private String icon;
 
+    /***
+     * 性别
+     * 
+     */
     private Short sex;
 
+    /***
+     * 个性签名
+     */
     private String signature;
 
+    /***
+     * 自我介绍
+     */
     private String intro;
 
+    /***
+     * 生日
+     */
     private Date birthday;
 
+    /***
+     * 籍贯
+     */
     private String region;
 
+    /***
+     * 个人网站
+     */
     private String website;
 
+    /***
+     * QQ
+     */
     private String qq;
 
     public Long getUserId() {

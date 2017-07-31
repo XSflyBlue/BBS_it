@@ -2,21 +2,50 @@ package com.neusoft.bbs.domain;
 
 import java.util.Date;
 
+/***
+ * 用户基础类
+ * @author flyblue
+ *
+ */
 public class UserBase {
+	/***
+	 * 用户ID
+	 */
     private Long userId;
 
+    /***
+     * 用户名（可作为登陆名）
+     */
     private String username;
 
+    /***
+     * 电子邮箱（可作为登陆名）
+     */
     private String email;
 
+    /***
+     * 密码
+     */
     private String password;
 
+    /***
+     * 上次登陆时间
+     */
     private Date lastLoginTime;
 
+    /***
+     * 上次登陆IP
+     */
     private String lastLoginIp;
 
+    /***
+     * 用户权限
+     */
     private Short power;
 
+    /***
+     * （注册）时间
+     */
     private Date registTime;
 
     public Long getUserId() {

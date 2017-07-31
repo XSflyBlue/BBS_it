@@ -2,11 +2,25 @@ package com.neusoft.bbs.domain;
 
 import java.util.Date;
 
+/***
+ * 收藏（帖子）类
+ * @author flyblue
+ *
+ */
 public class Collection {
+	/***
+	 * 用户ID
+	 */
     private Long userId;
 
+    /***
+     * 帖子ID
+     */
     private Long postId;
 
+    /***
+     * 收藏时间
+     */
     private Date collectTime;
 
     public Long getUserId() {

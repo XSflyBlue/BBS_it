@@ -2,59 +2,147 @@ package com.neusoft.bbs.domain;
 
 import java.util.Date;
 
+/***
+ * 帖子类
+ * @author flyblue
+ *
+ */
 public class Post {
+	/***
+	 * 帖子ID
+	 */
     private Long postId;
 
+    /***
+     * 用户ID
+     */
     private Long userId;
 
+    /***
+     * 板块ID
+     * 
+     */
     private Long sectionId;
 
+    /***
+     * 帖子类型
+     * 
+     */
     private Short postType;
 
+    /***
+     * 主题内容
+     */
     private String themeContent;
 
+    /***
+     * 发布时间
+     */
     private Date issueTime;
 
+    /***
+     * 发布IP
+     */
     private String issueIp;
 
+    /***
+     * 阅读次数
+     */
     private Long hitNum;
 
+    /***
+     * 回复总数
+     */
     private Long answerSum;
 
+    /***
+     * 是否高亮显示
+     */
     private Short isHighlight;
 
+    /***
+     * 高亮操作的用户ID（包含取消）
+     */
     private Long highlightUserId;
 
+    /***
+     * 标题颜色
+     */
     private String titleColor;
 
+    /***
+     * 是否置顶
+     */
     private Short isOverhead;
 
+    /***
+     * 置顶操作的用户ID（包含取消）
+     */
     private Long overheadUserId;
 
+    /***
+     * 置顶操作的原因
+     */
     private String overheadCause;
 
+    /***
+     * （帖子）是否关闭
+     */
     private Short isClose;
 
+    /***
+     * 关闭帖子的用户ID（包含取消）
+     */
     private Long switchUserId;
-
+    
+    /***
+     * 关闭帖子的原因
+     */
     private String switchCause;
 
+    /***
+     * （帖子）是否精华
+     */
     private Short isElite;
 
+    /***
+     * 推荐（帖子）用户ID（包含取消精华）
+     */
     private Long recomUserId;
 
+    /***
+     * 推荐（帖子）为精华的有效期
+     */
     private Date recomValidity;
 
+    /***
+     * （帖子）是否隐藏
+     */
     private Short isHidden;
 
+    /***
+     * （帖子）隐藏原因
+     */
     private String hiddenCause;
 
+    /***
+     * 隐藏（帖子的）用户ID
+     */
     private Long hiddenUserId;
 
+    /***
+     * 是否有附件
+     */
     private Short isAccessory;
 
+    /***
+     * 编辑（帖子的）用户ID
+     */
     private Long editUserId;
 
+    /***
+     * 编辑（帖子的）时间
+     */
     private Date editTime;
 
     public Long getPostId() {
