@@ -1,9 +1,10 @@
-package com.neusoft.bbs.dao;
+package com.neusoft.bbs.dao.impl;
 
 import java.sql.Connection;
 import com.neusoft.bbs.commons.util.db.BeanHandler;
 import com.neusoft.bbs.commons.util.db.DatabaseUtil;
 import com.neusoft.bbs.commons.util.db.JdbcUtil_DBCP;
+import com.neusoft.bbs.dao.UserDao;
 import com.neusoft.bbs.domain.User;
 
 /**

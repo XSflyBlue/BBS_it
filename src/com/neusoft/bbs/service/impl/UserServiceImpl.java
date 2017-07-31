@@ -1,8 +1,9 @@
-package com.neusoft.bbs.service;
+package com.neusoft.bbs.service.impl;
 
 import com.neusoft.bbs.dao.UserDao;
-import com.neusoft.bbs.dao.UserDaoImpl;
+import com.neusoft.bbs.dao.impl.UserDaoImpl;
 import com.neusoft.bbs.domain.User;
+import com.neusoft.bbs.service.UserService;
 /**
  * 用户服务层实现类
  * @author yangz
