@@ -15,7 +15,7 @@ public interface HelpTypeDao {
 	 * @param helpType
 	 * @return int
 	 */
-	int insert(HelpType Accessory);
+	int insert(HelpType helpType);
 	
 	/**
 	 * 删除帮助类型

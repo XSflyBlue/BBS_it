@@ -22,14 +22,14 @@ public interface DistrictsDao {
 	 * @param Districts
 	 * @return int
 	 */
-	int delete(Districts Districts);
+	int delete(Districts districts);
 	
 	/***
 	 * 更新分区信息
 	 * @param Districts
 	 * @return int
 	 */
-	int update(Districts Districts);
+	int update(Districts districts);
 
 	/**
 	 * 查询某districtId对应分区
