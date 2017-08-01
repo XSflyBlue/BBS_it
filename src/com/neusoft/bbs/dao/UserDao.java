@@ -1,6 +1,7 @@
 package com.neusoft.bbs.dao;
 
-import com.neusoft.bbs.domain.User;
+import com.neusoft.bbs.domain.UserBase;
+
 /**
  * 用户基本DAO接口
  * @author yangz
@@ -14,5 +15,5 @@ public interface UserDao {
 	 * @param password
 	 * @return
 	 */
-	User findByLoginNameAndPassWord(String usernameOrEmail,String password);
+	UserBase findByLoginNameAndPassWord(String usernameOrEmail,String password);
 }

@@ -1,11 +1,9 @@
 package com.neusoft.bbs.dao.impl;
 
-import java.sql.Connection;
 import com.neusoft.bbs.commons.util.db.BeanHandler;
 import com.neusoft.bbs.commons.util.db.DatabaseUtil;
-import com.neusoft.bbs.commons.util.db.JdbcUtil_DBCP;
 import com.neusoft.bbs.dao.UserDao;
-import com.neusoft.bbs.domain.User;
+import com.neusoft.bbs.domain.UserBase;
 
 /**
  * 用户DAO实现类
@@ -15,12 +13,13 @@ import com.neusoft.bbs.domain.User;
 public class UserDaoImpl implements UserDao{
 
 	@Override
-	public User findByLoginNameAndPassWord(String usernameOrEmail, String password) {
+	public UserBase findByLoginNameAndPassWord(String usernameOrEmail, String password) {
 		String sql = "SELECT * FROM B_USER_BASE WHERE (USERNAME=? OR EMAIL=?) AND PASSWORD=?";
 		Object params[] = {usernameOrEmail,usernameOrEmail,password};
-		User user = null;
+		UserBase user = null;
 		try {
-			user = (User) DatabaseUtil.query(sql,params,new BeanHandler(User.class));
+			user = (UserBase) DatabaseUtil.query(sql,params,new BeanHandler(UserBase.class));
+			System.out.println(user);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

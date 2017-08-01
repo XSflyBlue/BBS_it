@@ -111,4 +111,11 @@ public class UserBase {
     public void setRegistTime(Date registTime) {
         this.registTime = registTime;
     }
+
+	@Override
+	public String toString() {
+		return "UserBase [userId=" + userId + ", username=" + username + ", email=" + email + ", password=" + password
+				+ ", lastLoginTime=" + lastLoginTime + ", lastLoginIp=" + lastLoginIp + ", power=" + power
+				+ ", registTime=" + registTime + "]";
+	}
 }

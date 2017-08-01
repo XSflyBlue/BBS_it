@@ -2,9 +2,12 @@
 
 import java.sql.ResultSet;
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.sql.ResultSetMetaData;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.neusoft.bbs.commons.util.StringUtils;
 
 /**
 *将结果集转换成bean对象的list集合的处理器
@@ -26,11 +29,24 @@ public class BeanListHandler implements ResultSetHandler {
                 int count = metadata.getColumnCount();
                 for(int i=0;i<count;i++){
                     String name = metadata.getColumnName(i+1);
-                    Object value = rs.getObject(name);
-                    
+                    Object coulmnData = rs.getObject(name);
+                    name = StringUtils.dbFieldToJava(name);
                     Field f = bean.getClass().getDeclaredField(name);
                     f.setAccessible(true);
-                    f.set(bean, value);
+                    if(coulmnData != null) {
+                    	if(coulmnData.getClass() == BigDecimal.class) {
+                        	BigDecimal bgDecimal = (BigDecimal) coulmnData;
+                        	if(f.getType()==Long.class) {
+                        		 f.set(bean, bgDecimal.longValue());
+                        	}else if(f.getType()==Integer.class) {
+                        		 f.set(bean, bgDecimal.intValue());
+                        	}else if(f.getType()==Double.class) {
+                        		 f.set(bean, bgDecimal.doubleValue());
+                        	}
+                        }else {
+                        	f.set(bean, coulmnData);
+                        }
+                    }
                 }
                 list.add(bean);
             }

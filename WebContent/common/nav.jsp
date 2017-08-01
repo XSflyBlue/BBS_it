@@ -34,10 +34,20 @@
 						<li><a href='<c:url value="/"></c:url>'>Python</a></li>
 					</ul></li>
 			</ul>
-			<ul class="nav navbar-nav navbar-right">
-				<li><a href='<c:url value="/login.jsp"></c:url>'>登录</a></li>
-				<li><a href='<c:url value="/regist.jsp"></c:url>'>注册</a></li>
-			</ul>
+			<c:choose>
+				<c:when test="${userBase==null}">
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href='<c:url value="/login.jsp"></c:url>'>登录</a></li>
+						<li><a href='<c:url value="/regist.jsp"></c:url>'>注册</a></li>
+					</ul>
+				</c:when>
+				<c:otherwise>
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href='<c:url value="/login.jsp"></c:url>'>${userBase.username}</a></li>
+						<li><a href='<c:url value="/regist.jsp"></c:url>'>退出</a></li>
+					</ul>
+				</c:otherwise>
+			</c:choose>
 		</div>
 		<!-- /.navbar-collapse -->
 	</div>
