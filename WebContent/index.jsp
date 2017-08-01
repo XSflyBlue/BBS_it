@@ -31,7 +31,7 @@
 					<table class="table table-hover bbs_table">
 						<tr>
 							<td>
-								<a class="bbs_list" href="post.jsp">
+								<a class="bbs_list" href="poster.jsp">
 									<span class="bbs_listSubTitle">[程序发布]</span>
 									<span class="bbs_listTitle">xiuno4采集免费分享，支持指定用户和马甲发贴。</span>
 									<span class="bbs_listSubTitle block">
@@ -136,7 +136,9 @@
 				</div>
 			</div>
 			<div class="col-md-3">
-				<button type="button" class="btn btn-primary" style="width: 100%;">发新帖</button>
+				<a href='<c:url value="/post.jsp"></c:url>'>
+					<button type="button" class="btn btn-primary" style="width: 100%;">发新贴</button>
+				</a>
 				<div class="bbs_rightBox">
 					<h4>论坛介绍</h4>
 					<div>这是论坛介绍....</div>
@@ -145,7 +147,7 @@
 					<h4>友情链接</h4>
 					<div>
 						<ul>
-							<li><a href="#">百度</a></li>
+							<li><a href='<c:url value=""></c:url>'>百度</a></li>
 							<li><a href="#">阿里巴巴</a></li>
 							<li><a href="#">东软集团 天津</a></li>
 							<li><a href="#">百度</a></li>

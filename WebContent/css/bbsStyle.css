@@ -41,6 +41,10 @@ body{
 	padding-left:0px;	
 }
 /**************************custom************************/
+.bbs_mainBox{
+	padding: 2em;
+	background: red;
+}
 .bbs_nav>li>a:focus, .bbs_nav>li>a:hover{
 	background: rgba(0,0,0,.8)!important;
 	color:white;

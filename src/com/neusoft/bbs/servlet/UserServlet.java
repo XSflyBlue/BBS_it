@@ -80,5 +80,31 @@ public class UserServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * 检查当前输入密码准确性
+	 * @param request
+	 * @param response
+	 */
+	private void checkPassword(HttpServletRequest request, HttpServletResponse response) {
+		UserBase userBase = (UserBase) request.getSession().getAttribute("userBase");
+		String password = request.getParameter("password");
+		if(userBase != null && password!=null && !password.trim().equals("")) {
+			if(userBase.getPassword().equals(password)) {
+				JSONUtils.writeJSON(response, new Msg(1, "当前密码正确"));
+			}else {
+				JSONUtils.writeJSON(response, new Msg(0, "当前密码错误"));
+			}
+		}else {
+			JSONUtils.writeJSON(response, new Msg(0, "密码不能为空"));
+		}
+	}
+	
+	private void updatePassword(HttpServletRequest request, HttpServletResponse response) {
+		UserBase userBase = (UserBase) request.getSession().getAttribute("userBase");
+		String password = request.getParameter("password");
+		if(userBase != null && password!=null && !password.trim().equals("")) {
+			//修改密码
+		}
+	}
 
 }

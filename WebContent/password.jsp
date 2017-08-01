@@ -25,25 +25,49 @@
 			<h3>密码修改</h3>
 			<form>
 			  <div class="form-group">
-			    <label for="passWord">当前密码</label>
-			    <input type="password" class="form-control" id="passWord" placeholder="请输入密码">
+			    <label>当前密码</label>
+			    <input type="password" class="form-control" name="password" placeholder="请输入密码">
 			  </div>
 			  <div class="form-group">
-			    <label for="passWord">设置新密码</label>
-			    <input type="password" class="form-control" id="passWord" placeholder="请输入密码">
+			    <label>设置新密码</label>
+			    <input type="password" class="form-control" name="newPassword" placeholder="请输入密码">
 			  </div>
 			  <div class="form-group">
-			    <label for="rePassWord">确认新密码</label>
-			    <input type="password" class="form-control" id="rePassWord" placeholder="请输入密码">
+			    <label>确认新密码</label>
+			    <input type="password" class="form-control" name="rePassWord" placeholder="请输入密码">
 			  </div>
 			  <button type="button" class="btn btn-primary" style="width: 100%;" onclick="updatePassword()">修改密码</button>
 			</form>
+			<div style="margin-top: 5px;">
+				<font color="" id="j_msg"></font>
+			</div>
 		</div>
 	</div>
 </body>
 <script type="text/javascript">
 	function updatePassword(){
-		window.location.href='<c:url value="/admin/index.jsp"/>';
+		//window.location.href='<c:url value="/admin/index.jsp"/>';
 	}
+	
+	$(function(){
+		$('input[name=password]').blur(function(){
+			$.ajax({
+				type: 'POST',
+				url: '<c:url value="/UserServlet?action=checkPassword"></c:url>',
+				data:"password="+$('input[name=password]').val(),
+				success: function(data){
+					if(data.code == 1){
+						$('#j_msg').empty();
+						$('#j_msg').attr("color","green");
+						$('#j_msg').text(data.msg);
+					}else{
+						$('#j_msg').empty();
+						$('#j_msg').attr("color","red");
+						$('#j_msg').text(data.msg);
+					}
+				}
+			});
+		});
+	});
 </script>
 </html>
