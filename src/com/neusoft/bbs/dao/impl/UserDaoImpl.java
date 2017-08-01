@@ -15,14 +15,12 @@ import com.neusoft.bbs.domain.User;
 public class UserDaoImpl implements UserDao{
 
 	@Override
-	public User findByUserAndPassWord(String username, String password) {
-		String sql = "SELECT * FROM classinfo WHERE USERNAME=? AND PASSWORD=?";
-		Object params[] = {username,password};
-		Connection conn = null;
+	public User findByLoginNameAndPassWord(String usernameOrEmail, String password) {
+		String sql = "SELECT * FROM B_USER_BASE WHERE (USERNAME=? OR EMAIL=?) AND PASSWORD=?";
+		Object params[] = {usernameOrEmail,usernameOrEmail,password};
 		User user = null;
 		try {
-			conn = JdbcUtil_DBCP.getConnection();
-			user = (User) DatabaseUtil.query(conn,sql,params,new BeanHandler(User.class));
+			user = (User) DatabaseUtil.query(sql,params,new BeanHandler(User.class));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

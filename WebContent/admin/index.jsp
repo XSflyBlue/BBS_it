@@ -92,32 +92,25 @@
 							<div id="bbs_admin_showSave">我的收藏</div>
 							<div id="bbs_admin_showSafe">
 								<div class="row">
-									<div class="col-xs-6 col-sm-3 bbs_fnBox">
-										<a href="my-profile.htm">
-											<img alt="" src='<c:url value="/res/setting.png"></c:url>'>
-										</a><br>
-										<a href="#">个人资料</a>
-									</div>
-									
-									<div class="col-xs-6 col-sm-3 bbs_fnBox">
+									<div class="col-xs-6 col-sm-4 bbs_fnBox">
 										<a href='<c:url value="/password.jsp"></c:url>'>
 											<img alt="" src='<c:url value="/res/lock.png"></c:url>'>
 										</a><br>
 										<a href='<c:url value="/password.jsp"></c:url>'>修改密码</a>
 									</div>
 									
-									<div class="col-xs-6 col-sm-3 bbs_fnBox">
+									<div class="col-xs-6 col-sm-4 bbs_fnBox">
 										<a href="#">
-											<img alt="" src='<c:url value="/res/setting.png"></c:url>'>
+											<img alt="" src='<c:url value="/res/email.png"></c:url>'>
 										</a><br>
-										<a href="#">修改头像</a>
+										<a href="#">修改邮箱</a>
 									</div>
 									
-									<div class="col-xs-6 col-sm-3 bbs_fnBox">
+									<div class="col-xs-6 col-sm-4 bbs_fnBox">
 										<a href="#">
-											<img alt="" src='<c:url value="/res/setting.png"></c:url>'>
+											<img alt="" src='<c:url value="/res/log.png"></c:url>'>
 										</a><br>
-										<a href="#">我的发帖</a>
+										<a href="#">登录记录</a>
 									</div>
 									
 								</div>

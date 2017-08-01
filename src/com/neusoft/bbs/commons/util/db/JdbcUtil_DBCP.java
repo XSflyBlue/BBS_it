@@ -55,7 +55,7 @@ public class JdbcUtil_DBCP {
 			// 从数据源中获取数据库连接
 			threadConn.set(ds.getConnection());
 		}
-		return con;
+		return threadConn.get();
 	}
 
 	/**

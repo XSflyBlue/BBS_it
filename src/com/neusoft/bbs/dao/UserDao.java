@@ -2,17 +2,17 @@ package com.neusoft.bbs.dao;
 
 import com.neusoft.bbs.domain.User;
 /**
- * 用户DAO接口
+ * 用户基本DAO接口
  * @author yangz
  *
  */
 public interface UserDao {
 
 	/**
-	 * 通过用户名和密码查询用户
-	 * @param user
+	 * 通过用户名或邮箱和密码查询用户
+	 * @param usernameOrEmail
 	 * @param password
 	 * @return
 	 */
-	User findByUserAndPassWord(String user,String password);
+	User findByLoginNameAndPassWord(String usernameOrEmail,String password);
 }

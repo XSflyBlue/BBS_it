@@ -20,12 +20,10 @@ public class CoinDaoImpl implements CoinDao{
 	@Override
 	public List<CoinRecord> findCoinRecordByCoinId(Long coinId) {
 		String sql = "select coin_cause,coin_get_num,coin_get_time from b_coin_record  where coin_id=?";
-		Connection con = null;
 		Object params[] = {coinId};
 		List<CoinRecord> coinRecordList = null;
 		try {
-			con = JdbcUtil_DBCP.getConnection();
-			coinRecordList = (List<CoinRecord>)DatabaseUtil.query(con, sql, params, new BeanListHandler(CoinRecord.class));
+			coinRecordList = (List<CoinRecord>)DatabaseUtil.query(sql, params, new BeanListHandler(CoinRecord.class));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -35,12 +33,10 @@ public class CoinDaoImpl implements CoinDao{
 	@Override
 	public int deleteCoinRecord(Long userId) {
 		String sql = "delete from b_coin_record a,b_coin b where b.coin_id = a.coin_id and user_id=?";
-		Connection con = null;
 		Object params[] = {userId};
 		int a = 0;
 		try {
-			con = JdbcUtil_DBCP.getConnection();
-		    a = DatabaseUtil.update(con, sql, params);	
+		    a = DatabaseUtil.update(sql, params);	
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -50,12 +46,10 @@ public class CoinDaoImpl implements CoinDao{
 	public int insertCoinRecord(CoinRecord coinRecord) {
 		String sql = "insert into b_coin_record(coin_record_id,"
 				+ "coin_id,coin_cause,coin_get_num,coin_get_time) value(B_COIN_RECORD_ID_SEQ.nextval,?,?,?,sysdate) ";
-		Connection con = null;
 		Object params[] = {coinRecord.getCoinId(),coinRecord.getCoinCause(),coinRecord.getCoinGetNum()};
 		int a = 0;
 		try {
-			con = JdbcUtil_DBCP.getConnection();
-			a = DatabaseUtil.update(con, sql, params);
+			a = DatabaseUtil.update(sql, params);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -65,12 +59,10 @@ public class CoinDaoImpl implements CoinDao{
 	@Override
 	public int updateCoinRecord(CoinRecord coinRecord) {
 		String sql = "update b_coin_record  set coin_cause=?,coin_get_num=?,coin_get_time=sysdate ";
-		Connection con = null;
 		Object params[] = {coinRecord.getCoinCause(),coinRecord.getCoinGetNum()};
 		int a = 0;
 		try {
-			con = JdbcUtil_DBCP.getConnection();
-			a = DatabaseUtil.update(con, sql, params);
+			a = DatabaseUtil.update(sql, params);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -80,12 +72,10 @@ public class CoinDaoImpl implements CoinDao{
 	@Override
 	public Coin findCoinNum(Long userId) {
 		String sql = "select coin_num from b_coin where user_id=?";
-		Connection con = null;
 		Object params[] = {userId};
 		Coin coin = null;
 		try {
-			con = JdbcUtil_DBCP.getConnection();
-			coin = (Coin)DatabaseUtil.query(con, sql, params, new BeanHandler(Coin.class));
+			coin = (Coin)DatabaseUtil.query(sql, params, new BeanHandler(Coin.class));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -95,12 +85,10 @@ public class CoinDaoImpl implements CoinDao{
 	@Override
 	public int updateCoinNum(Coin coin) {
 		String sql = "update b_coin set coin_num = ? where user_id = ?";
-		Connection con = null;
 		Object params[] = {coin.getUserId()};
 		int a = 0;
 		try {
-			con = JdbcUtil_DBCP.getConnection();
-			a = DatabaseUtil.update(con, sql, params);
+			a = DatabaseUtil.update(sql, params);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -7,8 +7,8 @@ import java.sql.SQLException;
 
 public class DatabaseUtil {
 
-	public static int update(Connection c, String sql, Object params[]) throws SQLException {
-		Connection conn = c;
+	public static int update(String sql, Object params[]) throws SQLException {
+		Connection conn = JdbcUtil_DBCP.getConnection();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
@@ -24,9 +24,9 @@ public class DatabaseUtil {
 		}
 	}
 	
-public static Object query(Connection c,String sql,Object params[],ResultSetHandler rsh) throws SQLException{
+public static Object query(String sql,Object params[],ResultSetHandler rsh) throws SQLException{
         
-        Connection conn = c;
+        Connection conn = JdbcUtil_DBCP.getConnection();
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         
