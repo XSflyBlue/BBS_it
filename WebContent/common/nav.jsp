@@ -43,8 +43,8 @@
 				</c:when>
 				<c:otherwise>
 					<ul class="nav navbar-nav navbar-right">
-						<li><a href='<c:url value="/login.jsp"></c:url>'>${userBase.username}</a></li>
-						<li><a href='<c:url value="/regist.jsp"></c:url>'>退出</a></li>
+						<li><a href='<c:url value="/admin/index.jsp"></c:url>'>${userBase.username}</a></li>
+						<li><a href='<c:url value="/UserServlet?action=logout"></c:url>'>退出</a></li>
 					</ul>
 				</c:otherwise>
 			</c:choose>

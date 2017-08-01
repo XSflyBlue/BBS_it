@@ -27,7 +27,7 @@
 					<div>
 						<a href="#">
 							<img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">
-							<span id="bbs_poster_name">鲁班不住这</span>
+							<span id="bbs_poster_name">${userBase.username}</span>
 						</a>
 						<div>社区元老</div>
 						<div>

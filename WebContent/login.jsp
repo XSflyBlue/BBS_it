@@ -25,12 +25,12 @@
 			<h3>用户登录</h3>
 			<form>
 			  <div class="form-group">
-			    <label for="exampleInputEmail1">登录名</label>
-			    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="用户名或者邮箱">
+			    <label for="loginName">登录名</label>
+			    <input type="text" class="form-control" name="loginName" placeholder="用户名或者邮箱">
 			  </div>
 			  <div class="form-group">
-			    <label for="exampleInputPassword1">密码</label>
-			    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="请输入密码">
+			    <label for="password">密码</label>
+			    <input type="password" class="form-control" name="password" placeholder="请输入密码">
 			  </div>
 			  <div class="checkbox">
 			    <label>
@@ -42,12 +42,27 @@
 			  </div>
 			  <button type="button" class="btn btn-primary" style="width: 100%;" onclick="login()">登录</button>
 			</form>
+			<div style="margin-top: 5px;">
+				<font color="red" id="j_msg"></font>
+			</div>
 		</div>
 	</div>
 </body>
 <script type="text/javascript">
 	function login(){
-		window.location.href='<c:url value="/admin/index.jsp"/>';
+		$.ajax({
+			type: 'POST',
+			url: '<c:url value="/UserServlet?action=login"></c:url>',
+			data:"loginName="+$('input[name=loginName]').val()+"&password="+$('input[name=password]').val(),
+			success: function(data){
+				if(data.code == 1){
+					window.location.href='<c:url value="/admin/index.jsp"/>';
+				}else{
+					$('#j_msg').empty();
+					$('#j_msg').text(data.msg);
+				}
+			}
+		});
 	}
 </script>
 </html>

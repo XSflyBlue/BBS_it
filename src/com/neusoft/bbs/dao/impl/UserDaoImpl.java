@@ -19,7 +19,6 @@ public class UserDaoImpl implements UserDao{
 		UserBase user = null;
 		try {
 			user = (UserBase) DatabaseUtil.query(sql,params,new BeanHandler(UserBase.class));
-			System.out.println(user);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

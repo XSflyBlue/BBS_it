@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.neusoft.bbs.commons.struct.Msg;
 import com.neusoft.bbs.commons.util.FormToObjUtils;
 import com.neusoft.bbs.commons.util.JSONUtils;
+import com.neusoft.bbs.commons.util.ServletUtils;
 import com.neusoft.bbs.commons.util.db.JdbcUtil_DBCP;
 import com.neusoft.bbs.domain.UserBase;
 import com.neusoft.bbs.service.UserService;
@@ -23,6 +24,7 @@ import com.neusoft.bbs.service.impl.UserServiceImpl;
  *
  */
 @WebServlet("/UserServlet")
+@SuppressWarnings("unused")
 public class UserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
@@ -34,18 +36,32 @@ public class UserServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action");
 		if(action != null) {
-			if(action.equals("login")) {
-				login(request, response);
-			}
+			//根据action调用相应的方法
+			ServletUtils.invoke(this, action, request, response);
 		}else {
 			//
 		}
 	}
 
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String action = request.getParameter("action");
+		if(action != null) {
+			//根据action调用相应的方法
+			ServletUtils.invoke(this, action, request, response);
+		}else {
+			//
+		}
+	}
+	
+	/**
+	 * 登录
+	 * @param request
+	 * @param response
+	 */
 	private void login(HttpServletRequest request, HttpServletResponse response) {
 		String loginName = request.getParameter("loginName");
 		String password = request.getParameter("password");
-		UserBase result = userService.login("abc" , "123456");
+		UserBase result = userService.login(loginName , password);
 		if(result != null) {
 			request.getSession().setAttribute("userBase", result);
 			JSONUtils.writeJSON(response, new Msg(1, "登录成功"));
@@ -53,13 +69,16 @@ public class UserServlet extends HttpServlet {
 			JSONUtils.writeJSON(response, new Msg(0, "用户名或者密码错误"));
 		}
 	}
-
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * 登出
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+	private void logout(HttpServletRequest request, HttpServletResponse response) {
+		request.getSession().invalidate();
+		try {
+			response.sendRedirect(request.getContextPath()+"/index.jsp");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
