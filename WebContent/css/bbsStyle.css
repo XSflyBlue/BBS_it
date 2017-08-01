@@ -17,10 +17,6 @@ nav a{
 	background: rgba(0,0,0,.8)!important;
 	color:white;
 }
-.nav>li>a:focus, .nav>li>a:hover{
-	background: rgba(0,0,0,.8)!important;
-	color:white;
-}
 .nav .open>a, .nav .open>a:focus, .nav .open>a:hover{
 	background: rgba(0,0,0,.8)!important;
 }
@@ -45,6 +41,10 @@ body{
 	padding-left:0px;	
 }
 /**************************custom************************/
+.bbs_nav>li>a:focus, .bbs_nav>li>a:hover{
+	background: rgba(0,0,0,.8)!important;
+	color:white;
+}
 .bbs_subNav{
 	margin: 15px 15px;
 }
@@ -58,6 +58,10 @@ body{
 	font-size: 1.2em;
 	color: black;
 }
+.bbs_listCount{
+	float: right;
+	margin-right: 36px;
+}
 .bbs_subTitle{
 	font-size: 1.25em;
 	font-weight: bold;
@@ -70,7 +74,9 @@ body{
 	color: #00007b;
 }
 .bbs_listSubTitle{
-	color:gray;
+	color:#8e8e8e;
+	font-size: 0.9em;
+	padding: 5px 0px;
 }
 .bbs_table{
 	margin-top: 15px;
@@ -93,7 +99,16 @@ body{
 .bbs_rightBox a:hover{
 	color:blue;
 }
-
+/**comment**/
+.bbs_comment_icon{
+	width: 60px;
+	height: 60px;
+}
+.bbs_comment_icon .bbs_icon{
+	width: 60px;
+	height: 60px;
+	border-radius:30px;
+}
 #bbs_comment{
 	padding: 16px;
 	margin-top: 12px;
@@ -107,4 +122,55 @@ body{
 }
 #inputForm form{
 	margin-top: 18px;
+}
+/**icon**/
+.bbs_poster>div{
+	text-align: center;
+}
+.bbs_poster .bbs_icon{
+	width: 100px;
+	height: 100px;
+	border-radius:50px;
+}
+.bbs_poster_tip{
+	color: gray;
+}
+.bbs_poster_val{
+	font-size:1.25em;
+	font-weight: bold;
+}
+#bbs_poster_name{
+	font-size: 1.5em;
+	display: block;
+}
+.bbs_comment_body{
+	font-size: 1.2em;
+	padding: 5px 0px;
+}
+.bbs_comment_name{
+	font-size: 0.8em;
+}
+.bbs_comment_date{
+	font-size: 0.8em;
+	margin-left:5px;
+	color: gray;
+}
+.bbs_comment_content{
+	margin-top: 3px;
+}
+/**admin**/
+#bbs_admin_mainBox{
+	padding: 36px;
+}
+#bbs_admin_mainBox>div{
+	display: none;
+}
+.bbs_fnBox{
+	text-align: center;
+}
+.bbs_fnBox img{
+	width: 25px;
+}
+.bbs_fnBox a{
+	color: black;
 }

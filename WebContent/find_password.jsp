@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>用户注册</title>
+<title>找回密码</title>
 <!-- jquery -->
 <script src='<c:url value="/js/jquery-1.11.3.min.js"></c:url>'></script>
 <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
@@ -22,27 +22,20 @@
 	<%@include file='/common/nav.jsp' %>
 	<div class="container">
 		<div id="inputForm">
-			<h3>用户注册</h3>
+			<h3>找回密码</h3>
 			<form>
 			  <div class="form-group">
-			    <label for="userName">用户名</label>
-			    <input type="text" name="username" class="form-control" id="userName" placeholder="支持英文、数字和下划线，6-12位">
+			    <label for="passWord">注册邮箱</label>
+			    <input type="password" class="form-control" id="passWord" placeholder="请输入密码">
 			  </div>
-			   <div class="form-group">
-			    <label for="eMail">邮箱</label>
-			    <input type="email" name="email" class="form-control" id="eMail" placeholder="输入能够验证的邮箱地址">
-			  </div>
-			  <div class="form-group">
-			    <label for="passWord">密码</label>
-			    <input type="password" name="password" class="form-control" id="passWord" placeholder="请输入密码">
-			  </div>
-			   <div class="form-group">
-			    <label for="rePassWord">确认密码</label>
-			    <input type="password" name="rePassWord" class="form-control" id="rePassWord" placeholder="请输入密码">
-			  </div>
-			  <button type="submit" class="btn btn-primary" style="width: 100%;">注册</button>
+			  <button type="button" class="btn btn-primary" style="width: 100%;" onclick="updatePassword()">点击找回</button>
 			</form>
 		</div>
 	</div>
 </body>
+<script type="text/javascript">
+	function updatePassword(){
+		window.location.href='<c:url value="/admin/index.jsp"/>';
+	}
+</script>
 </html>

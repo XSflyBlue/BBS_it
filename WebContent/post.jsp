@@ -19,49 +19,7 @@
 <link rel="stylesheet" href='<c:url value="/css/bbsStyle.css"></c:url>'>
 </head>
 <body>
-	<div id="nav">
-		<nav class="navbar navbar-fixed-top">
-		<div class="container-fluid">
-			<!-- Brand and toggle get grouped for better mobile display -->
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle collapsed"
-					data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
-					aria-expanded="false">
-					<span class="sr-only">Toggle navigation</span> <span
-						class="icon-bar"></span> <span class="icon-bar"></span> <span
-						class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" href="#">BBS</a>
-			</div>
-
-			<!-- Collect the nav links, forms, and other content for toggling -->
-			<div class="collapse navbar-collapse"
-				id="bs-example-navbar-collapse-1">
-				<ul class="nav navbar-nav">
-					<li class="active"><a href='<c:url value="/"></c:url>'>首页</a></li>
-					<li><a href="#">测试版块</a></li>
-					<li><a href="#">测试版块</a></li>
-					<li><a href="#">发展建议</a></li>
-					<li><a href="#">BUG反馈</a></li>
-					<li><a href="#">插件开发</a></li>
-					<li class="dropdown"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown" role="button" aria-haspopup="true"
-						aria-expanded="false">其他 </a>
-						<ul class="dropdown-menu">
-							<li><a href="#">Java</a></li>
-							<li><a href="#">C++</a></li>
-							<li><a href="#">Python</a></li>
-						</ul></li>
-				</ul>
-				<ul class="nav navbar-nav navbar-right">
-					<li><a href="#">苗总</a></li>
-					<li><a href="#">退出</a></li>
-				</ul>
-			</div>
-			<!-- /.navbar-collapse -->
-		</div>
-		<!-- /.container-fluid --> </nav>
-	</div>
+	<%@include file='/common/nav.jsp' %>
 	<div class="container">
 		<div class="row">
 			<div class="col-md-9">
@@ -77,21 +35,29 @@
 					<div class="bbs_subTitle">最新回复</div>
 					<hr>
 					<div>
-						<table>
+						<table class="table bbs_table">
 							<tr>
-								<td>头像</td>
-								<td>
-									<div>用户名</div>
-									<div>内容在这里</div>
+								<td class="bbs_comment_icon">
+									<img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">
+								</td>
+								<td class="bbs_comment_body">
+									<div>
+										<span class="bbs_comment_name">鲁班不住这</span>
+										<span class="bbs_comment_date">15分钟前</span>
+									</div>
+									<div class="bbs_comment_content">这篇水文写得太好了</div>
 								</td>
 							</tr>
-						</table>
-						<table>
 							<tr>
-								<td>头像</td>
-								<td>
-									<div>用户名</div>
-									<div>内容在这里</div>
+								<td class="bbs_comment_icon">
+									<img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">
+								</td>
+								<td class="bbs_comment_body">
+									<div>
+										<span class="bbs_comment_name">鲁班不住这</span>
+										<span class="bbs_comment_date">15分钟前</span>
+									</div>
+									<div class="bbs_comment_content">民政部原党组书记、部长李立国，也受到留党察看二年、行政撤职处分，降为副局级非领导职务，终止党的十八大代表资格。曾长期担任。</div>
 								</td>
 							</tr>
 						</table>
@@ -99,11 +65,47 @@
 				</div>
 			</div>
 			<div class="col-md-3">
-				<button type="button" class="btn" style="width: 100%; background-color: #bfb9e0;">发新帖</button>
+				<button type="button" class="btn btn-primary" style="width: 100%;">发新帖</button>
 				<div class="bbs_rightBox">
-					<h4>楼主介绍</h4>
-					<div>这是帅气的楼主....</div>
-				</div>
+					<div class="bbs_poster">
+						<div>
+							<a href='<c:url value="/userInfo.jsp"></c:url>'>
+								<img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">
+								<span id="bbs_poster_name">鲁班不住这</span>
+							</a>
+							<div>社区元老</div>
+						</div>
+						<div class="">
+							<table class="table">
+								<tr>
+									<td>
+										<div class="bbs_poster_tip">帖子数</div>
+										<div class="bbs_poster_val">2333</div>
+									</td>
+									<td>
+										<div class="bbs_poster_tip">帖子数</div>
+										<div class="bbs_poster_val">2333</div>
+									</td>
+									<td>
+										<div class="bbs_poster_tip">帖子数</div>
+										<div class="bbs_poster_val">2333</div>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div><!-- end right box -->
+				<div class="bbs_rightBox">
+					<h4>楼主最近发布</h4>
+					<div>
+						<ul>
+							<li><a href="#">震惊！UC居然要解散震惊部全体员工</a></li>
+							<li><a href="#">小米6全新发布</a></li>
+							<li><a href="#">论现代社会与深居丛林？</a></li>
+							<li><a href="#">Java快速入门</a></li>
+						</ul>
+					</div>
+				</div><!-- end right box -->
 			</div>
 		</div>
 	</div>
