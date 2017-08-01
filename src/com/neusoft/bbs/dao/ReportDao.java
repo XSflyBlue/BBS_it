@@ -32,23 +32,30 @@ public interface ReportDao {
 	int update(Report report);
 
 	/**
-	 * 查询某reportId存在的举报（记录）
+	 * 查询举报记录Id存在的举报（记录）
 	 * @param reportId
 	 * @return Report
 	 */
 	Report findByReportId(Long reportId);
 	
 	/**
-	 * 查询某reportPortId（被举报的帖子）存在的举报（记录）
+	 * 查询某帖子（被举报的帖子）存在的举报（记录）
 	 * @param reportPortId
 	 * @return List<Report>
 	 */
 	List<Report> findByReportPostId(Long reportPortId);
 	
 	/**
-	 * 查询某reportId存在的举报（记录）
+	 * 查询某版主存在的举报（记录）
 	 * @param moderatorId
 	 * @return List<Report>
 	 */
 	List<Report> findByModeratorId(Long moderatorId);
+	
+	/**
+	 * 查询举报人存在的举报（记录）
+	 * @param reportUseId
+	 * @return List<Report>
+	 */
+	List<Report> findByReportUserId(Long reportUserId);
 }

@@ -1,12 +1,10 @@
 package com.neusoft.bbs.dao.impl;
 
-import java.sql.Connection;
 import java.util.List;
 
 import com.neusoft.bbs.commons.util.db.BeanHandler;
 import com.neusoft.bbs.commons.util.db.BeanListHandler;
 import com.neusoft.bbs.commons.util.db.DatabaseUtil;
-import com.neusoft.bbs.commons.util.db.JdbcUtil_DBCP;
 import com.neusoft.bbs.dao.CoinDao;
 import com.neusoft.bbs.domain.Coin;
 import com.neusoft.bbs.domain.CoinRecord;
@@ -115,7 +113,4 @@ public class CoinDaoImpl implements CoinDao{
 //		}
 //		return coinRecord;
 //	}
-
-	
-	
 }

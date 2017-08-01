@@ -12,11 +12,11 @@ public class Report {
 	 * 举报帖子（这个行为的）ID
 	 */
     private Long reportId;
-
+    
     /***
      * 举报（帖子）人ID
      */
-    private Long reportPostId;
+    private Long reportUserId;
 
     /***
      * 举报（帖子）原因
@@ -32,6 +32,11 @@ public class Report {
      * 版主ID
      */
     private Long moderatorId;
+
+    /***
+     * 被举报帖子ID
+     */
+    private Long reportPostId;
 
     public Long getReportId() {
         return reportId;
@@ -72,4 +77,12 @@ public class Report {
     public void setModeratorId(Long moderatorId) {
         this.moderatorId = moderatorId;
     }
+
+	public Long getReportUserId() {
+		return reportUserId;
+	}
+
+	public void setReportUserId(Long reportUserId) {
+		this.reportUserId = reportUserId;
+	}
 }

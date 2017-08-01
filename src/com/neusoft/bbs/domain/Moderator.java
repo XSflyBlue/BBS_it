@@ -17,15 +17,15 @@ public class Moderator {
     private Short areaId;
     
     /***
-     * 用户ID
-     */
-    private Short userId;
-
-    /***
      * 版主类型
      * 
      */
     private Short moderatorType;
+    
+    /***
+     * 用户ID
+     */
+    private Short userId;
 
     public Long getModeratorId() {
         return moderatorId;

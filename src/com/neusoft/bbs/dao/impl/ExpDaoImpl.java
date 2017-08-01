@@ -38,10 +38,8 @@ public class ExpDaoImpl implements ExpDao {
 	public int updateExp(EXP exp) {
 		String sql = "update b_exp set exp_num=?,level_id=? where user_id=?";
 		Object params[] = { exp.getExpNum(), exp.getLevelId(), exp.getUserId() };
-		Connection conn = null;
 		int res = 0;
 		try {
-			conn = JdbcUtil_DBCP.getConnection();
 			res = DatabaseUtil.update(sql, params);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -53,10 +51,8 @@ public class ExpDaoImpl implements ExpDao {
 	public int insertExp(EXP exp) {
 		String sql = "insert into b_exp values(?,b_exp_seq.nextval,?,?)";
 		Object params[] = { exp.getUserId(), exp.getExpNum(), exp.getLevelId() };
-		Connection conn = null;
 		int res = 0;
 		try {
-			conn = JdbcUtil_DBCP.getConnection();
 			res = DatabaseUtil.update(sql, params);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -71,10 +67,8 @@ public class ExpDaoImpl implements ExpDao {
 		String sql = "insert into b_exp_record values(b_exp_record_id_seq.nextval,?,?,?,?)";
 		Object params[] = { exp.getExpId(), expRecord.getExpGetNum(), expRecord.getExpGetCause(),
 				expRecord.getExpGetTime() };
-		Connection conn = null;
 		int res = 0;
 		try {
-			conn = JdbcUtil_DBCP.getConnection();
 			res = DatabaseUtil.update(sql, params);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -88,10 +82,8 @@ public class ExpDaoImpl implements ExpDao {
 		String sql = "update b_exp_record set exp_get_num=?,exp_get_cause=?,exp_get_time=? where exp_id=?";
 		Object params[] = { expRecord.getExpGetNum(), expRecord.getExpGetCause(), expRecord.getExpGetTime(),
 				exp.getExpId() };
-		Connection conn = null;
 		int res = 0;
 		try {
-			conn = JdbcUtil_DBCP.getConnection();
 			res = DatabaseUtil.update(sql, params);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -104,10 +96,8 @@ public class ExpDaoImpl implements ExpDao {
 		EXP exp = findExpById(userId);
 		String sql = "select * from b_exp_record where exp_id=?";
 		Object params[] = { exp.getExpId() };
-		Connection conn = null;
 		List<ExpRecord> expRecordList = null;
 		try {
-			conn = JdbcUtil_DBCP.getConnection();
 			expRecordList = (List<ExpRecord>) DatabaseUtil.query(sql, params, new BeanListHandler(ExpRecord.class));
 		} catch (SQLException e) {
 			e.printStackTrace();

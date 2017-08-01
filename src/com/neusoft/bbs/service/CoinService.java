@@ -17,32 +17,38 @@ public interface CoinService {
 	 * @return
 	 */
 	public List<CoinRecord> findCoinRecord(Coin coin);
+	
 	/**
 	 * 根据用户id删除金币记录
 	 * @param userId
 	 * @return
 	 */
 	public int deleteCoinRecord(Long userId);
+	
 	/**
 	 * 根据用户id插入记录
 	 * @param userId
 	 * @return
 	 */
 	public int addCoinRecord(Long userId,CoinRecord coinRecord);
+	
 	/**
-	 * 根据用户id修改数据
+	 * 根据用户id修改金币记录
 	 * @param userId
 	 * @return
 	 */
 	public int setCoinRecord(Long userId,CoinRecord coinRecord);
+	
 	/**
 	 * 根据用户id获取金币总数
 	 * @param userId
 	 * @return
 	 */
 	public Long findCoinNum(Long userId);
+	
 	/**
 	 * 根据用户id修改金币总数
+	 * （需要增加一条经验记录，调用setCoinRecord）
 	 * @param userId
 	 * @param coinRecord
 	 * @return

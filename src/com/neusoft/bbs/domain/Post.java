@@ -144,6 +144,11 @@ public class Post {
      * 编辑（帖子的）时间
      */
     private Date editTime;
+    
+    /***
+     * 帖子标题
+     */
+    private String postTitle;
 
     public Long getPostId() {
         return postId;
@@ -360,4 +365,12 @@ public class Post {
     public void setEditTime(Date editTime) {
         this.editTime = editTime;
     }
+
+	public String getPostTitle() {
+		return postTitle;
+	}
+
+	public void setPostTitle(String postTitle) {
+		this.postTitle = postTitle;
+	}
 }
