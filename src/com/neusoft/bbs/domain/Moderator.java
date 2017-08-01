@@ -7,14 +7,19 @@ package com.neusoft.bbs.domain;
  */
 public class Moderator {
 	/***
-	 * 版主ID
+	 * 版主记录ID
 	 */
     private Long moderatorId;
 
     /***
-     * 板块ID
+     * 区域（板块或分区）ID
      */
-    private Short sectionId;
+    private Short areaId;
+    
+    /***
+     * 用户ID
+     */
+    private Short userId;
 
     /***
      * 版主类型
@@ -30,14 +35,6 @@ public class Moderator {
         this.moderatorId = moderatorId;
     }
 
-    public Short getSectionId() {
-        return sectionId;
-    }
-
-    public void setSectionId(Short sectionId) {
-        this.sectionId = sectionId;
-    }
-
     public Short getModeratorType() {
         return moderatorType;
     }
@@ -45,4 +42,20 @@ public class Moderator {
     public void setModeratorType(Short moderatorType) {
         this.moderatorType = moderatorType;
     }
+
+	public Short getAreaId() {
+		return areaId;
+	}
+
+	public void setAreaId(Short areaId) {
+		this.areaId = areaId;
+	}
+
+	public Short getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Short userId) {
+		this.userId = userId;
+	}
 }

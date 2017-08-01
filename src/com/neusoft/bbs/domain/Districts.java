@@ -5,7 +5,7 @@ package com.neusoft.bbs.domain;
  * @author flyblue
  *
  */
-public class Distrcits {
+public class Districts {
 	/***
 	 * 分区ID
 	 */

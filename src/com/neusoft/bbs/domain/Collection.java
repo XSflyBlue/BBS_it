@@ -8,6 +8,7 @@ import java.util.Date;
  *
  */
 public class Collection {
+	private Long collectionId;
 	/***
 	 * 用户ID
 	 */
@@ -46,4 +47,12 @@ public class Collection {
     public void setCollectTime(Date collectTime) {
         this.collectTime = collectTime;
     }
+
+	public Long getCollectionId() {
+		return collectionId;
+	}
+
+	public void setCollectionId(Long collectionId) {
+		this.collectionId = collectionId;
+	}
 }
