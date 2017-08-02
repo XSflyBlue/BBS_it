@@ -3,6 +3,7 @@ package com.neusoft.bbs.dao;
 import java.util.List;
 
 import com.neusoft.bbs.domain.Districts;
+import com.neusoft.bbs.domain.form.DistrictsForm;
 
 /***
  * 分区Dao接口
@@ -44,4 +45,27 @@ public interface DistrictsDao {
 	 * @return List<Districts>
 	 */
 	List<Districts> findAll();
+	
+	/***
+	 * 获取最大页数
+	 * @param pageSize，每页显示信息条数
+	 * @param collection，查询条件
+	 * @return
+	 */
+	int getListPageCount(int pageSize, Districts districts);
+
+	/***
+	 * 获取最大行数
+	 * @param collection，查询条件（districtId到moderator中areaId进行筛选）
+	 * @return
+	 */
+	int getListRowCount(Districts districts);
+	/***
+	 * 查找分区管理列表（districtId到moderator中areaId进行筛选）
+	 * @param pageSize，每页显示信息条数
+	 * @param rowNum，需要获取的页数
+	 * @param collection，查询条件（）
+	 * @return
+	 */
+	List<DistrictsForm> findFollowFormList(int pageSize, int rowNum, Districts districts);
 }

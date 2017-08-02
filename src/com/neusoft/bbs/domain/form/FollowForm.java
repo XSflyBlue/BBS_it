@@ -102,13 +102,5 @@ public class FollowForm {
 		return "FollowForm [followId=" + followId + ", userId=" + userId + ", username=" + username + ", note=" + note
 				+ ", icon=" + icon + ", followUserId=" + followUserId + ", followUsername=" + followUsername + "]";
 	}
-
-	public String getRn() {
-		return rn;
-	}
-
-	public void setRn(String rn) {
-		this.rn = rn;
-	}
 	
 }

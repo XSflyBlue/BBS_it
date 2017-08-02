@@ -3,6 +3,7 @@ package com.neusoft.bbs.dao;
 import java.util.List;
 
 import com.neusoft.bbs.domain.Section;
+import com.neusoft.bbs.domain.form.SectionForm;
 
 /***
  * 板块Dao接口
@@ -51,4 +52,27 @@ public interface SectionDao {
 	 * @return List<Section>
 	 */
 	List<Section> findAll();
+	
+	/***
+	 * 获取最大页数
+	 * @param pageSize，每页显示信息条数
+	 * @param collection，查询条件
+	 * @return
+	 */
+	int getListPageCount(int pageSize, Section section);
+
+	/***
+	 * 获取最大行数
+	 * @param collection，查询条件（sectionId到moderator中areaId进行筛选）
+	 * @return
+	 */
+	int getListRowCount(Section section);
+	/***
+	 * 查找板块管理列表（sectionId到moderator中areaId进行筛选）
+	 * @param pageSize，每页显示信息条数
+	 * @param rowNum，需要获取的页数
+	 * @param collection，查询条件（）
+	 * @return
+	 */
+	List<SectionForm> findFollowFormList(int pageSize, int rowNum, Section section);
 }

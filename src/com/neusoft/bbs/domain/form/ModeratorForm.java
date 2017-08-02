@@ -1,17 +1,31 @@
 package com.neusoft.bbs.domain.form;
 
-import com.neusoft.bbs.domain.Moderator;
-
 /**
  * 两类版主表单类
  * @author yangmiao
  *
  */
 public class ModeratorForm {
-	/**
-	 * 版主类对象
+	/***
+	 * 版主记录ID
 	 */
-	private Moderator moderator;
+    private Long moderatorId;
+
+    /***
+     * 区域（板块或分区）ID
+     */
+    private Short areaId;
+    
+    /***
+     * 版主类型
+     * 
+     */
+    private Short moderatorType;
+    
+    /***
+     * 用户ID
+     */
+    private Short userId;
 	/**
 	 * 区名/版名
 	 */
@@ -20,11 +34,29 @@ public class ModeratorForm {
 	 * 分页
 	 */
 	private Long rn;
-	public Moderator getModerator() {
-		return moderator;
+	public Long getModeratorId() {
+		return moderatorId;
 	}
-	public void setModerator(Moderator moderator) {
-		this.moderator = moderator;
+	public void setModeratorId(Long moderatorId) {
+		this.moderatorId = moderatorId;
+	}
+	public Short getAreaId() {
+		return areaId;
+	}
+	public void setAreaId(Short areaId) {
+		this.areaId = areaId;
+	}
+	public Short getModeratorType() {
+		return moderatorType;
+	}
+	public void setModeratorType(Short moderatorType) {
+		this.moderatorType = moderatorType;
+	}
+	public Short getUserId() {
+		return userId;
+	}
+	public void setUserId(Short userId) {
+		this.userId = userId;
 	}
 	public String getSectionDistrName() {
 		return sectionDistrName;
@@ -40,8 +72,11 @@ public class ModeratorForm {
 	}
 	@Override
 	public String toString() {
-		return "ModeratorForm [moderator=" + moderator + ", sectionDistrName="
-				+ sectionDistrName + ", rn=" + rn + "]";
+		return "ModeratorForm [moderatorId=" + moderatorId + ", areaId="
+				+ areaId + ", moderatorType=" + moderatorType + ", userId="
+				+ userId + ", sectionDistrName=" + sectionDistrName + ", rn="
+				+ rn + "]";
 	}
+	
 	
 }

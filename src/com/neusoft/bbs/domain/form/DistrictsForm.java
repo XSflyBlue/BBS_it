@@ -1,17 +1,24 @@
 package com.neusoft.bbs.domain.form;
-
-import com.neusoft.bbs.domain.Districts;
-
 /**
  * 区板块表单类
  * @author yangmiao
  *
  */
 public class DistrictsForm {
-	/**
-	 * 区板块对象
+	/***
+	 * 分区ID
 	 */
-	private Districts districts;
+    private Long districtId;
+
+    /***
+     * 分区名
+     */
+    private String districtName;
+
+    /***
+     * 分区描述
+     */
+    private String districtDescri;
 	/**
 	 * 管理员人数
 	 */
@@ -20,11 +27,23 @@ public class DistrictsForm {
 	 * 分页数
 	 */
 	private Long rn;
-	public Districts getDistricts() {
-		return districts;
+	public Long getDistrictId() {
+		return districtId;
 	}
-	public void setDistricts(Districts districts) {
-		this.districts = districts;
+	public void setDistrictId(Long districtId) {
+		this.districtId = districtId;
+	}
+	public String getDistrictName() {
+		return districtName;
+	}
+	public void setDistrictName(String districtName) {
+		this.districtName = districtName;
+	}
+	public String getDistrictDescri() {
+		return districtDescri;
+	}
+	public void setDistrictDescri(String districtDescri) {
+		this.districtDescri = districtDescri;
 	}
 	public Long getAdminNum() {
 		return adminNum;
@@ -40,8 +59,10 @@ public class DistrictsForm {
 	}
 	@Override
 	public String toString() {
-		return "DistrictsForm [districts=" + districts + ", adminNum="
-				+ adminNum + ", rn=" + rn + "]";
+		return "DistrictsForm [districtId=" + districtId + ", districtName="
+				+ districtName + ", districtDescri=" + districtDescri
+				+ ", adminNum=" + adminNum + ", rn=" + rn + "]";
 	}
+	
 	
 }
