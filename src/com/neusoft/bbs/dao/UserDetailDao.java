@@ -3,6 +3,7 @@ package com.neusoft.bbs.dao;
 import java.util.List;
 
 import com.neusoft.bbs.domain.UserDetail;
+import com.neusoft.bbs.domain.form.UserForm;
 
 /***
  * 用户详情Dao接口
@@ -45,4 +46,12 @@ public interface UserDetailDao {
 	 * @return List<UserDetail>
 	 */
 	List<UserDetail> findAll();
+	
+	/**
+	 * 查询某userId用户详细（不需要分页）
+	 * @param userId
+	 * @return UserForm
+	 */
+	UserForm findUserForm(Long userId);
+
 }

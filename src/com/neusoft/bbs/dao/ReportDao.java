@@ -3,6 +3,7 @@ package com.neusoft.bbs.dao;
 import java.util.List;
 
 import com.neusoft.bbs.domain.Report;
+import com.neusoft.bbs.domain.form.ReportForm;
 
 /***
  * 举报（记录）Dao接口
@@ -58,4 +59,27 @@ public interface ReportDao {
 	 * @return List<Report>
 	 */
 	List<Report> findByReportUserId(Long reportUserId);
+	
+	/***
+	 * 获取最大页数
+	 * @param pageSize，每页显示信息条数
+	 * @param report，查询条件
+	 * @return
+	 */
+	int getListPageCount(int pageSize, Report report);
+
+	/***
+	 * 获取最大行数
+	 * @param report，查询条件（postId查询和userId查询）
+	 * @return
+	 */
+	int getListRowCount(Report report);
+	/***
+	 * 查找举报信息列表（postId查询和userId查询）
+	 * @param pageSize，每页显示信息条数
+	 * @param rowNum，需要获取的页数
+	 * @param report，查询条件（postId查询和userId查询）
+	 * @return
+	 */
+	List<ReportForm> findFormList(int pageSize, int rowNum, Report report);
 }
