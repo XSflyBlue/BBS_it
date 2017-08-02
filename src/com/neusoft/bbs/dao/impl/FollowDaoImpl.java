@@ -105,7 +105,7 @@ public class FollowDaoImpl implements FollowDao{
 	}
 	
 	@Override
-	public List<FollowForm> findFollowFormList(int pageSize, int rowNum, Follow follow){
+	public List<FollowForm> findFormList(int pageSize, int rowNum, Follow follow){
 		StringBuffer find_sql = new StringBuffer();
 		Long id = null;
 		//参数确定

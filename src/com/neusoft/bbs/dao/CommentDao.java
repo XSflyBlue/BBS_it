@@ -74,5 +74,5 @@ public interface CommentDao {
 	 * @param collection，查询条件（帖子postId查和跟帖用户commentUserId查）
 	 * @return
 	 */
-	List<CommentForm> findFollowFormList(int pageSize, int rowNum, Comment comment);
+	List<CommentForm> findFormList(int pageSize, int rowNum, Comment comment);
 }

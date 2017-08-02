@@ -73,5 +73,5 @@ public interface CollectionDao {
 	 * @param collection，查询条件（收藏userId查和被收藏postId查）
 	 * @return
 	 */
-	List<CollectionForm> findFollowFormList(int pageSize, int rowNum, Collection collection);
+	List<CollectionForm> findFormList(int pageSize, int rowNum, Collection collection);
 }

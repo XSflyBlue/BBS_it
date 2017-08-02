@@ -73,5 +73,5 @@ public interface FollowDao {
 	 * @param follow，查询条件
 	 * @return
 	 */
-	List<FollowForm> findFollowFormList(int pageSize, int rowNum, Follow follow);
+	List<FollowForm> findFormList(int pageSize, int rowNum, Follow follow);
 }

@@ -74,5 +74,5 @@ public interface SectionDao {
 	 * @param collection，查询条件（）
 	 * @return
 	 */
-	List<SectionForm> findFollowFormList(int pageSize, int rowNum, Section section);
+	List<SectionForm> findFormList(int pageSize, int rowNum, Section section);
 }

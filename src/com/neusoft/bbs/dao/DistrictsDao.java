@@ -67,5 +67,5 @@ public interface DistrictsDao {
 	 * @param collection，查询条件（）
 	 * @return
 	 */
-	List<DistrictsForm> findFollowFormList(int pageSize, int rowNum, Districts districts);
+	List<DistrictsForm> findFormList(int pageSize, int rowNum, Districts districts);
 }
