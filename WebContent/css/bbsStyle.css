@@ -164,7 +164,7 @@ body{
 }
 /**admin**/
 #bbs_admin_mainBox{
-	padding: 36px;
+	padding: 5px 36px;
 }
 #bbs_admin_mainBox>div{
 	display: none;

@@ -1,5 +1,7 @@
 package com.neusoft.bbs.dao.impl;
 
+import java.util.List;
+
 import com.neusoft.bbs.commons.util.db.BeanHandler;
 import com.neusoft.bbs.commons.util.db.DatabaseUtil;
 import com.neusoft.bbs.dao.UserDao;
@@ -36,6 +38,54 @@ public class UserDaoImpl implements UserDao{
 			e.printStackTrace();
 		}
 		return user ;
+	}
+
+	@Override
+	public UserBase findById(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<UserBase> findAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int insert(UserBase userBase) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int update(UserBase userBase) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int delete(UserBase userBase) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getListPageCount(int pageSize, UserBase userBase) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getListRowCount(UserBase userBase) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public List<UserBase> findUserBase(int pageSize, int rowNum, UserBase userBase) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

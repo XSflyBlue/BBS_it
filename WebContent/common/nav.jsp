@@ -34,20 +34,19 @@
 						<li><a href='<c:url value="/"></c:url>'>Python</a></li>
 					</ul></li>
 			</ul>
-			<c:choose>
-				<c:when test="${userBase==null}">
-					<ul class="nav navbar-nav navbar-right">
-						<li><a href='<c:url value="/login.jsp"></c:url>'>登录</a></li>
-						<li><a href='<c:url value="/regist.jsp"></c:url>'>注册</a></li>
-					</ul>
-				</c:when>
-				<c:otherwise>
-					<ul class="nav navbar-nav navbar-right">
-						<li><a href='<c:url value="/admin/index.jsp"></c:url>'>${userBase.username}</a></li>
-						<li><a href='<c:url value="/UserServlet?action=logout"></c:url>'>退出</a></li>
-					</ul>
-				</c:otherwise>
-			</c:choose>
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href='<c:url value="/admin/index_admin.jsp"></c:url>'>管理入口</a></li>
+				<c:choose>
+					<c:when test="${userBase==null}">
+							<li><a href='<c:url value="/login.jsp"></c:url>'>登录</a></li>
+							<li><a href='<c:url value="/regist.jsp"></c:url>'>注册</a></li>
+					</c:when>
+					<c:otherwise>
+							<li><a href='<c:url value="/admin/index.jsp"></c:url>'>${userBase.username}</a></li>
+							<li><a href='<c:url value="/UserServlet?action=logout"></c:url>'>退出</a></li>
+					</c:otherwise>
+				</c:choose>
+			</ul>
 		</div>
 		<!-- /.navbar-collapse -->
 	</div>
