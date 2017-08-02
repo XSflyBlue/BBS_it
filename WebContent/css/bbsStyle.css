@@ -7,8 +7,11 @@
 nav a{
 	color: #c0c0c0;
 }
+.dropdown-menu{
+	background-color:  rgba(0,0,0,.6)!important;
+}
 .dropdown-menu > li{
-	background-color:  rgba(0,0,0,.8)!important;
+	background-color:  rgba(0,0,0,.6)!important;
 }
 .dropdown-menu > li > a{
 	color: #c0c0c0;
@@ -177,6 +180,10 @@ body{
 	font-size: 1.5em;
 	display: block;
 }
+#bbs_comment{
+	margin-top: 12px;
+	padding: 16px;
+}
 .bbs_comment_body{
 	font-size: 1.2em;
 	padding: 5px 0px;
@@ -207,4 +214,10 @@ body{
 }
 .bbs_fnBox a{
 	color: black;
+}
+#bbs_bottom{
+	background-color: #4a4747;
+    padding: 12px;
+    text-align: center;
+    color: white;
 }

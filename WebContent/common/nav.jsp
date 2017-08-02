@@ -32,9 +32,10 @@
 						<li><a href='<c:url value="/"></c:url>'>Java</a></li>
 						<li><a href='<c:url value="/"></c:url>'>C++</a></li>
 						<li><a href='<c:url value="/"></c:url>'>Python</a></li>
-					</ul></li>
+					</ul>
+				</li>
 			</ul>
-			<ul class="nav navbar-nav navbar-right">
+			<ul class="nav navbar-nav navbar-right bbs_nav">
 				<li><a href='<c:url value="/admin/index_admin.jsp"></c:url>'>管理入口</a></li>
 				<c:choose>
 					<c:when test="${userBase==null}">
@@ -42,6 +43,28 @@
 							<li><a href='<c:url value="/regist.jsp"></c:url>'>注册</a></li>
 					</c:when>
 					<c:otherwise>
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle"
+								data-toggle="dropdown" role="button" aria-haspopup="true"
+								aria-expanded="false">
+									<span> 消息 </span>
+									<span class="badge" style="background: #559dbd;">14</span>
+								</a>
+								<ul class="dropdown-menu">
+									<li><a href='<c:url value="/"></c:url>'>您申请的版块已经通过审核啦</a></li>
+									<li><a href='<c:url value="/"></c:url>'>钱包退款通知</a></li>
+									<li><a href='<c:url value="/"></c:url>'>震惊！UC成立了震惊部~</a></li>
+									<li><a href='<c:url value="/"></c:url>'>您申请的版块已经通过审核啦</a></li>
+									<li><a href='<c:url value="/"></c:url>'>钱包退款通知</a></li>
+									<li><a href='<c:url value="/"></c:url>'>震惊！UC成立了震惊部~</a></li>
+									<li><a href='<c:url value="/"></c:url>'>您申请的版块已经通过审核啦</a></li>
+									<li><a href='<c:url value="/"></c:url>'>钱包退款通知</a></li>
+									<li><a href='<c:url value="/"></c:url>'>震惊！UC成立了震惊部~</a></li>
+									<li><a href='<c:url value="/"></c:url>'>您申请的版块已经通过审核啦</a></li>
+									<li role="separator" class="divider"></li>
+									<li><a href='<c:url value="/"></c:url>'>更多...</a></li>
+								</ul>
+							</li>
 							<li><a href='<c:url value="/admin/index_nomal.jsp"></c:url>'>${userBase.username}</a></li>
 							<li><a href='<c:url value="/UserServlet?action=logout"></c:url>'>退出</a></li>
 					</c:otherwise>

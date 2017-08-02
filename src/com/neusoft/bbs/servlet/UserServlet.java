@@ -2,6 +2,7 @@ package com.neusoft.bbs.servlet;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,7 +16,9 @@ import com.neusoft.bbs.commons.struct.Msg;
 import com.neusoft.bbs.commons.util.FormToObjUtils;
 import com.neusoft.bbs.commons.util.JSONUtils;
 import com.neusoft.bbs.commons.util.ServletUtils;
+import com.neusoft.bbs.commons.util.StringUtils;
 import com.neusoft.bbs.commons.util.db.JdbcUtil_DBCP;
+import com.neusoft.bbs.dao.impl.UserDaoImpl;
 import com.neusoft.bbs.domain.UserBase;
 import com.neusoft.bbs.service.UserService;
 import com.neusoft.bbs.service.impl.UserServiceImpl;
@@ -30,7 +33,8 @@ import com.neusoft.bbs.service.impl.UserServiceImpl;
 public class UserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	private UserService userService = UserServiceImpl.getInstance();
+	private UserService userBaseService = UserServiceImpl.getInstance();
+	
        
     public UserServlet() {
     }
@@ -69,7 +73,7 @@ public class UserServlet extends HttpServlet {
 			String verifyCodeFromServer = (String) request.getSession().getAttribute("verifyCode");
 			if(verifyCodeFromServer!=null) {
 				if(verifyCodeFromServer.equalsIgnoreCase(verifyCode.trim())) {
-					UserBase result = userService.login(loginName , password);
+					UserBase result = userBaseService.login(loginName , password);
 					if(result != null) {
 						request.getSession().setAttribute("userBase", result);
 						JSONUtils.writeJSON(response, new Msg(1, "登录成功"));
@@ -130,7 +134,7 @@ public class UserServlet extends HttpServlet {
 			Matcher matcher = regex.matcher(email );
 			boolean flag = matcher.matches();
 			if(flag) {
-				if(userService.isExistRegistEmail(email)) {
+				if(userBaseService.isExistRegistEmail(email)) {
 					JSONUtils.writeJSON(response, new Msg(1, "邮箱正确"));
 				}else {
 					JSONUtils.writeJSON(response, new Msg(0, "邮箱不存在"));
@@ -140,6 +144,28 @@ public class UserServlet extends HttpServlet {
 			}
 		}else {
 			JSONUtils.writeJSON(response, new Msg(0, "空的邮箱输入"));
+		}
+	}
+	
+	private void queryUserDetailByUserName(HttpServletRequest request, HttpServletResponse response) {
+		String username = request.getParameter("username");
+		if(StringUtils.isNotNullString(username)) {
+			
+		}
+	}
+	
+	private void regist(HttpServletRequest request, HttpServletResponse response) {
+		UserBase userBase = FormToObjUtils.parseToObject(request, UserBase.class);
+		String username = userBase.getUsername();
+		String email = userBase.getEmail();
+		String password = userBase.getPassword();
+		if(StringUtils.isNotNullString(username, email, password)) {
+			Date now = new Date();
+			userBase.setLastLoginIp(request.getRemoteAddr());
+			userBase.setLastLoginTime(now);
+			userBase.setPower((short) 0);
+			userBase.setRegistTime(now);
+			//
 		}
 	}
 

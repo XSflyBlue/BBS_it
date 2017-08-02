@@ -38,9 +38,17 @@ public class StringUtils {
 		str = str.replaceAll("\"", "&quot;");
 		return str;
 	}
-	
-	public static void main(String[] args) {
-		String ss= "<h4>发表新贴子</h4><><><><>";
-		System.out.println(htmlspecialchars(ss));
+	/**
+	 * 判断字符串是否不为空
+	 * @param strings
+	 * @return 不为空返回true，否则false
+	 */
+	public static boolean isNotNullString(String ...strings) {
+		for(String str: strings) {
+			if(str == null || str.trim().equals("")) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

@@ -23,7 +23,7 @@
 	<div class="container">
 		<div id="inputForm">
 			<h3>用户注册</h3>
-			<form>
+			<form action='<c:url value="/UserServlet?action=regist"></c:url>' method="post">
 			  <div class="form-group">
 			    <label for="userName">用户名</label>
 			    <input type="text" name="username" class="form-control" id="userName" placeholder="支持英文、数字和下划线，6-12位">
