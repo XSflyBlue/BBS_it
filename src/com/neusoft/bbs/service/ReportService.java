@@ -13,7 +13,7 @@ import com.neusoft.bbs.domain.form.ReportForm;
 public interface ReportService {
 	
 	/**
-	 * 根据举报用户reportUserId查询举报信息
+	 * 根据版主moderatorId查询举报信息
 	 * @param moderatorId
 	 * @return List<Report>
 	 */
