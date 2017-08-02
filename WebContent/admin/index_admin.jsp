@@ -46,14 +46,23 @@
 								    <label> 用户名:</label>
 								    <input type="text" class="form-control">
 								  </div>
+								   <button type="button" class="btn btn-info">查询</button>
+								  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 								  <div class="form-group">
-								  	<label> 用户状态:</label>
+								  	<label> 状态:</label>
 								  	<select class="form-control">
 									  <option>正常</option>
 									  <option>禁用</option>
 									</select>
 								  </div>
-								  <button type="button" class="btn btn-info">查询</button>
+								  <div class="form-group">
+								  	<label> 角色:</label>
+								  	<select class="form-control">
+									  <option>区主</option>
+									  <option>版主</option>
+									  <option>普通用户</option>
+									</select>
+								  </div>
 								</form>
 								<br>
 								<table class="table">
@@ -107,6 +116,8 @@
 								    <label> 区块名:</label>
 								    <input type="text" class="form-control">
 								  </div>
+								  <button type="button" class="btn btn-info">查询</button>
+								   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 								  <div class="form-group">
 								  	<label> 区块状态:</label>
 								  	<select class="form-control">
@@ -114,7 +125,6 @@
 									  <option>禁用</option>
 									</select>
 								  </div>
-								  <button type="button" class="btn btn-info">查询</button>
 								</form>
 								<br>
 								<table class="table">
@@ -129,7 +139,7 @@
 										<td>1</td>
 										<td>IT研发</td>
 										<td>正常</td>
-										<td>18</td>
+										<td><a href="#">18</a></td>
 										<td>
 											<a href="#">查看</a>
 											<a href="#">编辑</a>
@@ -167,6 +177,8 @@
 								    <label> 版块名:</label>
 								    <input type="text" class="form-control">
 								  </div>
+								  <button type="button" class="btn btn-info">查询</button>
+								   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 								  <div class="form-group">
 								  	<label> 状态:</label>
 								  	<select class="form-control">
@@ -182,7 +194,6 @@
 									  <option>其他</option>
 									</select>
 								  </div>
-								  <button type="button" class="btn btn-info">查询</button>
 								</form>
 								<br>
 								<table class="table">

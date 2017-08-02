@@ -206,6 +206,9 @@ body{
 #bbs_admin_mainBox>div{
 	display: none;
 }
+#bbs_admin_mainBox input{
+	width: 100px;
+}
 .bbs_fnBox{
 	text-align: center;
 }
