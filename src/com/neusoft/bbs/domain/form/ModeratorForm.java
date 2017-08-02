@@ -26,6 +26,10 @@ public class ModeratorForm {
      * 用户ID
      */
     private Short userId;
+    /**
+     * 用户名
+     */
+    private String userName;
 	/**
 	 * 区名/版名
 	 */
@@ -34,6 +38,13 @@ public class ModeratorForm {
 	 * 分页
 	 */
 	private Long rn;
+	
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 	public Long getModeratorId() {
 		return moderatorId;
 	}
@@ -74,9 +85,10 @@ public class ModeratorForm {
 	public String toString() {
 		return "ModeratorForm [moderatorId=" + moderatorId + ", areaId="
 				+ areaId + ", moderatorType=" + moderatorType + ", userId="
-				+ userId + ", sectionDistrName=" + sectionDistrName + ", rn="
-				+ rn + "]";
+				+ userId + ", userName=" + userName + ", sectionDistrName="
+				+ sectionDistrName + ", rn=" + rn + "]";
 	}
+	
 	
 	
 }
