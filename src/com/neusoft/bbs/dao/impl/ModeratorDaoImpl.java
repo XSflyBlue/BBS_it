@@ -8,6 +8,9 @@ import com.neusoft.bbs.commons.util.db.BeanListHandler;
 import com.neusoft.bbs.commons.util.db.DatabaseUtil;
 import com.neusoft.bbs.dao.ModeratorDao;
 import com.neusoft.bbs.domain.Moderator;
+import com.neusoft.bbs.domain.form.FollowForm;
+import com.neusoft.bbs.domain.form.ModeratorForm;
+import com.neusoft.bbs.domain.form.PageForm;
 
 /**
  * 版主或区主DAO（Moderator）实现类
@@ -94,6 +97,93 @@ public class ModeratorDaoImpl implements ModeratorDao {
 			e.printStackTrace();
 		}
 		return list;
+	}
+
+	@Override
+	public int getListPageCount(int pageSize, Moderator moderator) {
+		int res = 0;
+		
+		int rowCount = getListRowCount(moderator);
+		if (rowCount%pageSize==0) {
+			res = rowCount / pageSize;
+		} else {
+			res = rowCount / pageSize + 1;
+		}
+		return res;
+	}
+
+	@Override
+	public int getListRowCount(Moderator moderator) {
+		// SQL语句
+
+		StringBuffer find_sql = new StringBuffer();
+		find_sql.append("SELECT count(*) ROW_COUNT  ");
+		Short areaId = null;
+		Short userId = null;
+		if(moderator.getAreaId()!=null&&moderator.getUserId()!=null){
+			if(moderator.getModeratorType().equals("1")){
+				areaId = moderator.getAreaId();
+				userId = moderator.getUserId();
+				find_sql.append("FROM B_MODERATOR m,B_USER_BASE u,B_DISTRICTS d ");
+				find_sql.append("where u.USER_ID = m.USER_ID and m.MODERATOR_TYPE=1 and m.AREA_ID = d.DISTRICT_ID ");
+				find_sql.append("and u.USER_ID=? AND m.AREA_ID=?");
+			}else if(moderator.getModeratorType().equals("0")){
+				areaId = moderator.getAreaId();
+				userId = moderator.getUserId();
+				find_sql.append("FROM B_MODERATOR m,B_USER_BASE u,B_SECTION s ");
+				find_sql.append("where u.USER_ID = m.USER_ID and m.MODERATOR_TYPE=1 and m.AREA_ID = s.SECTION_ID ");
+				find_sql.append("and u.USER_ID=? AND m.AREA_ID=?");	
+			}
+		}else{
+			return 0;
+		}
+		Object params[] = {areaId,userId};
+		PageForm pageForm = null;
+		try {
+			pageForm = (PageForm) DatabaseUtil.query(find_sql.toString(), params, new BeanHandler(PageForm.class));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return pageForm.getRowCount().intValue();
+	}
+
+	@Override
+	public List<ModeratorForm> findFormList(int pageSize, int rowNum,
+			Moderator moderator) {
+		StringBuffer find_sql = new StringBuffer();
+		Short areaId = null;
+		Short userId = null;
+		//参数确定
+		if(moderator.getAreaId()!=null&&moderator.getUserId()!=null){
+			areaId = moderator.getAreaId();
+			userId = moderator.getUserId();
+			if(moderator.getModeratorType().equals("1")){
+				find_sql.append("SELECT m.MODERATOR_ID,m.AREA_ID,m.MODERATOR_TYPE,m.USER_ID,u.USERNAME,d.DISTRICT_NAME SECTION_DISTR_NAME ");
+				find_sql.append("FROM B_USER_BASE u,B_MODERATOR m,B_DISTRICTS d ");
+				find_sql.append("WHERE u.USER_ID = m.USER_ID and m.AREA_ID = d.DISTRICT_ID ");
+				find_sql.append("and u.user_id=? and m.area_id=?");
+			}else if(moderator.getModeratorType().equals("0")){
+				find_sql.append("SELECT m.MODERATOR_ID,m.AREA_ID,m.MODERATOR_TYPE,m.USER_ID,u.USERNAME,s.SECTION_NAME SECTION_DISTR_NAME ");
+				find_sql.append("FROM B_USER_BASE u,B_MODERATOR m,B_SECTION s ");
+				find_sql.append("WHERE u.USER_ID = m.USER_ID and m.AREA_ID = s.SECTION_ID ");
+				find_sql.append("and u.user_id=? and m.area_id=?");
+			}
+		}else {
+			return null;
+		}
+		// 分页SQL语句
+		String sql = "select*from (select a1.*,rownum rn from (" + find_sql.toString() + ") a1 where rownum<="
+				+ rowNum * pageSize + ") where rn>" + ((rowNum - 1) * pageSize);
+
+		System.out.println(sql);
+		Object params[] = {areaId,userId};
+		List<ModeratorForm> modFormList = null;
+		try {
+			modFormList = (List<ModeratorForm>) DatabaseUtil.query(sql, params, new BeanListHandler(ModeratorForm.class));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return modFormList;
 	}
 
 }
