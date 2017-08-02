@@ -33,7 +33,7 @@ public class CollectionDaoImpl implements CollectionDao {
 	@Override
 	public int delete(Collection collection) {
 		String sql = "delete * from b_collection where collection_id=?";
-		Object params[] ={collection.getCollectionId()};
+		Object params[] = { collection.getCollectionId() };
 		int res = 0;
 		try {
 			DatabaseUtil.update(sql, params);
@@ -46,7 +46,7 @@ public class CollectionDaoImpl implements CollectionDao {
 	@Override
 	public int update(Collection collection) {
 		String sql = "update b_collection set user_id=?,post_id=?,collect_time=sysdate where collect_id=?";
-		Object params[] ={collection.getUserId(),collection.getPostId(),collection.getCollectionId()};
+		Object params[] = { collection.getUserId(), collection.getPostId(), collection.getCollectionId() };
 		int res = 0;
 		try {
 			res = DatabaseUtil.update(sql, params);
@@ -59,10 +59,10 @@ public class CollectionDaoImpl implements CollectionDao {
 	@Override
 	public Collection findByCollectionId(Long collectionId) {
 		String sql = "select * from b_collection where collection_id=?";
-		Object params[] ={collectionId};
+		Object params[] = { collectionId };
 		Collection collection = null;
 		try {
-			collection = (Collection)DatabaseUtil.query(sql, params, new BeanHandler(Collection.class));
+			collection = (Collection) DatabaseUtil.query(sql, params, new BeanHandler(Collection.class));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -72,10 +72,10 @@ public class CollectionDaoImpl implements CollectionDao {
 	@Override
 	public List<Collection> findByUserId(Long userId) {
 		String sql = "select * from b_collection where user_id=?";
-		Object params[] ={userId};
+		Object params[] = { userId };
 		List<Collection> list = null;
 		try {
-			list = (List<Collection>)DatabaseUtil.query(sql, params, new BeanListHandler(Collection.class));
+			list = (List<Collection>) DatabaseUtil.query(sql, params, new BeanListHandler(Collection.class));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -85,10 +85,10 @@ public class CollectionDaoImpl implements CollectionDao {
 	@Override
 	public List<Collection> findByPostId(Long postId) {
 		String sql = "select * from b_collection where post_id=?";
-		Object params[] ={postId};
+		Object params[] = { postId };
 		List<Collection> list = null;
 		try {
-			list = (List<Collection>)DatabaseUtil.query(sql, params, new BeanListHandler(Collection.class));
+			list = (List<Collection>) DatabaseUtil.query(sql, params, new BeanListHandler(Collection.class));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
