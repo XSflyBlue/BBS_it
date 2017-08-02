@@ -54,4 +54,28 @@ public interface CoinService {
 	 * @return
 	 */
 	public int setCoinNum(Long userId,Coin coin);
+	
+	/***
+	 * 获取最大页数
+	 * @param pageSize，每页显示信息条数
+	 * @param userId，查询条件
+	 * @return
+	 */
+	int getListPageCount(int pageSize, Long userId);
+
+	/***
+	 * 获取最大行数
+	 * @param userId，查询条件（userId查）
+	 * @return
+	 */
+	int getListRowCount(Long userId);
+	
+	/***
+	 * 查找金币记录
+	 * @param pageSize，每页显示信息条数
+	 * @param rowNum，需要获取的页数
+	 * @param userId，查询条件（userId）
+	 * @return
+	 */
+	List<CoinRecord> findFormList(int pageSize, int rowNum, Long userId);
 }

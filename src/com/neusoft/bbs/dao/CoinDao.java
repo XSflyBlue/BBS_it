@@ -64,7 +64,7 @@ public interface CoinDao {
 
 	/***
 	 * 获取最大行数
-	 * @param userId，查询条件（帖子postId查和跟帖用户commentUserId查）
+	 * @param userId，查询条件（userId查）
 	 * @return
 	 */
 	int getListRowCount(Long userId);

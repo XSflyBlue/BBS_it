@@ -23,28 +23,28 @@ public interface EXPService {
 	 * @param userId
 	 * @return int
 	 */
-	public int deleteCoinRecord(Long userId);
+	public int deleteExpRecord(Long userId);
 	
 	/**
 	 * 根据用户id插入记录
 	 * @param userId
 	 * @return int
 	 */
-	public int addCoinRecord(Long userId,ExpRecord expRecord);
+	public int addExpRecord(Long userId,ExpRecord expRecord);
 	
 	/**
 	 * 根据用户id修改经验记录表
 	 * @param userId
 	 * @return int
 	 */
-	public int setCoinRecord(Long userId,ExpRecord expRecord);
+	public int setExpRecord(Long userId,ExpRecord expRecord);
 	
 	/**
 	 * 根据用户id查找经验值
 	 * @param userId
 	 * @return
 	 */
-	public Long findCoinNum(Long userId);
+	public Long findExpNum(Long userId);
 	
 	/**
 	 * 根据用户id修改经验表
@@ -53,5 +53,29 @@ public interface EXPService {
 	 * @param exp
 	 * @return int
 	 */
-	public int setCoinNum(Long userId,EXP exp);
+	public int setExpNum(Long userId,EXP exp);
+	
+	/***
+	 * 获取最大页数
+	 * @param pageSize，每页显示信息条数
+	 * @param userId，查询条件
+	 * @return
+	 */
+	int getListPageCount(int pageSize, Long userId);
+
+	/***
+	 * 获取最大行数
+	 * @param userId，查询条件（userId查）
+	 * @return
+	 */
+	int getListRowCount(Long userId);
+	
+	/***
+	 * 查找经验记录
+	 * @param pageSize，每页显示信息条数
+	 * @param rowNum，需要获取的页数
+	 * @param userId，查询条件（userId）
+	 * @return
+	 */
+	List<ExpRecord> findFormList(int pageSize, int rowNum, Long userId);
 }

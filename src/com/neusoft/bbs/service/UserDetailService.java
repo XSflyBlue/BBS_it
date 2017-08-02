@@ -1,6 +1,7 @@
 package com.neusoft.bbs.service;
 
 import com.neusoft.bbs.domain.UserDetail;
+import com.neusoft.bbs.domain.form.UserForm;
 
 /***
  * 用户详情service接口
@@ -35,4 +36,11 @@ public interface UserDetailService {
 	 * @return int
 	 */
 	public int setUserDetail(UserDetail userDetail);
+	
+	/**
+	 * 查询某userId用户详细（不需要分页）
+	 * @param userId
+	 * @return UserForm
+	 */
+	public UserForm findUserForm(Long userId);
 }
