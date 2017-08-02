@@ -15,7 +15,7 @@ import com.neusoft.bbs.service.CoinService;
  */
 public class CoinServiceImpl implements CoinService{
 	private static final TransactionProxy transactionProxy = new TransactionProxy();
-	private static final CoinService  instance = (CoinService) transactionProxy.newProxyInstance(new CoinDaoImpl());
+	private static final CoinService  instance = (CoinService) transactionProxy.newProxyInstance(new CoinServiceImpl());
 	/**
 	 * 获取CoinService实例
 	 * @return
@@ -76,6 +76,21 @@ public class CoinServiceImpl implements CoinService{
 			coinNum = coinDao.updateCoinNum(coin);
 		}
 		return coinNum;
+	}
+	@Override
+	public int getListPageCount(int pageSize, Long userId) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	@Override
+	public int getListRowCount(Long userId) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	@Override
+	public List<CoinRecord> findFormList(int pageSize, int rowNum, Long userId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

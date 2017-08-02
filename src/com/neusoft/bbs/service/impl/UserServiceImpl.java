@@ -1,5 +1,6 @@
 package com.neusoft.bbs.service.impl;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -7,6 +8,7 @@ import com.neusoft.bbs.commons.util.db.TransactionProxy;
 import com.neusoft.bbs.dao.UserDao;
 import com.neusoft.bbs.dao.impl.UserDaoImpl;
 import com.neusoft.bbs.domain.UserBase;
+import com.neusoft.bbs.domain.UserDetail;
 import com.neusoft.bbs.service.UserService;
 /**
  * 用户服务层实现类
@@ -52,5 +54,47 @@ public class UserServiceImpl implements UserService{
 			};
 		}
 		return false;
+	}
+
+	@Override
+	public UserBase findUserBase(Long userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public UserBase setRegisterInfo(UserBase userBase, UserDetail userDetail) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int addUserDetail(UserBase userBase) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int deleteUserDetail(UserBase userBase) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getListPageCount(int pageSize, UserBase userBase) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getListRowCount(UserBase userBase) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public List<UserBase> findUserBase(int pageSize, int rowNum, UserBase userBase) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
