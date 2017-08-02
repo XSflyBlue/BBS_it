@@ -43,8 +43,8 @@ public class HelpThemeDaoImpl implements HelpThemeDao{
 	@Override
 	public int update(HelpTheme helpTheme) {
 		int a = 0;
-		String sql = "update b_help_theme set values(?,?)";
-		Object params[] = {helpTheme.getHelpThemeName(),helpTheme.getHelpContent()};
+		String sql = "update b_help_theme set help_theme_name=?,help_type_id=?,help_content=? where help_theme_id=?";
+		Object params[] = {helpTheme.getHelpThemeName(),helpTheme.getHrlpTypeId(),helpTheme.getHelpContent(),helpTheme.getHelpThemeId()};
 		try {
 			a = DatabaseUtil.update(sql, params);
 		} catch (Exception e) {

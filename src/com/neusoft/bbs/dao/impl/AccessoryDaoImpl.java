@@ -46,9 +46,10 @@ public class AccessoryDaoImpl implements AccessoryDao{
 	@Override
 	public int update(Accessory accessory) {
 		int a = 0;
-		String sql = "update b_accessory set values(?,?,?,sysdate,?,?,?,?)";
+		String sql = "update b_accessory set post_id=?,file_name=?,path=?,author=?,upload_time=sysdate,accessory_descri=?"
+				+ "	,file_size=?,download_num=?,cost_coin=? where accessory_id=?";
 		Object params[] = {accessory.getFileName(),accessory.getPath(),accessory.getAuthor(),accessory.getAccessoryDescri(),
-							accessory.getFileSize(),accessory.getDownloadNum(),accessory.getCostCoin()};
+							accessory.getFileSize(),accessory.getDownloadNum(),accessory.getCostCoin(),accessory.getAccessoryId()};
 		try {
 			a = DatabaseUtil.update(sql, params);
 		} catch (Exception e) {

@@ -49,9 +49,9 @@ public class ReportDaoImpl implements ReportDao{
 	public int update(Report report) {
 		int a = 0;
 		String sql = "update b_report set report_user_id=?,report_cause=?,"
-				+ "	report_time=sysdate,moderator_id=?,report_post_id=?";
+				+ "	report_time=sysdate,moderator_id=?,report_post_id=? where report_id=?";
 		Object params[] = {report.getReportUserId(),report.getReportCause(),report.getModeratorId(),
-							report.getReportPostId()};
+							report.getReportPostId(),report.getReportId()};
 		try {
 			a = DatabaseUtil.update(sql, params);
 		} catch (Exception e) {

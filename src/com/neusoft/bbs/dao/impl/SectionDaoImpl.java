@@ -43,9 +43,9 @@ public class SectionDaoImpl implements SectionDao{
 	@Override
 	public int update(Section section) {
 		int a = 0;
-		String sql = "update b_section set section_name=?,is_show=?,district_id=?,section_descri=?";
+		String sql = "update b_section set section_name=?,is_show=?,district_id=?,section_descri=? where section_id=?";
 		Object params[] = {section.getSectionName(),section.getIsShow(),section.getDistrictId(),
-							section.getSectionDescri()};
+							section.getSectionDescri(),section.getSectionId()};
 		try {
 			a = DatabaseUtil.update(sql, params);
 		} catch (Exception e) {

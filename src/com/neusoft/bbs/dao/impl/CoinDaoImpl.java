@@ -56,8 +56,8 @@ public class CoinDaoImpl implements CoinDao{
 
 	@Override
 	public int updateCoinRecord(CoinRecord coinRecord) {
-		String sql = "update b_coin_record  set coin_cause=?,coin_get_num=?,coin_get_time=sysdate ";
-		Object params[] = {coinRecord.getCoinCause(),coinRecord.getCoinGetNum()};
+		String sql = "update b_coin_record  set coin_cause=?,coin_get_num=?,coin_get_time=sysdate where coin_record_id=?";
+		Object params[] = {coinRecord.getCoinCause(),coinRecord.getCoinGetNum(),coinRecord.getCoinRecordId()};
 		int a = 0;
 		try {
 			a = DatabaseUtil.update(sql, params);

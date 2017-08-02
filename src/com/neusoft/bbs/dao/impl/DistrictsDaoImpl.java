@@ -43,8 +43,8 @@ public class DistrictsDaoImpl implements DistrictsDao{
 	@Override
 	public int update(Districts districts) {
 		int a = 0;
-		String sql = "update b_districts set values(?,?)";
-		Object params[] = {districts.getDistrictName(),districts.getDistrictDescri()};
+		String sql = "update b_districts set district_name=?,district_descri=? where district_id=?";
+		Object params[] = {districts.getDistrictName(),districts.getDistrictDescri(),districts.getDistrictId()};
 		try {
 			a = DatabaseUtil.update(sql, params);
 		} catch (Exception e) {
