@@ -1,4 +1,7 @@
-package com.neusoft.bbs.domain;
+package com.neusoft.bbs.domain.form;
+
+import com.neusoft.bbs.domain.Collection;
+
 /**
  * 收藏表单类
  * @author yangmiao
@@ -42,7 +45,4 @@ public class CollectionForm {
 		return "CollectionForm [collection=" + collection + ", postTitle="
 				+ postTitle + ", rn=" + rn + "]";
 	}
-	
-	
-	
 }

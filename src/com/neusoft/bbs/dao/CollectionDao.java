@@ -3,6 +3,7 @@ package com.neusoft.bbs.dao;
 import java.util.List;
 
 import com.neusoft.bbs.domain.Collection;
+import com.neusoft.bbs.domain.form.CollectionForm;
 
 /***
  * 收藏（帖子）Dao接口
@@ -51,4 +52,26 @@ public interface CollectionDao {
 	 * @return List<Collection>
 	 */
 	List<Collection> findByPostId(Long postId);
+	/***
+	 * 获取最大页数
+	 * @param pageSize，每页显示信息条数
+	 * @param collection，查询条件
+	 * @return
+	 */
+	int getListPageCount(int pageSize, Collection collection);
+
+	/***
+	 * 获取最大行数
+	 * @param collection，查询条件（收藏userId查和被收藏postId查）
+	 * @return
+	 */
+	int getListRowCount(Collection collection);
+	/***
+	 * 查找关注列表（可查询关注或被关注）
+	 * @param pageSize，每页显示信息条数
+	 * @param rowNum，需要获取的页数
+	 * @param collection，查询条件（收藏userId查和被收藏postId查）
+	 * @return
+	 */
+	List<CollectionForm> findFollowFormList(int pageSize, int rowNum, Collection collection);
 }

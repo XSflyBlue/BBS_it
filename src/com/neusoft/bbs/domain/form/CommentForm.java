@@ -1,4 +1,7 @@
-package com.neusoft.bbs.domain;
+package com.neusoft.bbs.domain.form;
+
+import com.neusoft.bbs.domain.Comment;
+
 /**
  * 跟帖表单
  * @author yangmiao
