@@ -42,7 +42,7 @@
 							<li><a href='<c:url value="/regist.jsp"></c:url>'>注册</a></li>
 					</c:when>
 					<c:otherwise>
-							<li><a href='<c:url value="/admin/index.jsp"></c:url>'>${userBase.username}</a></li>
+							<li><a href='<c:url value="/admin/index_nomal.jsp"></c:url>'>${userBase.username}</a></li>
 							<li><a href='<c:url value="/UserServlet?action=logout"></c:url>'>退出</a></li>
 					</c:otherwise>
 				</c:choose>

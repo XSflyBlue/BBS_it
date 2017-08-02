@@ -62,7 +62,7 @@
 					+$('input[name=password]').val()+"&verifyCode="+$('input[name=verifyCode]').val(),
 			success: function(data){
 				if(data.code == 1){
-					window.location.href='<c:url value="/admin/index.jsp"/>';
+					window.location.href='<c:url value="/admin/index_nomal.jsp"/>';
 				}else{
 					$('#j_msg').empty();
 					$('#j_msg').text(data.msg);

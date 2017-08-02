@@ -29,7 +29,7 @@
 							<img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">
 							<span id="bbs_poster_name">${userBase.username}</span>
 						</a>
-						<div>
+						<div style="margin-bottom: 15px;">
 							<span> [社区元老] </span>
 							<span> 经验：7899/10000 </span>
 							<span> 金币：333 </span>
@@ -65,31 +65,269 @@
 					<div style="border-top: none;">
 						<div id="bbs_admin_mainBox">
 							<div id="bbs_admin_showInfo">
-								<table class="">
+								<table class="table bbs_twoColTable">
 									<tr>
-										<td colspan="2">基本资料</td>
-									</tr>
-									<tr>
-										<td>用户名</td>
+										<td>用户名:</td>
 										<td>张三</td>
 									</tr>
 									<tr>
-										<td>用户名</td>
-										<td>张三</td>
+										<td>年龄:</td>
+										<td>21</td>
 									</tr>
 									<tr>
-										<td>用户名</td>
-										<td>张三</td>
+										<td>性别:</td>
+										<td>男</td>
 									</tr>
 									<tr>
-										<td>用户名</td>
-										<td>张三</td>
+										<td>自我介绍:</td>
+										<td>我是一个帅气十足的美男子...我是一个帅气十足的美男子...我是一个帅气十足的美男子...我是一个帅气十足的美男子...我是一个帅气十足的美男子...</td>
+									</tr>
+									<tr>
+										<td>签名:</td>
+										<td>原谅我一身放荡爱自由~</td>
+									</tr>
+									<tr>
+										<td></td>
+										<td>
+											<a href="#">修改个人资料</a>
+										</td>
 									</tr>
 								</table>
 							</div>
-							<div id="bbs_admin_showPost">我的帖子</div>
-							<div id="bbs_admin_showCare">关注好友</div>
-							<div id="bbs_admin_showSave">我的收藏</div>
+							<div id="bbs_admin_showPost">
+								<table class="table table-hover bbs_table">
+								<tr>
+									<td>
+										<a class="bbs_list" href="poster.jsp">
+											<span class="bbs_listSubTitle">[程序发布]</span>
+											<span class="bbs_listTitle">xiuno4采集免费分享，支持指定用户和马甲发贴。</span>
+											<span class="bbs_listSubTitle block">
+												<span>axiuno 10月前 ← JOJO 20小时前</span>
+												<span class="bbs_listCount">浏览:123  回复:456</span>
+											</span>
+										</a>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<a class="bbs_list" href="#">
+											<span class="bbs_listSubTitle">[程序发布]</span>
+											<span class="bbs_listTitle bbs_bold">Xiuno BBS 4.0 beta 5 发布 （最后更新：2017/4/8） </span>
+											<span class="bbs_listSubTitle block">
+												<span>axiuno 10月前 ← JOJO 20小时前</span>
+												<span class="bbs_listCount">浏览:123  回复:456</span>
+											</span>
+										</a>
+									</td>
+								</tr>
+							</table>
+							<nav aria-label="Page navigation" style="text-align: center;">
+							  <ul class="pagination">
+							    <li>
+							      <a href="#" aria-label="Previous">
+							        <span aria-hidden="true">&laquo;</span>
+							      </a>
+							    </li>
+							    <li><a href="#">1</a></li>
+							    <li><a href="#">2</a></li>
+							    <li><a href="#">3</a></li>
+							    <li><a href="#">4</a></li>
+							    <li><a href="#">5</a></li>
+							    <li>
+							      <a href="#" aria-label="Next">
+							        <span aria-hidden="true">&raquo;</span>
+							      </a>
+							    </li>
+							  </ul>
+							</nav>
+							</div>
+							
+							<div id="bbs_admin_showCare">
+								<table class="table">
+								<tr>
+									<td>
+										<div class="bbs_showItems">
+											<a href='<c:url value="/userInfo.jsp"></c:url>'>
+												<img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">
+												<span id="bbs_poster_name">鲁班不住这</span>
+											</a>
+										</div>
+									</td>
+									<td>
+										<div class="bbs_showItems">
+											<a href='<c:url value="/userInfo.jsp"></c:url>'>
+												<img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">
+												<span id="bbs_poster_name">鲁班不住这</span>
+											</a>
+										</div>
+									</td>
+									<td>
+										<div class="bbs_showItems">
+											<a href='<c:url value="/userInfo.jsp"></c:url>'>
+												<img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">
+												<span id="bbs_poster_name">鲁班不住这</span>
+											</a>
+										</div>
+									</td>
+									<td>
+										<div class="bbs_showItems">
+											<a href='<c:url value="/userInfo.jsp"></c:url>'>
+												<img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">
+												<span id="bbs_poster_name">鲁班不住这</span>
+											</a>
+										</div>
+									</td>
+									<td>
+										<div class="bbs_showItems">
+											<a href='<c:url value="/userInfo.jsp"></c:url>'>
+												<img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">
+												<span id="bbs_poster_name">鲁班不住这</span>
+											</a>
+										</div>
+									</td>
+									<td>
+										<div class="bbs_showItems">
+											<a href='<c:url value="/userInfo.jsp"></c:url>'>
+												<img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">
+												<span id="bbs_poster_name">鲁班不住这</span>
+											</a>
+										</div>
+									</td>
+									<td>
+										<div class="bbs_showItems">
+											<a href='<c:url value="/userInfo.jsp"></c:url>'>
+												<img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">
+												<span id="bbs_poster_name">鲁班不住这</span>
+											</a>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div class="bbs_showItems">
+											<a href='<c:url value="/userInfo.jsp"></c:url>'>
+												<img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">
+												<span id="bbs_poster_name">鲁班不住这</span>
+											</a>
+										</div>
+									</td>
+									<td>
+										<div class="bbs_showItems">
+											<a href='<c:url value="/userInfo.jsp"></c:url>'>
+												<img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">
+												<span id="bbs_poster_name">鲁班不住这</span>
+											</a>
+										</div>
+									</td>
+									<td>
+										<div class="bbs_showItems">
+											<a href='<c:url value="/userInfo.jsp"></c:url>'>
+												<img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">
+												<span id="bbs_poster_name">鲁班不住这</span>
+											</a>
+										</div>
+									</td>
+									<td>
+										<div class="bbs_showItems">
+											<a href='<c:url value="/userInfo.jsp"></c:url>'>
+												<img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">
+												<span id="bbs_poster_name">鲁班不住这</span>
+											</a>
+										</div>
+									</td>
+									<td>
+										<div class="bbs_showItems">
+											<a href='<c:url value="/userInfo.jsp"></c:url>'>
+												<img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">
+												<span id="bbs_poster_name">鲁班不住这</span>
+											</a>
+										</div>
+									</td>
+									<td>
+										<div class="bbs_showItems">
+											<a href='<c:url value="/userInfo.jsp"></c:url>'>
+												<img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">
+												<span id="bbs_poster_name">鲁班不住这</span>
+											</a>
+										</div>
+									</td>
+									<td>
+										<div class="bbs_showItems">
+											<a href='<c:url value="/userInfo.jsp"></c:url>'>
+												<img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">
+												<span id="bbs_poster_name">鲁班不住这</span>
+											</a>
+										</div>
+									</td>
+								</tr>
+							</table>
+							<nav aria-label="Page navigation" style="text-align: center;">
+							  <ul class="pagination">
+							    <li>
+							      <a href="#" aria-label="Previous">
+							        <span aria-hidden="true">&laquo;</span>
+							      </a>
+							    </li>
+							    <li><a href="#">1</a></li>
+							    <li><a href="#">2</a></li>
+							    <li><a href="#">3</a></li>
+							    <li><a href="#">4</a></li>
+							    <li><a href="#">5</a></li>
+							    <li>
+							      <a href="#" aria-label="Next">
+							        <span aria-hidden="true">&raquo;</span>
+							      </a>
+							    </li>
+							  </ul>
+							</nav>
+							</div>
+							<div id="bbs_admin_showSave">
+								<table class="table table-hover bbs_table">
+								<tr>
+									<td>
+										<a class="bbs_list" href="poster.jsp">
+											<span class="bbs_listSubTitle">[程序发布]</span>
+											<span class="bbs_listTitle">xiuno4采集免费分享，支持指定用户和马甲发贴。</span>
+											<span class="bbs_listSubTitle block">
+												<span>axiuno 10月前 ← JOJO 20小时前</span>
+												<span class="bbs_listCount">浏览:123  回复:456</span>
+											</span>
+										</a>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<a class="bbs_list" href="#">
+											<span class="bbs_listSubTitle">[程序发布]</span>
+											<span class="bbs_listTitle bbs_bold">Xiuno BBS 4.0 beta 5 发布 （最后更新：2017/4/8） </span>
+											<span class="bbs_listSubTitle block">
+												<span>axiuno 10月前 ← JOJO 20小时前</span>
+												<span class="bbs_listCount">浏览:123  回复:456</span>
+											</span>
+										</a>
+									</td>
+								</tr>
+							</table>
+							<nav aria-label="Page navigation" style="text-align: center;">
+							  <ul class="pagination">
+							    <li>
+							      <a href="#" aria-label="Previous">
+							        <span aria-hidden="true">&laquo;</span>
+							      </a>
+							    </li>
+							    <li><a href="#">1</a></li>
+							    <li><a href="#">2</a></li>
+							    <li><a href="#">3</a></li>
+							    <li><a href="#">4</a></li>
+							    <li><a href="#">5</a></li>
+							    <li>
+							      <a href="#" aria-label="Next">
+							        <span aria-hidden="true">&raquo;</span>
+							      </a>
+							    </li>
+							  </ul>
+							</nav>
+							</div>
 							<div id="bbs_admin_showSafe">
 								<div class="row">
 									<div class="col-xs-6 col-sm-4 bbs_fnBox">

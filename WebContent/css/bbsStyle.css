@@ -90,6 +90,26 @@ body{
 	border-bottom: 1px solid #ddd;
 	padding-left: 36px
 }
+
+.bbs_twoColTable>tbody>tr>td, 
+.bbs_twoColTable>tbody>tr>th, 
+.bbs_twoColTable>tfoot>tr>td, 
+.bbs_twoColTable>tfoot>tr>th, 
+.bbs_twoColTable>thead>tr>td, 
+.bbs_twoColTable>thead>tr>th{
+	border: none;
+}
+.bbs_twoColTable>tbody>tr>td:first-child, 
+.bbs_twoColTable>tbody>tr>th:first-child, 
+.bbs_twoColTable>tfoot>tr>td:first-child, 
+.bbs_twoColTable>tfoot>tr>th:first-child, 
+.bbs_twoColTable>thead>tr>td:first-child, 
+.bbs_twoColTable>thead>tr>th:first-child{
+	width: 100px;
+	text-align: right;
+	font-weight: bold;
+	padding-right: 12px;
+}
 .bbs_rightBox{
 	background-color: white;
 	min-height: 100px;
@@ -113,6 +133,16 @@ body{
 	height: 60px;
 	border-radius:30px;
 }
+.bbs_showItems .bbs_icon{
+	width: 70px;
+	height: 70px;
+	border-radius:35px;
+}
+.bbs_showItems #bbs_poster_name{
+	font-size: 1em;
+	margin: 3px;
+}
+.bbs_showItems 
 #bbs_comment{
 	padding: 16px;
 	margin-top: 12px;
