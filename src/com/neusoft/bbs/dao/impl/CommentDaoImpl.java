@@ -44,9 +44,10 @@ public class CommentDaoImpl implements CommentDao{
 	@Override
 	public int update(Comment comment) {
 		int a = 0;
-		String sql = "update b_comment set values(?,?,?,sysdate,?,?,?,?,?)";
-		Object params[] = {comment.getCommentId(),comment.getPostId(),comment.getCommentUserId(),comment.getCommentContent(),
-				comment.getIsHidden(),comment.getHiddenCause(),comment.getHiddenUserId(),comment.getCommentIp()};
+		String sql = "update b_comment set post_id=?,comment_user_id=?,comment_time=sysdate,comment_content=?"
+				+ "	,is_hidden=?,hidden_cause=?,hidden_user_id=?,comment_ip=? where comment_id=?";
+		Object params[] = {comment.getPostId(),comment.getCommentUserId(),comment.getCommentContent(),
+				comment.getIsHidden(),comment.getHiddenCause(),comment.getHiddenUserId(),comment.getCommentIp(),comment.getCommentId()};
 		try {
 			a = DatabaseUtil.update(sql, params);
 		} catch (Exception e) {

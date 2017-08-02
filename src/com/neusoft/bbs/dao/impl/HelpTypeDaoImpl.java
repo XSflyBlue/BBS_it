@@ -39,8 +39,8 @@ public class HelpTypeDaoImpl implements HelpTypeDao{
 	@Override
 	public int update(HelpType helpType) {
 		int a = 0;
-		String sql = "update  b_help_type set help_type_name=?";
-		Object params[] = {helpType.getHelpTypeName()};
+		String sql = "update  b_help_type set help_type_name=? where help_type_id=?";
+		Object params[] = {helpType.getHelpTypeName(),helpType.getHelpTypeId()};
 		try {
 			a = DatabaseUtil.update(sql, params);
 		} catch (Exception e) {
