@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="com.neusoft.bbs.commons.util.StringUtils"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>发布新帖</title>
+<title>发布新贴</title>
 <!-- jquery -->
 <script src='<c:url value="/js/jquery-1.11.3.min.js"></c:url>'></script>
 <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
@@ -22,28 +23,6 @@
 <script charset="utf-8" src='<c:url value="/kindeditor/kindeditor-all.js"></c:url>'></script>
 <script charset="utf-8" src='<c:url value="/kindeditor/lang/zh-CN.js"></c:url>'></script>
 <script charset="utf-8" src='<c:url value="/kindeditor/plugins/code/prettify.js"></c:url>'></script>
-<script>
-	KindEditor.ready(function(K) {
-		var editor1 = K.create('textarea[name="content1"]', {
-			cssPath : '../plugins/code/prettify.css',
-			uploadJson : '../jsp/upload_json.jsp',
-			fileManagerJson : '../jsp/file_manager_json.jsp',
-			allowFileManager : true,
-			afterCreate : function() {
-				var self = this;
-				K.ctrl(document, 13, function() {
-					self.sync();
-					document.forms['example'].submit();
-				});
-				K.ctrl(self.edit.doc, 13, function() {
-					self.sync();
-					document.forms['example'].submit();
-				});
-			}
-		});
-		prettyPrint();
-	});
-</script>
 </head>
 <body>
 	<%@include file='/common/nav.jsp' %>
@@ -54,7 +33,7 @@
 					<div>
 						<h4>发表新贴子</h4>
 					</div>
-					<form name="example" method="post" action="#">
+					<form name="bbs_editor" method="post" action="#">
 						<table class="table">
 							<tr>
 								<td>贴子标题</td>
@@ -63,17 +42,41 @@
 								</td>
 							</tr>
 							<tr>
-								<td>贴子内容</td>
+								<td>贴子类型</td>
 								<td>
-									<textarea name="content1" cols="100" rows="8" style="width:700px;height:300px;visibility:hidden;resize: none;" >
-										<%=htmlspecialchars("test")%>
-									</textarea>
+									<input type="radio" name="postType" value="suject"> 主题贴
+									<input type="radio" name="postType" value="file"> 附件贴
 								</td>
 							</tr>
 							<tr>
+								<td>贴子内容</td>
+								<td>
+									<textarea id="post_content_bbs" name="content1" cols="100" rows="8" style="width:700px;height:300px;visibility:hidden;resize: none;" >
+										<%=StringUtils.htmlspecialchars("发表您的主题...")%>
+									</textarea>
+								</td>
+							</tr>
+							<tr id="j_fileInput">
+								<td>附件</td>
+								<td>
+									<input type="file" name="">
+								</td>
+							</tr>
+							<tr>
+								<td>选择版块</td>
+								<td>
+									<select>
+										<option value="">Java</option>
+										<option value="">C++</option>
+										<option value="">闲谈灌水</option>
+									</select>
+								</td>
+							</tr>
+							
+							<tr>
 								<td></td>
 								<td>
-									<input type="submit" name="button" value="提交内容" />
+									<button type="button" class="btn btn-primary" onclick="submitPost()">发新贴</button>
 								</td>
 							</tr>
 						</table>
@@ -82,8 +85,7 @@
 				</div>
 			</div>
 			<div class="col-md-3">
-				<button type="button" class="btn btn-primary" style="width: 100%;">发新帖</button>
-				<div class="bbs_rightBox">
+				<div class="bbs_rightBox" style="margin-top: 0px;">
 					<div class="bbs_poster">
 						<div>
 							<a href='<c:url value="/userInfo.jsp"></c:url>'>
@@ -126,14 +128,33 @@
 			</div>
 		</div>
 	</div>
-<%!
-	private String htmlspecialchars(String str) {
-		str = str.replaceAll("&", "&amp;");
-		str = str.replaceAll("<", "&lt;");
-		str = str.replaceAll(">", "&gt;");
-		str = str.replaceAll("\"", "&quot;");
-		return str;
-	}
-%>
 </body>
+<script>
+	function submitPost(){
+		editor.sync();
+		var html = $('#post_content_bbs').val(); // jQuery
+	}
+	var editor;
+	KindEditor.ready(function(K) {
+		editor = K.create('textarea[name="content1"]', {
+			cssPath : '<c:url value="/kindeditor/plugins/code/prettify.css"></c:url>',
+			uploadJson : '<c:url value="/kindeditor/jsp/upload_json.jsp"></c:url>',
+			fileManagerJson : '<c:url value="/kindeditor/jsp/file_manager_json.jsp"></c:url>',
+			allowFileManager : true,
+			resizeType:0
+		});
+		prettyPrint();
+	});
+	
+	$(function(){
+		$("#j_fileInput").hide();
+		$('input[name=postType]').click(function(){
+			if($(this).val()=='file'){
+				$("#j_fileInput").show();
+			}else{
+				$("#j_fileInput").hide();
+			}
+		});
+	});
+</script>
 </html>

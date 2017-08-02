@@ -16,4 +16,10 @@ public interface UserService {
 	 * @return
 	 */
 	UserBase login(String loginName,String password);
+	/**
+	 * 是否存在该注册邮箱
+	 * @param email
+	 * @return
+	 */
+	boolean isExistRegistEmail(String email);
 }

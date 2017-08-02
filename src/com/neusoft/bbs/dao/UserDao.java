@@ -16,4 +16,14 @@ public interface UserDao {
 	 * @return
 	 */
 	UserBase findByLoginNameAndPassWord(String usernameOrEmail,String password);
+	/**
+	 * 判断注册邮箱查询用户
+	 * @param email
+	 * @return
+	 */
+	UserBase findByEmail(String email);
+	/**
+	 * 
+	 */
+	
 }

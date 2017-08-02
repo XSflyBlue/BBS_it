@@ -25,4 +25,17 @@ public class UserDaoImpl implements UserDao{
 		return user ;
 	}
 
+	@Override
+	public UserBase findByEmail(String email) {
+		String sql = "SELECT * FROM B_USER_BASE WHERE EMAIL=?";
+		Object params[] = {email};
+		UserBase user = null;
+		try {
+			user = (UserBase) DatabaseUtil.query(sql,params,new BeanHandler(UserBase.class));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return user ;
+	}
+
 }

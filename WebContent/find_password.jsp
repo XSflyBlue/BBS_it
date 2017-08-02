@@ -25,17 +25,44 @@
 			<h3>找回密码</h3>
 			<form>
 			  <div class="form-group">
-			    <label for="passWord">注册邮箱</label>
-			    <input type="password" class="form-control" id="passWord" placeholder="请输入密码">
+			    <label>注册邮箱</label>
+			    <input type="email" class="form-control" name="email" placeholder="请输入注册邮箱">
 			  </div>
-			  <button type="button" class="btn btn-primary" style="width: 100%;" onclick="updatePassword()">点击找回</button>
+			  <button type="button" id="j_submitButton" class="btn btn-primary" style="width: 100%;" onclick="updatePassword()">点击找回</button>
 			</form>
+			<div style="margin-top: 5px;">
+				<font color="" id="j_msg"></font>
+			</div>
 		</div>
 	</div>
 </body>
 <script type="text/javascript">
 	function updatePassword(){
-		window.location.href='<c:url value="/admin/index.jsp"/>';
+		
+		//window.location.href='<c:url value="/admin/index.jsp"/>';
 	}
+	$(function(){
+		$("#j_submitButton").attr({"disabled":"disabled"});
+		$('input[name=email]').blur(function(){
+			$.ajax({
+				type: 'POST',
+				url: '<c:url value="/UserServlet?action=checkRegistEmail"></c:url>',
+				data:"email="+$('input[name=email]').val(),
+				success: function(data){
+					if(data.code == 1){
+						$('#j_msg').empty();
+						$('#j_msg').attr("color","green");
+						$('#j_msg').text(data.msg);
+						$("#j_submitButton").removeAttr("disabled");
+					}else{
+						$("#j_submitButton").attr({"disabled":"disabled"});
+						$('#j_msg').empty();
+						$('#j_msg').attr("color","red");
+						$('#j_msg').text(data.msg);
+					}
+				}
+			});
+		});
+	});
 </script>
 </html>

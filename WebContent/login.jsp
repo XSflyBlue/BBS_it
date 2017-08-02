@@ -32,6 +32,11 @@
 			    <label for="password">密码</label>
 			    <input type="password" class="form-control" name="password" placeholder="请输入密码">
 			  </div>
+			  <div class="form-group">
+			    <label for="verifyCode" style="display: block;">验证码</label>
+			    <input type="text" class="form-control" name="verifyCode" style="width: 25%; display: inline-block; margin-right: 12px;">
+			    <img id="j_verifyCodeImg" alt="验证码" src='<c:url value="/VerifyCodeServlet?flush=xxx"></c:url>'>
+			  </div>
 			  <div class="checkbox">
 			    <label>
 			      <input type="checkbox">连续一周内免登录
@@ -53,7 +58,8 @@
 		$.ajax({
 			type: 'POST',
 			url: '<c:url value="/UserServlet?action=login"></c:url>',
-			data:"loginName="+$('input[name=loginName]').val()+"&password="+$('input[name=password]').val(),
+			data:"loginName="+$('input[name=loginName]').val()+"&password="
+					+$('input[name=password]').val()+"&verifyCode="+$('input[name=verifyCode]').val(),
 			success: function(data){
 				if(data.code == 1){
 					window.location.href='<c:url value="/admin/index.jsp"/>';
@@ -64,5 +70,13 @@
 			}
 		});
 	}
+	$(function(){
+		$('#j_verifyCodeImg').click(function(){
+			var srcURL = $(this).attr("src");
+			var indexOfArg = srcURL.indexOf('=');
+			var dstURL = srcURL.substring(0,indexOfArg+1)+Math.random();
+			$(this).attr("src",dstURL);
+		});
+	});
 </script>
 </html>

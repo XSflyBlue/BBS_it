@@ -1,3 +1,4 @@
+<%@page import="com.neusoft.bbs.commons.util.StringUtils"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -17,6 +18,11 @@
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 <script src='<c:url value="/js/bootstrap.min.js"></c:url>'></script>
 <link rel="stylesheet" href='<c:url value="/css/bbsStyle.css"></c:url>'>
+<link rel="stylesheet" href='<c:url value="/kindeditor/themes/default/default.css"></c:url>'/>
+<link rel="stylesheet" href='<c:url value="/kindeditor/plugins/code/prettify.css"></c:url>'/>
+<script charset="utf-8" src='<c:url value="/kindeditor/kindeditor-all.js"></c:url>'></script>
+<script charset="utf-8" src='<c:url value="/kindeditor/lang/zh-CN.js"></c:url>'></script>
+<script charset="utf-8" src='<c:url value="/kindeditor/plugins/code/prettify.js"></c:url>'></script>
 </head>
 <body>
 	<%@include file='/common/nav.jsp' %>
@@ -58,6 +64,16 @@
 										<span class="bbs_comment_date">15分钟前</span>
 									</div>
 									<div class="bbs_comment_content">民政部原党组书记、部长李立国，也受到留党察看二年、行政撤职处分，降为副局级非领导职务，终止党的十八大代表资格。曾长期担任。</div>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2">
+									<h4>快速回复</h4>
+									<textarea id="post_content_bbs" name="content1" cols="100" rows="8" style="width:100%;height:230px;visibility:hidden;resize: none;" >
+										<%=StringUtils.htmlspecialchars("请发表您的看法...")%>
+									</textarea>
+									<br>
+									<button type="button" class="btn btn-primary" onclick="submitPost()">回复</button>
 								</td>
 							</tr>
 						</table>
@@ -110,4 +126,21 @@
 		</div>
 	</div>
 </body>
+<script>
+	function submitPost(){
+		editor.sync();
+		var html = $('#post_content_bbs').val(); // jQuery
+	}
+	var editor;
+	KindEditor.ready(function(K) {
+		editor = K.create('textarea[name="content1"]', {
+			cssPath : '<c:url value="/kindeditor/plugins/code/prettify.css"></c:url>',
+			uploadJson : '<c:url value="/kindeditor/jsp/upload_json.jsp"></c:url>',
+			fileManagerJson : '<c:url value="/kindeditor/jsp/file_manager_json.jsp"></c:url>',
+			allowFileManager : true,
+			resizeType:0
+		});
+		prettyPrint();
+	});
+</script>
 </html>

@@ -1,5 +1,8 @@
 package com.neusoft.bbs.service.impl;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import com.neusoft.bbs.commons.util.db.TransactionProxy;
 import com.neusoft.bbs.dao.UserDao;
 import com.neusoft.bbs.dao.impl.UserDaoImpl;
@@ -39,5 +42,15 @@ public class UserServiceImpl implements UserService{
 			userBase = userDao.findByLoginNameAndPassWord(loginName, password);
 		}
 		return userBase;
+	}
+
+	@Override
+	public boolean isExistRegistEmail(String email) {
+		if(email != null && !email.trim().equals("")) {
+			if(userDao.findByEmail(email) != null) {
+				return true;
+			};
+		}
+		return false;
 	}
 }

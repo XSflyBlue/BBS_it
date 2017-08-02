@@ -2,6 +2,8 @@ package com.neusoft.bbs.servlet;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -61,12 +63,24 @@ public class UserServlet extends HttpServlet {
 	private void login(HttpServletRequest request, HttpServletResponse response) {
 		String loginName = request.getParameter("loginName");
 		String password = request.getParameter("password");
-		UserBase result = userService.login(loginName , password);
-		if(result != null) {
-			request.getSession().setAttribute("userBase", result);
-			JSONUtils.writeJSON(response, new Msg(1, "登录成功"));
+		String verifyCode = request.getParameter("verifyCode");
+		if(verifyCode != null && !verifyCode.trim().equals("")) {
+			String verifyCodeFromServer = (String) request.getSession().getAttribute("verifyCode");
+			if(verifyCodeFromServer!=null) {
+				if(verifyCodeFromServer.equalsIgnoreCase(verifyCode.trim())) {
+					UserBase result = userService.login(loginName , password);
+					if(result != null) {
+						request.getSession().setAttribute("userBase", result);
+						JSONUtils.writeJSON(response, new Msg(1, "登录成功"));
+					}else {
+						JSONUtils.writeJSON(response, new Msg(0, "用户名或者密码错误"));
+					}
+				}else {
+					JSONUtils.writeJSON(response, new Msg(0, "验证码错误"));
+				}
+			}
 		}else {
-			JSONUtils.writeJSON(response, new Msg(0, "用户名或者密码错误"));
+			JSONUtils.writeJSON(response, new Msg(0, "验证码为空"));
 		}
 	}
 	/**
@@ -104,6 +118,27 @@ public class UserServlet extends HttpServlet {
 		String password = request.getParameter("password");
 		if(userBase != null && password!=null && !password.trim().equals("")) {
 			//修改密码
+		}
+	}
+	
+	private void checkRegistEmail(HttpServletRequest request, HttpServletResponse response) {
+		String check = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
+		Pattern regex = Pattern.compile(check);
+		String email = request.getParameter("email");
+		if(email != null && !email.trim().equals("")) {
+			Matcher matcher = regex.matcher(email );
+			boolean flag = matcher.matches();
+			if(flag) {
+				if(userService.isExistRegistEmail(email)) {
+					JSONUtils.writeJSON(response, new Msg(1, "邮箱正确"));
+				}else {
+					JSONUtils.writeJSON(response, new Msg(0, "邮箱不存在"));
+				}
+			}else {
+				JSONUtils.writeJSON(response, new Msg(0, "邮箱格式有误"));
+			}
+		}else {
+			JSONUtils.writeJSON(response, new Msg(0, "空的邮箱输入"));
 		}
 	}
 
