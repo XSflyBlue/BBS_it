@@ -3,6 +3,7 @@ package com.neusoft.bbs.dao;
 import java.util.List;
 
 import com.neusoft.bbs.domain.Follow;
+import com.neusoft.bbs.domain.form.FollowForm;
 
 /***
  * 关注Dao接口
@@ -41,14 +42,36 @@ public interface FollowDao {
 	/**
 	 * 查询某userId关注的用户
 	 * @param userId
-	 * @return List<Follow>
+	 * @return List<FollowForm>
 	 */
-	List<Follow> findByUserId(Long userId);
+	List<FollowForm> findByUserId(Long userId);
 
 	/**
 	 * 查询某userId被关注的用户
 	 * @param followUserId
-	 * @return List<Follow>
+	 * @return List<FollowForm>
 	 */
-	List<Follow> findByFollowUserId(Long followUserId);
+	List<FollowForm> findByFollowUserId(Long followUserId);
+	/***
+	 * 获取最大页数
+	 * @param pageSize，每页显示信息条数
+	 * @param follow，查询条件
+	 * @return
+	 */
+	int getListPageCount(int pageSize, Follow follow);
+
+	/***
+	 * 获取最大行数
+	 * @param follow，查询条件
+	 * @return
+	 */
+	int getListRowCount(Follow follow);
+	/***
+	 * 查找关注列表（可查询关注或被关注）
+	 * @param pageSize，每页显示信息条数
+	 * @param rowNum，需要获取的页数
+	 * @param follow，查询条件
+	 * @return
+	 */
+	List<FollowForm> findFollowFormList(int pageSize, int rowNum, Follow follow);
 }
