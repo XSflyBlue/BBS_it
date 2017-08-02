@@ -1,5 +1,6 @@
 package com.neusoft.bbs.dao.impl;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import com.neusoft.bbs.commons.util.db.BeanHandler;
@@ -8,6 +9,8 @@ import com.neusoft.bbs.commons.util.db.DatabaseUtil;
 import com.neusoft.bbs.dao.CoinDao;
 import com.neusoft.bbs.domain.Coin;
 import com.neusoft.bbs.domain.CoinRecord;
+import com.neusoft.bbs.domain.form.FollowForm;
+import com.neusoft.bbs.domain.form.PageForm;
 
 /**
  * 金币DAO操作实现类
@@ -94,23 +97,68 @@ public class CoinDaoImpl implements CoinDao{
 	}
 
 	@Override
-	public CoinRecord findCoinRecord(Long coinId) {
-		// TODO Auto-generated method stub
-		return null;
+	public int getListPageCount(int pageSize, Long userId) {
+		int res = 0;
+		
+		int rowCount = getListRowCount(userId);
+		if (rowCount%pageSize==0) {
+			res = rowCount / pageSize;
+		} else {
+			res = rowCount / pageSize + 1;
+		}
+		
+		return res;
 	}
 
-//	@Override
-//	public CoinRecord findCoinRecord(Long coinId) {
-//		String sql = "select * from b_coin_record where coin_id=?";
-//		Connection con = null;
-//		Object params[] = {coinId};
-//		CoinRecord coinRecord = null;
-//		try {
-//			con = JdbcUtil_DBCP.getConnection();
-//			coinRecord = (CoinRecord)DatabaseUtil.query(con, sql, params, new BeanHandler(CoinRecord.class));
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return coinRecord;
-//	}
+	@Override
+	public int getListRowCount(Long userId) {
+		StringBuffer find_sql = new StringBuffer();
+		find_sql.append("SELECT count(*) ROW_COUNT  ");
+		Long id = null;
+		if(userId!=null){
+			id = userId;
+			find_sql.append("from b_coin a,b_coin_record b,b_user base c ");
+			find_sql.append("where a.user_id = c.user_id and a.coin_id = b.coin_id ");
+			find_sql.append("and c.user_id=? ");
+		}else{
+			return 0;
+		}
+		Object params[] = {id};
+		PageForm pageForm = null;
+		try {
+			pageForm = (PageForm) DatabaseUtil.query(find_sql.toString(), params, new BeanHandler(PageForm.class));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return pageForm.getRowCount().intValue();
+	}
+
+	@Override
+	public List<CoinRecord> findFormList(int pageSize, int rowNum, Long userId) {
+		StringBuffer find_sql = new StringBuffer();
+		Long id = null;
+		//参数确定
+		if(userId!=null){
+			find_sql.append("select b.coin_record_id,a.coin_id,b.coin_cause,b.coin_get_num,b.coin_get_time ");
+			find_sql.append("from b_coin a,b_coin_record b,b_user_base c ");
+			find_sql.append("where a.user_id = c.user_id and a.coin_id = b.coin_id ");
+			find_sql.append("and c.user_id=? ");
+			find_sql.append("order by b.coin_get_time desc");
+		}else {
+			return null;
+		}
+		// 分页SQL语句
+			String sql = "select*from (select a1.*,rownum rn from (" + find_sql.toString() + ") a1 where rownum<="
+					+ rowNum * pageSize + ") where rn>" + ((rowNum - 1) * pageSize);
+	
+			System.out.println(sql);
+			Object params[] = {id};
+			List<CoinRecord> coinRecordList = null;
+			try {
+				coinRecordList = (List<CoinRecord>) DatabaseUtil.query(sql, params, new BeanListHandler(CoinRecord.class));
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return coinRecordList;
+	}
 }

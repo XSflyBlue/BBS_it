@@ -8,6 +8,9 @@ import com.neusoft.bbs.commons.util.db.BeanListHandler;
 import com.neusoft.bbs.commons.util.db.DatabaseUtil;
 import com.neusoft.bbs.dao.CollectionDao;
 import com.neusoft.bbs.domain.Collection;
+import com.neusoft.bbs.domain.form.CollectionForm;
+import com.neusoft.bbs.domain.form.FollowForm;
+import com.neusoft.bbs.domain.form.PageForm;
 
 /**
  * 收藏帖子（Collection）实现类
@@ -93,6 +96,83 @@ public class CollectionDaoImpl implements CollectionDao {
 			e.printStackTrace();
 		}
 		return list;
+	}
+
+	@Override
+	public int getListPageCount(int pageSize, Collection collection) {
+		int res = 0;
+		int rowCount = getListRowCount(collection);
+		if (rowCount%pageSize==0) {
+			res = rowCount / pageSize;
+		} else {
+			res = rowCount / pageSize + 1;
+		}
+		return res;
+	}
+
+	@Override
+	public int getListRowCount(Collection collection) {
+		StringBuffer find_sql = new StringBuffer();
+		find_sql.append("SELECT count(*) ROW_COUNT  ");
+		Long id = null;
+		if(collection.getPostId()!=null){
+			id = collection.getPostId();
+			find_sql.append("from b_collection c,b_post p,b_user_base b ");
+			find_sql.append("where p.post_id = c.post_id and c.user_id = b.user_id ");
+			find_sql.append("and b.post_id=?");
+			
+		}else if(collection.getUserId()!=null){
+			id = collection.getUserId();
+			find_sql.append("from b_collection c,b_post p,b_user_base b ");
+			find_sql.append("where p.post_id = c.post_id and c.user_id = b.user_id ");
+			find_sql.append("and b.user_id = ?");
+		}else{
+			return 0;
+		}
+		Object params[] = {id};
+		PageForm pageForm = null;
+		try {
+			pageForm = (PageForm) DatabaseUtil.query(find_sql.toString(), params, new BeanHandler(PageForm.class));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return pageForm.getRowCount().intValue();
+	}
+
+	@Override
+	public List<CollectionForm> findFormList(int pageSize, int rowNum,Collection collection) {
+		StringBuffer find_sql = new StringBuffer();
+		Long id = null;
+		//参数确定
+		if(collection.getPostId()!=null){
+			id = collection.getPostId();
+			find_sql.append("select c.collection_id,c.user_id,c.post_id,c.collection_time,p.post_title ");
+			find_sql.append("from b_post p,b_collection c,b_user_base b ");
+			find_sql.append("p.post_id = c.post_id and c.user_id = b.user_id ");
+			find_sql.append("and p.post_id=?");
+			find_sql.append("order by c.collection_time desc");
+		}else if(collection.getUserId()!=null){
+			id = collection.getUserId();
+			find_sql.append("select c.collection_id,c.user_id,c.post_id,c.collection_time,p.post_title ");
+			find_sql.append("from b_post p,b_collection c,b_user_base b ");
+			find_sql.append("p.post_id = c.post_id and c.user_id = b.user_id ");
+			find_sql.append("and b.user_id=? ");
+			find_sql.append("order by c.collection_time desc");
+		}else {
+			return null;
+		}
+		// 分页SQL语句
+			String sql = "select * from (select a1.*,rownum rn from (" + find_sql.toString() + ") a1 where rownum<="
+					+ rowNum * pageSize + ") where rn>" + ((rowNum - 1) * pageSize);
+			System.out.println(sql);
+			Object params[] = {id};
+			List<CollectionForm> collectionFormList = null;
+			try {
+				collectionFormList = (List<CollectionForm>) DatabaseUtil.query(sql, params, new BeanListHandler(CollectionForm.class));
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return collectionFormList;
 	}
 
 }

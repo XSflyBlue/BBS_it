@@ -120,7 +120,7 @@ public class FollowDaoImpl implements FollowDao{
 		}else if(follow.getFollowUserId()!=null) {
 			id = follow.getFollowUserId();
 			
-			find_sql.append("SELECT F.FOLLOW_ID,B.USER_ID,F.NOTE,D.ICON,F.FOLLOW_USER_ID,B.USERNAME FOLLOW_USERNAME ");
+			find_sql.append("SELECT F.FOLLOW_ID,B.USER_ID,F.NOTE,D.ICON,F.FOLLOW_USER_ID,B.USERNAME ");
 			find_sql.append("FROM B_FOLLOW F,B_USER_BASE B,B_USER_DETAIL D ");
 			find_sql.append("WHERE F.USER_ID=B.USER_ID ");
 			find_sql.append("  AND B.USER_ID=D.USER_ID ");
