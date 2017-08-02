@@ -56,14 +56,14 @@ public interface CommentDao {
 	/***
 	 * 获取最大页数
 	 * @param pageSize，每页显示信息条数
-	 * @param collection，查询条件
+	 * @param comment，查询条件
 	 * @return
 	 */
 	int getListPageCount(int pageSize, Comment comment);
 
 	/***
 	 * 获取最大行数
-	 * @param collection，查询条件（帖子postId查和跟帖用户commentUserId查）
+	 * @param comment，查询条件（帖子postId查和跟帖用户commentUserId查）
 	 * @return
 	 */
 	int getListRowCount(Comment comment);
@@ -71,7 +71,7 @@ public interface CommentDao {
 	 * 查找跟帖列表（分帖子和人查）
 	 * @param pageSize，每页显示信息条数
 	 * @param rowNum，需要获取的页数
-	 * @param collection，查询条件（帖子postId查和跟帖用户commentUserId查）
+	 * @param comment，查询条件（帖子postId查和跟帖用户commentUserId查）
 	 * @return
 	 */
 	List<CommentForm> findFormList(int pageSize, int rowNum, Comment comment);

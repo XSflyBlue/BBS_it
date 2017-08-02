@@ -56,14 +56,14 @@ public interface SectionDao {
 	/***
 	 * 获取最大页数
 	 * @param pageSize，每页显示信息条数
-	 * @param collection，查询条件
+	 * @param section，查询条件
 	 * @return
 	 */
 	int getListPageCount(int pageSize, Section section);
 
 	/***
 	 * 获取最大行数
-	 * @param collection，查询条件（sectionId到moderator中areaId进行筛选）
+	 * @param section，查询条件（sectionId到moderator中areaId进行筛选）
 	 * @return
 	 */
 	int getListRowCount(Section section);
@@ -71,7 +71,7 @@ public interface SectionDao {
 	 * 查找板块管理列表（sectionId到moderator中areaId进行筛选）
 	 * @param pageSize，每页显示信息条数
 	 * @param rowNum，需要获取的页数
-	 * @param collection，查询条件（）
+	 * @param section，查询条件（）
 	 * @return
 	 */
 	List<SectionForm> findFormList(int pageSize, int rowNum, Section section);

@@ -3,6 +3,7 @@ package com.neusoft.bbs.dao;
 import java.util.List;
 
 import com.neusoft.bbs.domain.Moderator;
+import com.neusoft.bbs.domain.form.ModeratorForm;
 
 /***
  * 版主Dao接口
@@ -51,4 +52,27 @@ public interface ModeratorDao {
 	 * @return List<moderator>
 	 */
 	List<Moderator> findAll(Short moderatorType);
+	
+	/***
+	 * 获取最大页数
+	 * @param pageSize，每页显示信息条数
+	 * @param section，查询条件
+	 * @return
+	 */
+	int getListPageCount(int pageSize, Moderator moderator);
+
+	/***
+	 * 获取最大行数
+	 * @param section，查询条件（areaId查询和userId查询）
+	 * @return
+	 */
+	int getListRowCount(Moderator moderator);
+	/***
+	 * 查找区/版主管理列表（areaId查询和userId查询）
+	 * @param pageSize，每页显示信息条数
+	 * @param rowNum，需要获取的页数
+	 * @param section，查询条件（areaId查询和userId查询）
+	 * @return
+	 */
+	List<ModeratorForm> findFormList(int pageSize, int rowNum, Moderator moderator);
 }
