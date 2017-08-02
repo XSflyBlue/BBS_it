@@ -47,6 +47,11 @@ public class UserBase {
      * （注册）时间
      */
     private Date registTime;
+    
+	/**
+	 * 分页
+	 */
+	private Long rn;
 
     public Long getUserId() {
         return userId;
@@ -117,5 +122,13 @@ public class UserBase {
 		return "UserBase [userId=" + userId + ", username=" + username + ", email=" + email + ", password=" + password
 				+ ", lastLoginTime=" + lastLoginTime + ", lastLoginIp=" + lastLoginIp + ", power=" + power
 				+ ", registTime=" + registTime + "]";
+	}
+
+	public Long getRn() {
+		return rn;
+	}
+
+	public void setRn(Long rn) {
+		this.rn = rn;
 	}
 }

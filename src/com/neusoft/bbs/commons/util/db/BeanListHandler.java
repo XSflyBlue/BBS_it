@@ -42,6 +42,8 @@ public class BeanListHandler implements ResultSetHandler {
                         		 f.set(bean, bgDecimal.intValue());
                         	}else if(f.getType()==Double.class) {
                         		 f.set(bean, bgDecimal.doubleValue());
+                        	}else if(f.getType()==Short.class) {
+                        		f.set(bean, bgDecimal.shortValue());
                         	}
                         }else {
                         	f.set(bean, coulmnData);
