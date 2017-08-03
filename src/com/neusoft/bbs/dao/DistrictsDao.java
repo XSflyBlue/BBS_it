@@ -37,7 +37,14 @@ public interface DistrictsDao {
 	 * @param districtId
 	 * @return Districts
 	 */
-	Districts findByPostId(Long districtId);
+	Districts findByDistrictId(Long districtId);
+	
+	/**
+	 * 查询某districtName对应分区
+	 * @param districtName
+	 * @return Districts
+	 */
+	Districts findByDistrictName(String districtName);
 
 	/**
 	 * 查询所有分区

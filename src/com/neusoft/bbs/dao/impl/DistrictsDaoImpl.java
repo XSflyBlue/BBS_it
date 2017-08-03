@@ -58,7 +58,7 @@ public class DistrictsDaoImpl implements DistrictsDao{
 	}
 
 	@Override
-	public Districts findByPostId(Long districtId) {
+	public Districts findByDistrictId(Long districtId) {
 		Districts districts = null;
 		String sql = "select * from b_districts where district_id=?";
 		Object params[] = {districtId};
@@ -147,6 +147,12 @@ public class DistrictsDaoImpl implements DistrictsDao{
 			e.printStackTrace();
 		}
 		return followFormList;
+	}
+
+	@Override
+	public Districts findByDistrictName(String districtName) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

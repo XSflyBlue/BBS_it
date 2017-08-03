@@ -55,9 +55,9 @@ public class DistrictsServiceImpl implements DistrictsService {
 	}
 
 	@Override
-	public Districts findByPostId(Long districtId) {
+	public Districts findByDistrictId(Long districtId) {
 		Districts districts = null;
-		districts = districtsDao.findByPostId(districtId);
+		districts = districtsDao.findByDistrictId(districtId);
 		return districts;
 	}
 
@@ -87,6 +87,13 @@ public class DistrictsServiceImpl implements DistrictsService {
 		List<DistrictsForm> districtsFormList = null;
 		districtsFormList = districtsDao.findFormList(pageSize, rowNum, districts);
 		return districtsFormList;
+	}
+
+	@Override
+	public Districts findByDistrictName(String districtName) {
+		Districts districts = null;
+		districts = districtsDao.findByDistrictName(districtName);
+		return districts;
 	}
 
 }

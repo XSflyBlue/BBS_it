@@ -62,7 +62,7 @@ public class SectionDaoImpl implements SectionDao {
 	}
 
 	@Override
-	public Section findByPostId(Long sectionId) {
+	public Section findBySectionId(Long sectionId) {
 		int a = 0;
 		String sql = "select * from b_section where section_id=?";
 		Object params[] = { sectionId };
@@ -166,6 +166,12 @@ public class SectionDaoImpl implements SectionDao {
 			e.printStackTrace();
 		}
 		return sectionFormList;
+	}
+
+	@Override
+	public Section findBySectionName(String sectionName) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

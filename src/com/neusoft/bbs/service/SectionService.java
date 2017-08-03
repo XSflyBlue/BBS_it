@@ -37,7 +37,14 @@ public interface SectionService {
 	 * @param sectionId
 	 * @return Section
 	 */
-	Section findByPostId(Long sectionId);
+	Section findBySectionId(Long sectionId);
+	
+	/**
+	 * 查询某sectionName对应板块
+	 * @param sectionName
+	 * @return Section
+	 */
+	Section findBySectionName(Long sectionName);
 	
 	/**
 	 * 查询所有板块

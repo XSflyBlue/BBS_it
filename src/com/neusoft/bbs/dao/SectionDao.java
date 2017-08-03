@@ -33,11 +33,18 @@ public interface SectionDao {
 	int update(Section section);
 
 	/**
+	 * 查询某sectionName对应板块
+	 * @param sectionName
+	 * @return Section
+	 */
+	Section findBySectionName(String sectionName);
+	
+	/**
 	 * 查询某sectionId对应板块
 	 * @param sectionId
 	 * @return Section
 	 */
-	Section findByPostId(Long sectionId);
+	Section findBySectionId(Long sectionId);
 	
 	/**
 	 * 查询所有板块

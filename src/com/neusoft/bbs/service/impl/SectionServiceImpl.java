@@ -56,9 +56,9 @@ public class SectionServiceImpl implements SectionService {
 	}
 
 	@Override
-	public Section findByPostId(Long sectionId) {
+	public Section findBySectionId(Long sectionId) {
 		Section section = null;
-		section = sectionDao.findByPostId(sectionId);
+		section = sectionDao.findBySectionId(sectionId);
 		return section;
 	}
 
@@ -95,6 +95,12 @@ public class SectionServiceImpl implements SectionService {
 		List<SectionForm> sectionFormList = null;
 		sectionFormList = sectionDao.findFormList(pageSize, rowNum, section);
 		return sectionFormList;
+	}
+
+	@Override
+	public Section findBySectionName(Long sectionName) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

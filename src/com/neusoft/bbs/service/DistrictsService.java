@@ -37,7 +37,14 @@ public interface DistrictsService {
 	 * @param districtId
 	 * @return Districts
 	 */
-	Districts findByPostId(Long districtId);
+	Districts findByDistrictId(Long districtId);
+	
+	/**
+	 * 查询某districtId对应分区
+	 * @param districtId
+	 * @return Districts
+	 */
+	Districts findByDistrictName(String districtName);
 
 	/**
 	 * 查询所有分区
