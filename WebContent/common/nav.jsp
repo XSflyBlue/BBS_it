@@ -1,3 +1,5 @@
+<%@page import="com.neusoft.bbs.domain.Districts"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <div id="nav">
@@ -20,20 +22,20 @@
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav bbs_nav">
 				<li class="active"><a href='<c:url value="/"></c:url>'>首页</a></li>
-				<li><a href='<c:url value="/"></c:url>'>测试版块</a></li>
-				<li><a href='<c:url value="/"></c:url>'>测试版块</a></li>
-				<li><a href='<c:url value="/"></c:url>'>发展建议</a></li>
-				<li><a href='<c:url value="/"></c:url>'>BUG反馈</a></li>
-				<li><a href='<c:url value="/"></c:url>'>插件开发</a></li>
-				<li class="dropdown"><a href="#" class="dropdown-toggle"
-					data-toggle="dropdown" role="button" aria-haspopup="true"
-					aria-expanded="false">其他 </a>
-					<ul class="dropdown-menu">
-						<li><a href='<c:url value="/"></c:url>'>Java</a></li>
-						<li><a href='<c:url value="/"></c:url>'>C++</a></li>
-						<li><a href='<c:url value="/"></c:url>'>Python</a></li>
+				
+				<%
+				List<Districts> navs = (List<Districts>)session.getAttribute("s_districts");
+				if(navs != null && navs.size() > 0){
+					for(Districts nav: navs){
+				%>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+						<%=nav.getDistrictName()%>
+					</a>
+					<ul class="dropdown-menu j_section" id="j_section_<%=nav.getDistrictId()%>" j_val="<%=nav.getDistrictId()%>">
 					</ul>
 				</li>
+				<%} }%>
 			</ul>
 			<ul class="nav navbar-nav navbar-right bbs_nav">
 				<li><a href='<c:url value="/admin/index_admin.jsp"></c:url>'>管理入口</a></li>
@@ -75,3 +77,26 @@
 	</div>
 	<!-- /.container-fluid --> </nav>
 </div>
+<script type="text/javascript">
+	$(function(){
+		
+		var subNavs = $('.j_section');
+		var len = subNavs.length;
+		for(i=0;i < len;i++){
+			var sectionId = $(subNavs[i]).attr('j_val');
+			$.ajax({
+				type: 'POST',
+				url: '<c:url value="PageServlet?action=querySectionByDistrictId"></c:url>',
+				data:"qId="+sectionId,
+				async:false,
+				success: function(data){
+					if(data != null){
+						$(data).each(function(index,item){
+							$('#j_section_'+sectionId).append('<li><a href="#">'+item.sectionName+'</a></li>');
+						});
+					}
+				}
+			});
+		}
+	});
+</script>

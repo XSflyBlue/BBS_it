@@ -1,13 +1,17 @@
 package com.neusoft.bbs.servlet;
 
 import java.io.IOException;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import com.neusoft.bbs.commons.util.JSONUtils;
 import com.neusoft.bbs.commons.util.ServletUtils;
+import com.neusoft.bbs.domain.Districts;
+import com.neusoft.bbs.service.DistrictsService;
+import com.neusoft.bbs.service.impl.DistrictsServiceImpl;
 
 /**
  * 区块 DistrictServlet
@@ -15,13 +19,10 @@ import com.neusoft.bbs.commons.util.ServletUtils;
 @WebServlet("/DistrictServlet")
 public class DistrictServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	private DistrictsService districtsService = DistrictsServiceImpl.getInstance();
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
     public DistrictServlet() {
-        super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -49,5 +50,4 @@ public class DistrictServlet extends HttpServlet {
 			//
 		}
 	}
-
 }
