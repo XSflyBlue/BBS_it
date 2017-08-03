@@ -1,6 +1,7 @@
 package com.neusoft.bbs.dao.impl;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.neusoft.bbs.commons.util.db.BeanHandler;
@@ -114,22 +115,18 @@ public class CollectionDaoImpl implements CollectionDao {
 	public int getListRowCount(Collection collection) {
 		StringBuffer find_sql = new StringBuffer();
 		find_sql.append("SELECT count(*) ROW_COUNT  ");
-		Long id = null;
-		if(collection.getPostId()!=null){
-			id = collection.getPostId();
+		Long postId = null;
+		Long userId = null;
+		if(collection.getPostId()!=null &&collection.getUserId()!=null){
+			postId = collection.getPostId();
+			userId = collection.getUserId();
 			find_sql.append("from b_collection c,b_post p,b_user_base b ");
 			find_sql.append("where p.post_id = c.post_id and c.user_id = b.user_id ");
-			find_sql.append("and b.post_id=?");
-			
-		}else if(collection.getUserId()!=null){
-			id = collection.getUserId();
-			find_sql.append("from b_collection c,b_post p,b_user_base b ");
-			find_sql.append("where p.post_id = c.post_id and c.user_id = b.user_id ");
-			find_sql.append("and b.user_id = ?");
+			find_sql.append("and p.post_id=? and b.user_id = ?");
 		}else{
 			return 0;
 		}
-		Object params[] = {id};
+		Object params[] = {postId,userId};
 		PageForm pageForm = null;
 		try {
 			pageForm = (PageForm) DatabaseUtil.query(find_sql.toString(), params, new BeanHandler(PageForm.class));
@@ -142,22 +139,34 @@ public class CollectionDaoImpl implements CollectionDao {
 	@Override
 	public List<CollectionForm> findFormList(int pageSize, int rowNum,Collection collection) {
 		StringBuffer find_sql = new StringBuffer();
-		Long id = null;
+		Long userId = null;
+		Long postId = null;
+		List<Object> object = new ArrayList<Object>();
+		
+		find_sql.append("select c.COLLECT_ID,c.user_id,c.post_id,c.COLLECT_TIME,p.post_title ");
+		find_sql.append("from b_post p,b_collection c,b_user_base b  ");
+		find_sql.append("where p.post_id = c.post_id and c.user_id = b.user_id ");
 		//参数确定
 		if(collection.getPostId()!=null){
-			id = collection.getPostId();
-			find_sql.append("select c.collection_id,c.user_id,c.post_id,c.collection_time,p.post_title ");
-			find_sql.append("from b_post p,b_collection c,b_user_base b ");
-			find_sql.append("p.post_id = c.post_id and c.user_id = b.user_id ");
-			find_sql.append("and p.post_id=?");
-			find_sql.append("order by c.collection_time desc");
+			postId = collection.getPostId();
+			object.add(postId);
+			find_sql.append("and p.post_id=? ");
+			if(collection.getUserId()!=null){
+				userId = collection.getUserId();
+				object.add(userId);
+				find_sql.append("and and b.user_id=? ");
+			}
+			find_sql.append("order by c.COLLECT_TIME desc ");
 		}else if(collection.getUserId()!=null){
-			id = collection.getUserId();
-			find_sql.append("select c.collection_id,c.user_id,c.post_id,c.collection_time,p.post_title ");
-			find_sql.append("from b_post p,b_collection c,b_user_base b ");
-			find_sql.append("p.post_id = c.post_id and c.user_id = b.user_id ");
-			find_sql.append("and b.user_id=? ");
-			find_sql.append("order by c.collection_time desc");
+			userId = collection.getUserId();
+			object.add(userId);
+			find_sql.append("and and b.user_id=? ");
+			if(collection.getPostId()!=null){
+				postId = collection.getPostId();
+				object.add(postId);
+				find_sql.append("and p.post_id=? ");
+			}
+			find_sql.append("order by c.COLLECT_TIME desc ");
 		}else {
 			return null;
 		}
@@ -165,7 +174,7 @@ public class CollectionDaoImpl implements CollectionDao {
 			String sql = "select * from (select a1.*,rownum rn from (" + find_sql.toString() + ") a1 where rownum<="
 					+ rowNum * pageSize + ") where rn>" + ((rowNum - 1) * pageSize);
 			System.out.println(sql);
-			Object params[] = {id};
+			Object params[] = object.toArray();
 			List<CollectionForm> collectionFormList = null;
 			try {
 				collectionFormList = (List<CollectionForm>) DatabaseUtil.query(sql, params, new BeanListHandler(CollectionForm.class));
