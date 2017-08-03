@@ -56,7 +56,7 @@ public interface PostDao {
 
 	/***
 	 * 获取最大行数
-	 * @param post，查询条件（sectionId查询和userId查询）
+	 * @param post，查询条件（sectionId查询、userId查询、isElite查询、postTitle查询）
 	 * @return
 	 */
 	int getListRowCount(Post post);

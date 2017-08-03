@@ -1,12 +1,16 @@
 package com.neusoft.bbs.dao.impl;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
+import com.neusoft.bbs.commons.util.db.BeanHandler;
 import com.neusoft.bbs.commons.util.db.BeanListHandler;
 import com.neusoft.bbs.commons.util.db.DatabaseUtil;
 import com.neusoft.bbs.dao.PostDao;
 import com.neusoft.bbs.domain.Post;
+import com.neusoft.bbs.domain.form.PageForm;
+import com.neusoft.bbs.domain.form.PostForm;
 
 /**
  * PostDAO实现类
@@ -63,7 +67,7 @@ public class PostDaoImpl implements PostDao {
 			res = DatabaseUtil.update(sql, params);
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}	
+		}
 		return res;
 	}
 
@@ -91,6 +95,121 @@ public class PostDaoImpl implements PostDao {
 			e.printStackTrace();
 		}
 		return list;
+	}
+
+	@Override
+	public int getListPageCount(int pageSize, Post post) {
+		int res = 0;
+		int rowCount = getListRowCount(post);
+		if (rowCount % pageSize == 0) {
+			res = rowCount / pageSize;
+		} else {
+			res = rowCount / pageSize + 1;
+		}
+		return res;
+	}
+
+	@Override
+	public int getListRowCount(Post post) {
+		StringBuffer find_sql = new StringBuffer();
+		find_sql.append("SELECT COUNT(*) ROW_COUNT");
+		find_sql.append(" FROM B_POST");
+		find_sql.append(" WHERE 1=1");
+		Long id = null;
+		String str = null;
+		List<Object> arrList = new ArrayList<Object>();
+		if (post.getSectionId() != null) {
+			// 根据版块ID查询
+			id = post.getSectionId();
+			find_sql.append(" AND SECTION_ID=?");
+			arrList.add(id);
+		}
+		if (post.getUserId() != null) {
+			// 根据用户ID查询
+			id = post.getUserId();
+			find_sql.append(" AND USER_ID=?");
+			arrList.add(id);
+		}
+		if (post.getIsElite() != null) {
+			// 查询精华帖
+			id = post.getIsElite().longValue();
+			find_sql.append(" AND IS_ELITE=?");
+			arrList.add(id);
+		}
+		if (post.getPostTitle() != null) {
+			// 根据标题查询
+			str = post.getPostTitle();
+			find_sql.append(" AND POST_TITLE=?");
+			arrList.add(str);
+		}
+		// 按时间排序
+		if (post.getEditTime() != null) {
+			find_sql.append(" ORDER BY EDIT_TIME DESC");
+		} else {
+			find_sql.append(" OEDER BY ISSUE_TIME DESC");
+		}
+
+		Object params[] = arrList.toArray();
+		PageForm pageForm = null;
+		try {
+			pageForm = (PageForm) DatabaseUtil.query(find_sql.toString(), params, new BeanHandler(PageForm.class));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return pageForm.getRowCount().intValue();
+	}
+
+	@Override
+	public List<PostForm> findFormList(int pageSize, int rowNum, Post post) {
+		StringBuffer find_sql = new StringBuffer();
+		find_sql.append("SELECT P.*,B.USERNAME USER_NAME");
+		find_sql.append(" FROM B_POST P,B_USER_BASE B");
+		find_sql.append(" WHERE P.USER_ID = B.USER_ID");
+		Long id = null;
+		String str = null;
+		List<Object> arrList = new ArrayList<Object>();
+		if (post.getSectionId() != null) {
+			// 根据版块ID查询
+			id = post.getSectionId();
+			find_sql.append(" AND SECTION_ID=?");
+			arrList.add(id);
+		}
+		if (post.getUserId() != null) {
+			// 根据用户ID查询
+			id = post.getUserId();
+			find_sql.append(" AND USER_ID=?");
+			arrList.add(id);
+		}
+		if (post.getIsElite() != null) {
+			// 查询精华帖
+			id = post.getIsElite().longValue();
+			find_sql.append(" AND IS_ELITE=?");
+			arrList.add(id);
+		}
+		if (post.getPostTitle() != null) {
+			// 根据标题查询
+			str = post.getPostTitle();
+			find_sql.append(" AND POST_TITLE=?");
+			arrList.add(str);
+		}
+		// 按时间排序
+		if (post.getEditTime() != null) {
+			find_sql.append(" ORDER BY EDIT_TIME DESC");
+		} else {
+			find_sql.append(" OEDER BY ISSUE_TIME DESC");
+		}
+		
+		// 分页SQL语句
+		String sql = "select * farom (select a1.*,rownum rn from (" + find_sql.toString() + ") a1 where rownum<="
+				+ rowNum * pageSize + ") where rn>" + ((rowNum - 1) * pageSize);
+		Object params[] = arrList.toArray();
+		List<PostForm> postFormList = new ArrayList<PostForm>();
+		try {
+			postFormList = (List)DatabaseUtil.query(sql, params, new BeanListHandler(PostForm.class));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return postFormList;
 	}
 
 }
