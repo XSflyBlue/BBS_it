@@ -26,7 +26,7 @@
 			<form action='<c:url value="/UserServlet?action=regist"></c:url>' method="post">
 			  <div class="form-group">
 			    <label for="userName">用户名</label>
-			    <input type="text" name="username" class="form-control" id="userName" placeholder="支持英文、数字和下划线，6-12位">
+			    <input type="text" name="username" class="form-control" id="userName" placeholder="支持中英文、数字和下划线，4-12位">
 			  </div>
 			   <div class="form-group">
 			    <label for="eMail">邮箱</label>

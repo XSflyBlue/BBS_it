@@ -117,14 +117,6 @@
 								    <input type="text" class="form-control">
 								  </div>
 								  <button type="button" class="btn btn-info">查询</button>
-								   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-								  <div class="form-group">
-								  	<label> 区块状态:</label>
-								  	<select class="form-control">
-									  <option>正常</option>
-									  <option>禁用</option>
-									</select>
-								  </div>
 								</form>
 								<br>
 								<table class="table">
