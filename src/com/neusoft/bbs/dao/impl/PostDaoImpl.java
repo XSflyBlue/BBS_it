@@ -146,9 +146,10 @@ public class PostDaoImpl implements PostDao {
 		if (post.getEditTime() != null) {
 			find_sql.append(" ORDER BY EDIT_TIME DESC");
 		} else {
-			find_sql.append(" OEDER BY ISSUE_TIME DESC");
+			find_sql.append(" ORDER BY ISSUE_TIME DESC");
 		}
 
+		System.out.println(find_sql.toString());
 		Object params[] = arrList.toArray();
 		PageForm pageForm = null;
 		try {
@@ -196,11 +197,11 @@ public class PostDaoImpl implements PostDao {
 		if (post.getEditTime() != null) {
 			find_sql.append(" ORDER BY EDIT_TIME DESC");
 		} else {
-			find_sql.append(" OEDER BY ISSUE_TIME DESC");
+			find_sql.append(" ORDER BY ISSUE_TIME DESC");
 		}
 		
 		// 分页SQL语句
-		String sql = "select * farom (select a1.*,rownum rn from (" + find_sql.toString() + ") a1 where rownum<="
+		String sql = "select * from (select a1.*,rownum rn from (" + find_sql.toString() + ") a1 where rownum<="
 				+ rowNum * pageSize + ") where rn>" + ((rowNum - 1) * pageSize);
 		Object params[] = arrList.toArray();
 		System.out.println(sql);

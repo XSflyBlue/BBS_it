@@ -43,7 +43,9 @@ public class BeanHandler implements ResultSetHandler {
                     	}else if(f.getType()==Short.class) {
                     		f.set(bean, bgDecimal.shortValue());
                     	}
-                    }else {
+                    }else if(coulmnData.getClass()==oracle.sql.CLOB.class) {
+                    	f.set(bean, OracleTypeUtil.ClobToString((java.sql.Clob)coulmnData));
+                	}else {
                     	f.set(bean, coulmnData);
                     }
                 }
