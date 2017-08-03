@@ -1,6 +1,7 @@
 package com.neusoft.bbs.dao.impl;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.neusoft.bbs.commons.util.db.BeanHandler;
@@ -11,6 +12,8 @@ import com.neusoft.bbs.domain.Section;
 import com.neusoft.bbs.domain.form.FollowForm;
 import com.neusoft.bbs.domain.form.PageForm;
 import com.neusoft.bbs.domain.form.SectionForm;
+
+import oracle.net.aso.f;
 
 /**
  * 板块Dao实现类
@@ -117,16 +120,36 @@ public class SectionDaoImpl implements SectionDao {
 	public int getListRowCount(Section section) {
 		StringBuffer find_sql = new StringBuffer();
 		find_sql.append("SELECT count(*) ROW_COUNT ");
+		find_sql.append("FROM B_SECTION");
+		find_sql.append(" WHERE 1=1");
 		Long id = null;
+		String str = null;
+		List<Object> arrList = new ArrayList<Object>();
 		// 参数确定
 		if (section.getSectionId() != null) {
+			// sectionId查询
 			id = section.getSectionId();
-			find_sql.append("FROM B_SECTION ");
-			find_sql.append("WHERE SECTION_ID=?");
-		} else {
-			return 0;
+			find_sql.append(" AND SECTION_ID=?");
+			arrList.add(id);
 		}
-		Object params[] = { id };
+		if (section.getSectionName() != null) {
+			// sectionName查询
+			str = section.getSectionName();
+			find_sql.append(" AND SECTION_NAME=?");
+			arrList.add(str);
+		}
+		if (section.getIsShow() != null) {
+			// isShow查询
+			id = section.getIsShow().longValue();
+			find_sql.append(" AND IS_SHOW=?");
+			arrList.add(id);
+		}
+		if (section.getDistrictId() != null) {
+			// districtId查询
+			id = section.getDistrictId();
+			find_sql.append(" AND DISTRICT_ID=?");
+		}
+		Object params[] = arrList.toArray();
 		PageForm pageForm = null;
 		try {
 			pageForm = (PageForm) DatabaseUtil.query(find_sql.toString(), params, new BeanHandler(PageForm.class));
@@ -139,29 +162,53 @@ public class SectionDaoImpl implements SectionDao {
 	@Override
 	public List<SectionForm> findFormList(int pageSize, int rowNum, Section section) {
 		StringBuffer find_sql = new StringBuffer();
+		find_sql.append(
+				"SELECT S.SECTION_ID,S.SECTION_NAME,S.IS_SHOW,S.DISTRICT_ID,S.SECTION_DESCRI,COUNT (M.USER_ID) ADMIN_NUM");
+		find_sql.append(" FROM B_SECTION S,B_MODERATOR M");
+		find_sql.append(" WHERE M.AREA_ID = S.SECTION_ID");
+
+		List<Object> arrList = new ArrayList<Object>();
 		Long id = null;
-		// 参数确定
-		if (section.getSectionId() != null) {
-			id = section.getSectionId();
-			find_sql.append(
-					"SELECT S.SECTION_ID,S.SECTION_NAME,S.IS_SHOW,S.DISTRICT_ID,S.SECTION_DESCRI,COUNT (M.USER_ID) ADMIN_NUM");
-			find_sql.append(" FROM B_SECTION S,B_MODERATOR M");
-			find_sql.append(" WHERE S.SECTION_ID = ?");
-			find_sql.append(" AND M .MODERATOR_TYPE = 0");
-			find_sql.append(" AND M .AREA_ID = S.SECTION_ID");
-			find_sql.append(" GROUP BY S.SECTION_ID,SECTION_NAME,S.IS_SHOW,S.DISTRICT_ID,S.SECTION_DESCRI;");
-		} else {
-			return null;
+		String str = null;
+		if (section != null) {
+			//section 不为空情况
+			// 参数确定
+			if (section.getSectionId() != null) {
+				id = section.getSectionId();
+				find_sql.append(" AND S.SECTION_ID = ?");
+				find_sql.append(" AND M.MODERATOR_TYPE = 0");
+				arrList.add(id);
+			}
+			if (section.getSectionName() != null) {
+				// sectionName查询
+				str = section.getSectionName();
+				find_sql.append(" AND SECTION_NAME=?");
+				arrList.add(str);
+			}
+			if (section.getIsShow() != null) {
+				// isShow查询
+				id = section.getIsShow().longValue();
+				find_sql.append(" AND IS_SHOW=?");
+				arrList.add(id);
+			}
+			if (section.getDistrictId() != null) {
+				// districtId查询
+				id = section.getDistrictId();
+				find_sql.append(" AND DISTRICT_ID=?");
+			}
 		}
+		find_sql.append(" GROUP BY S.SECTION_ID,SECTION_NAME,S.IS_SHOW,S.DISTRICT_ID,S.SECTION_DESCRI");
+
 		// 分页SQL语句
-		String sql = "select*from (select a1.*,rownum rn from (" + find_sql.toString() + ") a1 where rownum<="
+		String sql = "select * from (select a1.*,rownum rn from (" + find_sql.toString() + ") a1 where rownum<="
 				+ rowNum * pageSize + ") where rn>" + ((rowNum - 1) * pageSize);
 
 		System.out.println(sql);
-		Object params[] = { id };
+		Object params[] = arrList.toArray();
 		List<SectionForm> sectionFormList = null;
 		try {
-			sectionFormList = (List<SectionForm>) DatabaseUtil.query(sql, params, new BeanListHandler(FollowForm.class));
+			sectionFormList = (List<SectionForm>) DatabaseUtil.query(sql, params,
+					new BeanListHandler(SectionForm.class));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -172,9 +219,9 @@ public class SectionDaoImpl implements SectionDao {
 	public Section findBySectionName(String sectionName) {
 		Section section = null;
 		String sql = "select * from b_section where section_name=?";
-		Object params[] = {sectionName};
+		Object params[] = { sectionName };
 		try {
-			section = (Section)DatabaseUtil.query(sql, params, new BeanHandler(Section.class));
+			section = (Section) DatabaseUtil.query(sql, params, new BeanHandler(Section.class));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
