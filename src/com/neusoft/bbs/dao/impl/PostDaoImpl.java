@@ -135,6 +135,11 @@ public class PostDaoImpl implements PostDao {
 			id = post.getIsElite().longValue();
 			find_sql.append(" AND IS_ELITE=?");
 			arrList.add(id);
+		}else {
+			//是否置顶
+			id = post.getIsOverhead().longValue();
+			find_sql.append(" AND IS_OVERHEAD=?");
+			arrList.add(id);
 		}
 		if (post.getIsHidden() != null) {
 			// 根据是否隐藏查询
@@ -148,6 +153,7 @@ public class PostDaoImpl implements PostDao {
 			find_sql.append(" AND POST_TITLE=?");
 			arrList.add(str);
 		}
+		
 		// 按时间排序
 		if (post.getEditTime() != null) {
 			find_sql.append(" ORDER BY EDIT_TIME DESC");
@@ -155,7 +161,7 @@ public class PostDaoImpl implements PostDao {
 			find_sql.append(" ORDER BY ISSUE_TIME DESC");
 		}
 
-		System.out.println(find_sql.toString());
+//		System.out.println(find_sql.toString());
 		Object params[] = arrList.toArray();
 		PageForm pageForm = null;
 		try {
@@ -192,6 +198,11 @@ public class PostDaoImpl implements PostDao {
 			id = post.getIsElite().longValue();
 			find_sql.append(" AND IS_ELITE=?");
 			arrList.add(id);
+		}else {
+			//是否置顶
+			id = post.getIsOverhead().longValue();
+			find_sql.append(" AND IS_OVERHEAD=?");
+			arrList.add(id);
 		}
 		if (post.getIsHidden() != null) {
 			// 根据是否隐藏查询
@@ -205,6 +216,7 @@ public class PostDaoImpl implements PostDao {
 			find_sql.append(" AND POST_TITLE=?");
 			arrList.add(str);
 		}
+
 		// 按时间排序
 		if (post.getEditTime() != null) {
 			find_sql.append(" ORDER BY EDIT_TIME DESC");
@@ -216,7 +228,7 @@ public class PostDaoImpl implements PostDao {
 		String sql = "select * from (select a1.*,rownum rn from (" + find_sql.toString() + ") a1 where rownum<="
 				+ rowNum * pageSize + ") where rn>" + ((rowNum - 1) * pageSize);
 		Object params[] = arrList.toArray();
-		System.out.println(arrList);
+//		System.out.println(arrList);
 		List<PostForm> postFormList = new ArrayList<PostForm>();
 		try {
 			postFormList = (List)DatabaseUtil.query(sql, params, new BeanListHandler(PostForm.class));
