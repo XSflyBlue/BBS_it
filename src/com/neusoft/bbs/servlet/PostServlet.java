@@ -10,14 +10,19 @@ import javax.servlet.http.HttpServletResponse;
 import com.neusoft.bbs.commons.struct.Msg;
 import com.neusoft.bbs.commons.util.JSONUtils;
 import com.neusoft.bbs.commons.util.ServletUtils;
+import com.neusoft.bbs.domain.Collection;
 import com.neusoft.bbs.domain.Comment;
 import com.neusoft.bbs.domain.Post;
+import com.neusoft.bbs.domain.form.CollectionForm;
 import com.neusoft.bbs.domain.form.CommentForm;
 import com.neusoft.bbs.domain.form.PostForm;
+import com.neusoft.bbs.domain.json.CollectionJson;
 import com.neusoft.bbs.domain.json.CommentJson;
 import com.neusoft.bbs.domain.json.PostJson;
+import com.neusoft.bbs.service.CollectionService;
 import com.neusoft.bbs.service.CommentService;
 import com.neusoft.bbs.service.PostService;
+import com.neusoft.bbs.service.impl.CollectionServiceImpl;
 import com.neusoft.bbs.service.impl.CommentServiceImpl;
 import com.neusoft.bbs.service.impl.PostServiceImpl;
 
@@ -255,5 +260,98 @@ public class PostServlet extends HttpServlet {
 		JSONUtils.writeJSON(response, commentJson);
 	}
 
+	/**
+	 * 查看用户最近发布的贴子(top10)根据userId
+	 * @param request
+	 * @param response
+	 */
+	private void findRecentPost10byUserId(HttpServletRequest request, HttpServletResponse response) {
+		//参数声明
+		String uId;  //板块ID（前端参数）
+		int pageSize;//页面大小
+		int pageNum; //所需页数
+		Post post;   //所需封装参数
+		PostJson postJson;//json结构
+		//获取并处理参数
+		uId = request.getParameter("uId");
+		//所需封装参数封装
+		post = new Post();
+		try {
+			if(uId!=null) {
+				post.setUserId(Long.parseLong(uId));
+			}
+			pageSize = Integer.parseInt(request.getParameter("pageSize"));
+			pageNum = Integer.parseInt(request.getParameter("pageNum"));
+		} catch (Exception e) {
+			pageSize = 10;
+			pageNum = 1;
+		}
+
+//		post.setIsHidden(Short.parseShort("1"));//除去隐藏贴
+		//获取服务
+		PostService postService = PostServiceImpl.getInstance();
+		postJson = new PostJson();
+		//获取分页结果
+		postJson.setPostFormList(postService.findFormList(pageSize, pageNum, post));
+		//获取最大页数
+		postJson.setMaxPage(postService.getListPageCount(pageSize, post));
+		//传回json
+		JSONUtils.writeJSON(response, postJson);
+	}
+
+	/***
+	 * 查看用户收藏的贴子
+	 * @param request
+	 * @param response
+	 */
+	private void findCollectionPostbyUserId(HttpServletRequest request, HttpServletResponse response) {
+		//参数声明
+		String uId;  //板块ID（前端参数）
+		int pageSize;//页面大小
+		int pageNum; //所需页数
+		Collection collection;   //所需封装参数
+		CollectionJson collectionJson;
+		//获取并处理参数
+		uId = request.getParameter("uId");
+		//所需封装参数封装
+		collection = new Collection();
+		try {
+			if(uId!=null) {
+				collection.setUserId(Long.parseLong(uId));
+			}
+			pageSize = Integer.parseInt(request.getParameter("pageSize"));
+			pageNum = Integer.parseInt(request.getParameter("pageNum"));
+		} catch (Exception e) {
+			pageSize = 10;
+			pageNum = 1;
+		}
+
+		//获取服务
+		CollectionService collectionService = CollectionServiceImpl.getInstance();
+		collectionJson = new CollectionJson();
+		//获取分页结果
+		collectionJson.setCollectionFormList((collectionService.findFormList(pageSize, pageNum, collection)));
+		//获取最大页数
+		collectionJson.setMaxPage(collectionService.getListPageCount(pageSize, collection));
+		//传回json
+		JSONUtils.writeJSON(response, collectionJson);
+	}
+
+	/**
+	 * 发布贴子
+	 * @param request
+	 * @param response
+	 */
+	private void addPost(HttpServletRequest request, HttpServletResponse response) {
+		
+	}
 	
+	/**
+	 * 更新贴子
+	 * @param request
+	 * @param response
+	 */
+	private void updatePost(HttpServletRequest request, HttpServletResponse response) {
+		
+	}
 }

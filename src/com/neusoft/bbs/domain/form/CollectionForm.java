@@ -11,7 +11,7 @@ import com.neusoft.bbs.domain.Collection;
  */
 public class CollectionForm {
 	
-	private Long collectionId;
+	private Long collectId;
 	/***
 	 * 用户ID
 	 */
@@ -35,12 +35,7 @@ public class CollectionForm {
 	 * 分頁
 	 */
 	private Long rn;
-	public Long getCollectionId() {
-		return collectionId;
-	}
-	public void setCollectionId(Long collectionId) {
-		this.collectionId = collectionId;
-	}
+
 	public Long getUserId() {
 		return userId;
 	}
@@ -73,9 +68,15 @@ public class CollectionForm {
 	}
 	@Override
 	public String toString() {
-		return "CollectionForm [collectionId=" + collectionId + ", userId="
+		return "CollectionForm [collectId=" + collectId + ", userId="
 				+ userId + ", postId=" + postId + ", collectTime="
 				+ collectTime + ", postTitle=" + postTitle + ", rn=" + rn + "]";
+	}
+	public Long getCollectId() {
+		return collectId;
+	}
+	public void setCollectId(Long collectId) {
+		this.collectId = collectId;
 	}
 	
 }
