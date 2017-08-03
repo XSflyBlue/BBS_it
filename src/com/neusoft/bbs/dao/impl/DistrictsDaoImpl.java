@@ -1,6 +1,7 @@
 package com.neusoft.bbs.dao.impl;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.neusoft.bbs.commons.util.db.BeanHandler;
@@ -124,22 +125,33 @@ public class DistrictsDaoImpl implements DistrictsDao{
 			Districts districts) {
 		StringBuffer find_sql = new StringBuffer();
 		Long id = null;
+		String districtName = null;//区块名字
+		List<Object> object = new ArrayList<Object>();
+		
+		find_sql.append("select d.district_id,d.district_name,d.district_descri,count(m.user_id) ADMIN_NUM ");
+		find_sql.append("from b_districts d,b_moderator m ");
+		find_sql.append("where d.district_id = m.area_id ");
 		//参数确定
 		if(districts.getDistrictId()!=null){
 			id = districts.getDistrictId();
-			find_sql.append("select d.district_id,d.district_name,d.district_descri,count(m.user_id) ADMIN_NUM ");
-			find_sql.append("from b_districts d,b_moderator m ");
-			find_sql.append("where d.district_id = m.area_id and d.district_id=? ");
-			find_sql.append("GROUP BY D .district_id,D .district_name,D .district_descri");
-		}else{
-			return null;
+			object.add(id);
+			find_sql.append(" and d.district_id=? ");
 		}
+		if(districts.getDistrictName()!=null){
+			districtName = districts.getDistrictName();
+			object.add(districtName);
+			find_sql.append("and d.district_name=? ");
+			
+		}
+		find_sql.append("GROUP BY D .district_id,D .district_name,D .district_descri");
+		
 		// 分页SQL语句
 		String sql = "select*from (select a1.*,rownum rn from (" + find_sql.toString() + ") a1 where rownum<="
 				+ rowNum * pageSize + ") where rn>" + ((rowNum - 1) * pageSize);
 
 		System.out.println(sql);
-		Object params[] = {id};
+		Object params[] = object.toArray();
+	
 		List<DistrictsForm> followFormList = null;
 		try {
 			followFormList = (List<DistrictsForm>) DatabaseUtil.query(sql, params, new BeanListHandler(DistrictsForm.class));
@@ -161,5 +173,4 @@ public class DistrictsDaoImpl implements DistrictsDao{
 		}
 		return districts;
 	}
-
 }

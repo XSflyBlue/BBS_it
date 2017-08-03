@@ -2,6 +2,7 @@ package com.neusoft.bbs.servlet;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -80,17 +81,29 @@ public class DistrictServlet extends HttpServlet {
 	 * @param request
 	 * @param response
 	 */
-	private void findById(HttpServletRequest request,HttpServletResponse response){
-		Long id = Long.parseLong(request.getParameter("qId"));
+	private void findById(HttpServletRequest request,HttpServletResponse response) {
+		Long id = null;
 		Districts districts = new Districts();
 		DistrictsForm districtsForm = null;
-		if(id!=null){
-			districts.setDistrictId(id);
-			districtsForm = distService.findFormList(1, 1, districts).get(0);
-			request.getSession().setAttribute("districtsForm", districtsForm);
-		}else{
-			JSONUtils.writeJSON(response, new Msg(0, "您输入的id为空！"));
-		}
+		// 获取页面传入的参数
+		String distrId = request.getParameter("qId");
+		System.out.println(distrId);
+		if (distrId != null) {
+			// 判断获取到的id是否为数字
+			Pattern pattern = Pattern.compile("^-?[0-9]+");
+			if (pattern.matcher(distrId).matches()) {
+				id = Long.parseLong(distrId);
+				districts.setDistrictId(id);
+				districtsForm = distService.findFormList(1, 1, districts).get(0);// 显示一条数据
+			} 
+//			else {
+//				JSONUtils.writeJSON(response, new Msg(0, "您输入的id不是数字！"));
+//			}
+		} 
+//		else {
+//			JSONUtils.writeJSON(response, new Msg(0, "您输入的id为空！"));
+//		}
+		JSONUtils.writeJSON(response, districtsForm);
 	}
 	/**
 	 * 根据名字查找区块
@@ -99,11 +112,41 @@ public class DistrictServlet extends HttpServlet {
 	 */
 	private void findByName(HttpServletRequest request,HttpServletResponse response){
 		String districtName = request.getParameter("qName");
-		Districts districtsForm = null;
-//		if(districtName!=null){
-//			Districts districts = new Districts();
-//			
-//			districtsForm = distService.findFormList(1, 1, districts);
+		Districts districts = new Districts();
+		DistrictsForm districtsForm = null;
+		if(districtName!=null&&!districtName.trim().equals("")){
+			districts.setDistrictName(districtName);
+			districtsForm = distService.findFormList(1, 1, districts).get(0);
+			System.out.println("districtsForm:"+districtsForm);
+		}
+//		else{
+//			JSONUtils.writeJSON(response, new Msg(0, "您输入的区名为空！"));
 //		}
+		JSONUtils.writeJSON(response, districtsForm);
+	}
+	/**
+	 * 修改区块 =bbbb&districtName=xxx&districtDescri=oo
+	 * @param request
+	 * @param response
+	 */
+	private void update(HttpServletRequest request,HttpServletResponse response){
+		Districts districts = new Districts();
+		String districtId = request.getParameter("districtId");
+		String districtName = request.getParameter("districtName");
+		String districtDescri = request.getParameter("districtDescri");
+		districts.setDistrictId(Long.valueOf(districtId));
+		districts.setDistrictName(districtName);
+		districts.setDistrictDescri(districtDescri);
+		if(districts!=null){
+			int i = distService.setDistricts(districts);
+			if(i==1){
+				JSONUtils.writeJSON(response, new Msg(1, "修改区块信息成功！") );
+			}else{
+				JSONUtils.writeJSON(response, new Msg(0, "修改区块信息失败！") );
+			}
+			
+		}else{
+			JSONUtils.writeJSON(response, new Msg(0, "修改区块信息失败！") );
+		}
 	}
 }
