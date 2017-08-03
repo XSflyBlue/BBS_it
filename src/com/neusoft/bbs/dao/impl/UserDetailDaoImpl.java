@@ -96,9 +96,9 @@ public class UserDetailDaoImpl implements UserDetailDao {
 	@Override
 	public UserForm findUserForm(Long userId) {
 		String sql = "SELECT B.USER_ID,B.USERNAME,B.EMAIL,B.PASSWORD,B.LAST_LOGIN_TIME,B.LAST_LOGIN_IP,B.POWER,B.REGIST_TIME,D.ICON,D.SEX,D.SIGNATURE,D.INTRO,D.BIRTHDAY,D.REGION,D.WEBSITE,D.QQ,E.exp_num,L.level_name,C.coin_num "
-				+ "from b_user_base B,b_user_detail D,b_exp E,b_level L,b_coin C " + "where B.user_id=D.user_id"
-				+ " and D.user_id=E.user_id" + " and L.level_id=E.level_id" + " and E.user_id=C.user_id"
-				+ " and C.user_id=?";
+				+ "from b_user_base B,b_user_detail D,b_exp E,b_level L,b_coin C " + "where "
+				+ "B.user_id = D .user_id (+) AND D .user_id = E .user_id (+) "
+				+ "AND L.level_id (+) = E .level_id AND E .user_id = C.user_id (+) AND B.user_id = ?";
 		Object params[] = { userId };
 		UserForm userForm = null;
 		try {
