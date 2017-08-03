@@ -81,6 +81,8 @@ public class PostServlet extends HttpServlet {
 		//所需封装参数封装
 		post = new Post();
 		post.setSectionId(Long.parseLong(bId));
+		post.setIsHidden(Short.parseShort("1"));//除去隐藏贴
+		post.setIsOverhead(Short.parseShort("1"));//置顶
 		//获取服务
 		PostService postService = PostServiceImpl.getInstance();
 		postJson = new PostJson();
@@ -90,5 +92,87 @@ public class PostServlet extends HttpServlet {
 		postJson.setMaxPage(postService.getListPageCount(pageSize, post));
 		//传回json
 		JSONUtils.writeJSON(response, postJson);
+	}
+	
+	/**
+	 * 获取版块普通贴
+	 * @param request
+	 * @param response
+	 */
+	private void findOrdinaryPost(HttpServletRequest request, HttpServletResponse response) {
+		//参数声明
+		String bId;  //板块ID（前端参数）
+		int pageSize;//页面大小
+		int pageNum; //所需页数
+		Post post;   //所需封装参数
+		PostJson postJson;//json结构
+		//获取并处理参数
+		bId = request.getParameter("bId");
+		try {
+			pageSize = Integer.parseInt(request.getParameter("pageSize"));
+			pageNum = Integer.parseInt(request.getParameter("pageNum"));
+		} catch (Exception e) {
+			pageSize = 10;
+			pageNum = 1;
+		}
+		//所需封装参数封装
+		post = new Post();
+		post.setIsHidden(Short.parseShort("1"));//除去隐藏贴
+		post.setIsOverhead(Short.parseShort("0"));//置顶
+		//获取服务
+		PostService postService = PostServiceImpl.getInstance();
+		postJson = new PostJson();
+		//获取分页结果
+		postJson.setPostFormList(postService.findFormList(pageSize, pageNum, post));
+		//获取最大页数
+		postJson.setMaxPage(postService.getListPageCount(pageSize, post));
+		//传回json
+		JSONUtils.writeJSON(response, postJson);
+	}
+	
+	/**
+	 * 获取版块精华贴
+	 * @param request
+	 * @param response
+	 */
+	private void findElitePost(HttpServletRequest request, HttpServletResponse response) {
+		//参数声明
+		String bId;  //板块ID（前端参数）
+		int pageSize;//页面大小
+		int pageNum; //所需页数
+		Post post;   //所需封装参数
+		PostJson postJson;//json结构
+		//获取并处理参数
+		bId = request.getParameter("bId");
+		try {
+			pageSize = Integer.parseInt(request.getParameter("pageSize"));
+			pageNum = Integer.parseInt(request.getParameter("pageNum"));
+		} catch (Exception e) {
+			pageSize = 10;
+			pageNum = 1;
+		}
+		//所需封装参数封装
+		post = new Post();
+		post.setIsHidden(Short.parseShort("1"));//除去隐藏贴
+		post.setIsElite(Short.parseShort("1"));//精华帖
+		System.out.println(post);
+		//获取服务
+		PostService postService = PostServiceImpl.getInstance();
+		postJson = new PostJson();
+		//获取分页结果
+		postJson.setPostFormList(postService.findFormList(pageSize, pageNum, post));
+		//获取最大页数
+		postJson.setMaxPage(postService.getListPageCount(pageSize, post));
+		//传回json
+		JSONUtils.writeJSON(response, postJson);
+	}
+
+	/**
+	 * 查看贴子详情（根据postId）
+	 * @param request
+	 * @param response
+	 */
+	private void findPostbyPostId(HttpServletRequest request, HttpServletResponse response) {
+		
 	}
 }

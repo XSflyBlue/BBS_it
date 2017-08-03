@@ -138,9 +138,9 @@ public class PostDaoImpl implements PostDao {
 		}
 		if (post.getIsHidden() != null) {
 			// 根据是否隐藏查询
-			str = post.getPostTitle();
+			id = post.getIsHidden().longValue();
 			find_sql.append(" AND IS_HIDDEN=?");
-			arrList.add(str);
+			arrList.add(id);
 		}
 		if (post.getPostTitle() != null) {
 			// 根据标题查询
@@ -195,9 +195,9 @@ public class PostDaoImpl implements PostDao {
 		}
 		if (post.getIsHidden() != null) {
 			// 根据是否隐藏查询
-			str = post.getPostTitle();
+			id = post.getIsHidden().longValue();
 			find_sql.append(" AND IS_HIDDEN=?");
-			arrList.add(str);
+			arrList.add(id);
 		}
 		if (post.getPostTitle() != null) {
 			// 根据标题查询
@@ -216,7 +216,7 @@ public class PostDaoImpl implements PostDao {
 		String sql = "select * from (select a1.*,rownum rn from (" + find_sql.toString() + ") a1 where rownum<="
 				+ rowNum * pageSize + ") where rn>" + ((rowNum - 1) * pageSize);
 		Object params[] = arrList.toArray();
-		System.out.println(sql);
+		System.out.println(arrList);
 		List<PostForm> postFormList = new ArrayList<PostForm>();
 		try {
 			postFormList = (List)DatabaseUtil.query(sql, params, new BeanListHandler(PostForm.class));

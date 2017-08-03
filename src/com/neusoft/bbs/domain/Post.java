@@ -373,4 +373,18 @@ public class Post {
 	public void setPostTitle(String postTitle) {
 		this.postTitle = postTitle;
 	}
+
+	@Override
+	public String toString() {
+		return "Post [postId=" + postId + ", userId=" + userId + ", sectionId=" + sectionId + ", postType=" + postType
+				+ ", themeContent=" + themeContent + ", issueTime=" + issueTime + ", issueIp=" + issueIp + ", hitNum="
+				+ hitNum + ", answerSum=" + answerSum + ", isHighlight=" + isHighlight + ", highlightUserId="
+				+ highlightUserId + ", titleColor=" + titleColor + ", isOverhead=" + isOverhead + ", overheadUserId="
+				+ overheadUserId + ", overheadCause=" + overheadCause + ", isClose=" + isClose + ", switchUserId="
+				+ switchUserId + ", switchCause=" + switchCause + ", isElite=" + isElite + ", recomUserId="
+				+ recomUserId + ", recomValidity=" + recomValidity + ", isHidden=" + isHidden + ", hiddenCause="
+				+ hiddenCause + ", hiddenUserId=" + hiddenUserId + ", isAccessory=" + isAccessory + ", editUserId="
+				+ editUserId + ", editTime=" + editTime + ", postTitle=" + postTitle + "]";
+	}
+	
 }
