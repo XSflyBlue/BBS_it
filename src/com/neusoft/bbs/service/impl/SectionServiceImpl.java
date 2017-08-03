@@ -3,6 +3,8 @@ package com.neusoft.bbs.service.impl;
 import java.util.List;
 
 import com.neusoft.bbs.commons.util.db.TransactionProxy;
+import com.neusoft.bbs.dao.SectionDao;
+import com.neusoft.bbs.dao.impl.SectionDaoImpl;
 import com.neusoft.bbs.domain.Section;
 import com.neusoft.bbs.domain.form.SectionForm;
 import com.neusoft.bbs.service.SectionService;
@@ -18,7 +20,7 @@ public class SectionServiceImpl implements SectionService {
 	 */
 	private static final TransactionProxy transctionProxy = new TransactionProxy();
 	private static final SectionService instance = (SectionService) transctionProxy.newProxyInstance(new SectionServiceImpl());
-	
+	private SectionDao sectionDao = new SectionDaoImpl();
 	/**
 	 * 取得实例
 	 */
@@ -34,56 +36,65 @@ public class SectionServiceImpl implements SectionService {
 
 	@Override
 	public int addSection(Section section) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+		result = sectionDao.insert(section);
+		return result;
 	}
 
 	@Override
 	public int deleteSection(Section section) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+		result = sectionDao.delete(section);
+		return result;
 	}
 
 	@Override
 	public int setSection(Section section) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+		result = sectionDao.update(section);
+		return result;
 	}
 
 	@Override
 	public Section findByPostId(Long sectionId) {
-		// TODO Auto-generated method stub
-		return null;
+		Section section = null;
+		section = sectionDao.findByPostId(sectionId);
+		return section;
 	}
 
 	@Override
 	public List<Section> findDistrictAll(Long districtId) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Section> sectionList = null;
+		sectionList = sectionDao.findDistrictAll(districtId);
+		return sectionList;
 	}
 
 	@Override
 	public List<Section> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Section> sectionList = null;
+		sectionList = sectionDao.findAll();
+		return sectionList;
 	}
 
 	@Override
 	public int getListPageCount(int pageSize, Section section) {
-		// TODO Auto-generated method stub
-		return 0;
+		int pageCount = 0;
+		pageCount = sectionDao.getListPageCount(pageSize, section);
+		return pageCount;
 	}
 
 	@Override
 	public int getListRowCount(Section section) {
-		// TODO Auto-generated method stub
-		return 0;
+		int rowCount = 0;
+		rowCount = sectionDao.getListRowCount(section);
+		return rowCount;
 	}
 
 	@Override
 	public List<SectionForm> findFormList(int pageSize, int rowNum, Section section) {
-		// TODO Auto-generated method stub
-		return null;
+		List<SectionForm> sectionFormList = null;
+		sectionFormList = sectionDao.findFormList(pageSize, rowNum, section);
+		return sectionFormList;
 	}
 
 }

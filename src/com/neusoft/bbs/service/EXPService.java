@@ -16,7 +16,7 @@ public interface EXPService {
 	 * @param userId
 	 * @return 
 	 */
-	public List<ExpRecord> findEXPRecord(String userId);
+	public List<ExpRecord> findEXPRecord(Long userId);
 	
 	/**
 	 * 根据用户id删除经验记录

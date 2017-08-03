@@ -3,7 +3,6 @@ package com.neusoft.bbs.dao.impl;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import com.neusoft.bbs.commons.util.StringUtils;
@@ -12,7 +11,6 @@ import com.neusoft.bbs.commons.util.db.BeanListHandler;
 import com.neusoft.bbs.commons.util.db.DatabaseUtil;
 import com.neusoft.bbs.dao.UserDao;
 import com.neusoft.bbs.domain.UserBase;
-import com.neusoft.bbs.domain.form.FollowForm;
 import com.neusoft.bbs.domain.form.PageForm;
 
 /**
@@ -185,11 +183,13 @@ public class UserDaoImpl implements UserDao{
 
 			find_sql.append("AND USER_ID = ? ");
 
-		} else if (userBase.getUsername() != null) {
+		} 
+		if (userBase.getUsername() != null) {
 			str = userBase.getUsername();
 
 			find_sql.append("AND USERNAME LIKE '%"+ str +"%' ");
-		} else if(userBase.getPower() != null) {
+		} 
+		if (userBase.getPower() != null) {
 			id = userBase.getPower().longValue();
 			arrList.add(id);
 			
@@ -207,8 +207,9 @@ public class UserDaoImpl implements UserDao{
 		return pageForm.getRowCount().intValue();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<UserBase> findUserBase(int pageSize, int rowNum, UserBase userBase) {
+	public List<UserBase> findFormList(int pageSize, int rowNum, UserBase userBase) {
 		StringBuffer find_sql = new StringBuffer();
 		find_sql.append("SELECT * ");
 		find_sql.append("FROM B_USER_BASE ");
@@ -224,11 +225,13 @@ public class UserDaoImpl implements UserDao{
 
 			find_sql.append("AND USER_ID = ? ");
 
-		} else if (userBase.getUsername() != null) {
+		} 
+		if (userBase.getUsername() != null) {
 			str = userBase.getUsername();
 
 			find_sql.append("AND USERNAME LIKE '%"+ str +"%' ");
-		} else if(userBase.getPower() != null) {
+		} 
+		if (userBase.getPower() != null) {
 			id = userBase.getPower().longValue();
 			arrList.add(id);
 			

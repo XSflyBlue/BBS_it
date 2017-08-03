@@ -43,16 +43,16 @@ public class UserServlet extends HttpServlet {
 		UserDaoImpl u = new UserDaoImpl();
 		UserBase user = new UserBase();
 		user.setUserId(1L);
-		System.out.println(u.findUserBase(4, 1, user));
+		System.out.println(u.findFormList(4, 1, user));
 		
 		user.setUserId(null);
 		user.setUsername("王");
-		System.out.println(u.findUserBase(4, 1, user));
+		System.out.println(u.findFormList(4, 1, user));
 		
 		user.setUsername(null);
 		short s = 0;
 		user.setPower(s);
-		System.out.println(u.findUserBase(4, 1, user));
+		System.out.println(u.findFormList(4, 1, user));
 		
 //		String action = request.getParameter("action");
 //		if(action != null) {

@@ -3,9 +3,10 @@ package com.neusoft.bbs.service.impl;
 import java.util.List;
 
 import com.neusoft.bbs.commons.util.db.TransactionProxy;
+import com.neusoft.bbs.dao.CommentDao;
+import com.neusoft.bbs.dao.impl.CommentDaoImpl;
 import com.neusoft.bbs.domain.Comment;
 import com.neusoft.bbs.domain.form.CommentForm;
-import com.neusoft.bbs.service.CollectionService;
 import com.neusoft.bbs.service.CommentService;
 
 /**
@@ -19,7 +20,7 @@ public class CommentServiceImpl implements CommentService {
 	 */
 	private static final TransactionProxy transctionProxy = new TransactionProxy();
 	private static final CommentService instance = (CommentService) transctionProxy.newProxyInstance(new CommentServiceImpl());
-	
+	private CommentDao commentDao = new CommentDaoImpl(); 
 	/**
 	 * 取得实例
 	 */
@@ -35,56 +36,65 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public int addComment(Comment comment) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+		result = commentDao.insert(comment);
+		return result;
 	}
 
 	@Override
 	public int deleteComment(Comment comment) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+		result = commentDao.delete(comment);
+		return result;
 	}
 
 	@Override
 	public int setComment(Comment comment) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+		result = commentDao.update(comment);
+		return result;
 	}
 
 	@Override
 	public List<Comment> findByPostId(Long postId) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Comment> commentList = null;
+		commentList = commentDao.findByPostId(postId);
+		return commentList;
 	}
 
 	@Override
 	public Comment findByCommentId(Long commentId) {
-		// TODO Auto-generated method stub
-		return null;
+		Comment comment = null;
+		comment = commentDao.findByCommentId(commentId);
+		return comment;
 	}
 
 	@Override
 	public List<Comment> findByCommentUserId(Long commentUserId) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Comment> commentList = null;
+		commentList = commentDao.findByCommentUserId(commentUserId);
+		return commentList;
 	}
 
 	@Override
 	public int getListPageCount(int pageSize, Comment comment) {
-		// TODO Auto-generated method stub
-		return 0;
+		int pageCount = 0;
+		pageCount = commentDao.getListPageCount(pageSize, comment);
+		return pageCount;
 	}
 
 	@Override
 	public int getListRowCount(Comment comment) {
-		// TODO Auto-generated method stub
-		return 0;
+		int rowCount = 0;
+		rowCount = commentDao.getListRowCount(comment);
+		return rowCount;
 	}
 
 	@Override
 	public List<CommentForm> findFormList(int pageSize, int rowNum, Comment comment) {
-		// TODO Auto-generated method stub
-		return null;
+		List<CommentForm> commentFormList = null;
+		commentFormList = commentDao.findFormList(pageSize, rowNum, comment);
+		return commentFormList;
 	}
 
 }

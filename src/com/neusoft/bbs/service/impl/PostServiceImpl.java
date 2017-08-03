@@ -3,9 +3,10 @@ package com.neusoft.bbs.service.impl;
 import java.util.List;
 
 import com.neusoft.bbs.commons.util.db.TransactionProxy;
+import com.neusoft.bbs.dao.PostDao;
+import com.neusoft.bbs.dao.impl.PostDaoImpl;
 import com.neusoft.bbs.domain.Post;
 import com.neusoft.bbs.domain.form.PostForm;
-import com.neusoft.bbs.service.HelpService;
 import com.neusoft.bbs.service.PostService;
 
 /**
@@ -19,7 +20,7 @@ public class PostServiceImpl implements PostService {
 	 */
 	private static final TransactionProxy transctionProxy = new TransactionProxy();
 	private static final PostService instance = (PostService) transctionProxy.newProxyInstance(new PostServiceImpl());
-	
+	private PostDao postDao = new PostDaoImpl();
 	/**
 	 * 取得实例
 	 */
@@ -35,50 +36,58 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public int addPost(Post post) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+		result = postDao.insert(post);
+		return result;
 	}
 
 	@Override
 	public int deletePost(Post post) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+		result = postDao.delete(post);
+		return result;
 	}
 
 	@Override
 	public int setPost(Post post) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+		result = postDao.update(post);
+		return result;
 	}
 
 	@Override
 	public List<Post> findByPostId(Long userId) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Post> postList = null;
+		postList = postDao.findByPostId(userId);
+		return postList;
 	}
 
 	@Override
 	public List<Post> findBySectionId(Long sectionId) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Post> postList = null;
+		postList = postDao.findBySectionId(sectionId);
+		return postList;
 	}
 
 	@Override
 	public int getListPageCount(int pageSize, Post post) {
-		// TODO Auto-generated method stub
-		return 0;
+		int pageCount = 0;
+		pageCount = postDao.getListPageCount(pageSize, post);
+		return pageCount;
 	}
 
 	@Override
 	public int getListRowCount(Post post) {
-		// TODO Auto-generated method stub
-		return 0;
+		int rowCount = 0;
+		rowCount = postDao.getListRowCount(post);
+		return rowCount;
 	}
 
 	@Override
 	public List<PostForm> findFormList(int pageSize, int rowNum, Post post) {
-		// TODO Auto-generated method stub
-		return null;
+		List<PostForm> postFormList = null;
+		postFormList = postDao.findFormList(pageSize, rowNum, post);
+		return postFormList;
 	}
 
 }

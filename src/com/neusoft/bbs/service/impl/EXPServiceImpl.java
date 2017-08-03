@@ -3,6 +3,8 @@ package com.neusoft.bbs.service.impl;
 import java.util.List;
 
 import com.neusoft.bbs.commons.util.db.TransactionProxy;
+import com.neusoft.bbs.dao.ExpDao;
+import com.neusoft.bbs.dao.impl.ExpDaoImpl;
 import com.neusoft.bbs.domain.EXP;
 import com.neusoft.bbs.domain.ExpRecord;
 import com.neusoft.bbs.service.EXPService;
@@ -18,7 +20,7 @@ public class EXPServiceImpl implements EXPService {
 	 */
 	private static final TransactionProxy transctionProxy = new TransactionProxy();
 	private static final EXPService instance = (EXPService) transctionProxy.newProxyInstance(new EXPServiceImpl());
-	
+	private ExpDao expDao = new ExpDaoImpl();
 	/**
 	 * 取得实例
 	 */
@@ -33,57 +35,76 @@ public class EXPServiceImpl implements EXPService {
 	}
 
 	@Override
-	public List<ExpRecord> findEXPRecord(String userId) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<ExpRecord> findEXPRecord(Long userId) {
+		List<ExpRecord> expRecordList = null;
+		EXP exp = null;
+		ExpRecord expRecord = null;
+
+		exp = expDao.findExpById(userId);
+		expRecord = new ExpRecord();
+		expRecord.setExpId(exp.getExpId());
+		
+		expRecordList = expDao.findExpRecord(userId, expRecord);
+		return expRecordList;
 	}
 
 	@Override
 	public int deleteExpRecord(Long userId) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+		//未实现
+		return result;
 	}
 
 	@Override
 	public int addExpRecord(Long userId, ExpRecord expRecord) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+		result = expDao.insertExpRecord(userId, expRecord);
+		return result;
 	}
 
 	@Override
 	public int setExpRecord(Long userId, ExpRecord expRecord) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+		result = expDao.updateExpRecord(userId, expRecord);
+		return result;
 	}
 
 	@Override
 	public Long findExpNum(Long userId) {
-		// TODO Auto-generated method stub
-		return null;
+		Long ExpNum = 0L;
+		EXP exp = null;
+
+		exp = expDao.findExpById(userId);
+		ExpNum = exp.getExpNum();
+		return ExpNum;
 	}
 
 	@Override
 	public int setExpNum(Long userId, EXP exp) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+		result = expDao.updateExp(exp);
+		return result;
 	}
 
 	@Override
 	public int getListPageCount(int pageSize, Long userId) {
-		// TODO Auto-generated method stub
-		return 0;
+		int pageCount = 0;
+		pageCount = expDao.getListPageCount(pageSize, userId);
+		return pageCount;
 	}
 
 	@Override
 	public int getListRowCount(Long userId) {
-		// TODO Auto-generated method stub
-		return 0;
+		int rowCount = 0;
+		rowCount = expDao.getListRowCount(userId);
+		return rowCount;
 	}
 
 	@Override
 	public List<ExpRecord> findFormList(int pageSize, int rowNum, Long userId) {
-		// TODO Auto-generated method stub
-		return null;
+		List<ExpRecord> expRecordList = null;
+		expRecordList = expDao.findFormList(pageSize, rowNum, userId);
+		return expRecordList;
 	}
 
 }

@@ -17,7 +17,7 @@ public interface ReportService {
 	 * @param moderatorId
 	 * @return List<Report>
 	 */
-	public List<Report> findBymoderatorId(Long moderatorId);
+	public List<Report> findByModeratorId(Long moderatorId);
 	
 	/**
 	 * 根据举报用户Id查询举报信息

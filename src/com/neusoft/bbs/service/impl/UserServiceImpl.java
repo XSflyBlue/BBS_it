@@ -1,8 +1,6 @@
 package com.neusoft.bbs.service.impl;
 
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import com.neusoft.bbs.commons.util.db.TransactionProxy;
 import com.neusoft.bbs.dao.UserDao;
@@ -58,43 +56,59 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public UserBase findUserBase(Long userId) {
-		// TODO Auto-generated method stub
-		return null;
+		UserBase userbase = new UserBase();
+		userbase.setUserId(userId);
+		userbase = (UserBase)(findFormList(1, 1, userbase).get(0));
+		return userbase;
 	}
 
 	@Override
-	public UserBase setRegisterInfo(UserBase userBase, UserDetail userDetail) {
-		// TODO Auto-generated method stub
-		return null;
+	public int setRegisterInfo(UserBase userBase, UserDetail userDetail) {
+		int result = 0;
+		int result1 = 0;
+		int result2 = 0;
+		
+		result1 = addUser(userBase);
+		result2 = UserDetailServiceImpl.getInstance().addUserDetail(userDetail);
+		
+		if (result1 == 1 && result2 == 1) {
+			result = 1;
+		}
+		return result;
 	}
 
 	@Override
-	public int addUserDetail(UserBase userBase) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int addUser(UserBase userBase) {
+		int result = 0;
+		result = userDao.insert(userBase);
+		return result;
 	}
 
 	@Override
-	public int deleteUserDetail(UserBase userBase) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int deleteUser(UserBase userBase) {
+		int result = 0;
+		result = userDao.delete(userBase);
+		return result;
 	}
 
 	@Override
 	public int getListPageCount(int pageSize, UserBase userBase) {
-		// TODO Auto-generated method stub
-		return 0;
+		int pageCount = 0;
+		pageCount = userDao.getListPageCount(pageSize, userBase);
+		return pageCount;
 	}
 
 	@Override
 	public int getListRowCount(UserBase userBase) {
-		// TODO Auto-generated method stub
-		return 0;
+		int rowCount = 0;
+		rowCount = userDao.getListRowCount(userBase);
+		return rowCount;
 	}
 
 	@Override
-	public List<UserBase> findUserBase(int pageSize, int rowNum, UserBase userBase) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<UserBase> findFormList(int pageSize, int rowNum, UserBase userBase) {
+		List<UserBase> userBaseList = null;
+		userBaseList = userDao.findFormList(pageSize, rowNum, userBase);
+		return userBaseList;
 	}
 }

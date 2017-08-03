@@ -3,6 +3,8 @@ package com.neusoft.bbs.service.impl;
 import java.util.List;
 
 import com.neusoft.bbs.commons.util.db.TransactionProxy;
+import com.neusoft.bbs.dao.FollowDao;
+import com.neusoft.bbs.dao.impl.FollowDaoImpl;
 import com.neusoft.bbs.domain.Follow;
 import com.neusoft.bbs.domain.form.FollowForm;
 import com.neusoft.bbs.service.FollowService;
@@ -18,7 +20,7 @@ public class FollowServiceImpl implements FollowService {
 	 */
 	private static final TransactionProxy transctionProxy = new TransactionProxy();
 	private static final FollowService instance = (FollowService) transctionProxy.newProxyInstance(new FollowServiceImpl());
-	
+	private FollowDao followDao = new FollowDaoImpl(); 
 	/**
 	 * 取得实例
 	 */
@@ -34,38 +36,44 @@ public class FollowServiceImpl implements FollowService {
 
 	@Override
 	public int getListPageCount(int pageSize, Follow follow) {
-		// TODO Auto-generated method stub
-		return 0;
+		int pageCount = 0;
+		pageCount = followDao.getListPageCount(pageSize, follow);
+		return pageCount;
 	}
 
 	@Override
 	public int getListRowCount(Follow follow) {
-		// TODO Auto-generated method stub
-		return 0;
+		int rowCount = 0;
+		rowCount = followDao.getListRowCount(follow);
+		return rowCount;
 	}
 
 	@Override
 	public List<FollowForm> findFormList(int pageSize, int rowNum, Follow follow) {
-		// TODO Auto-generated method stub
-		return null;
+		List<FollowForm> FollowFormList = null;
+		FollowFormList = followDao.findFormList(pageSize, rowNum, follow);
+		return FollowFormList;
 	}
 
 	@Override
 	public int addUserDetail(Follow follow) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+		result = followDao.insert(follow);
+		return result;
 	}
 
 	@Override
 	public int deleteUserDetail(Follow follow) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+		result = followDao.delete(follow);
+		return result;
 	}
 
 	@Override
 	public int setUserDetail(Follow follow) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+		result = followDao.update(follow);
+		return result;
 	}
 
 }

@@ -37,23 +37,23 @@ public interface UserService {
 	 * 注册用户（用户基本和详细信息）
 	 * @param userBase
 	 * @param userDetail
-	 * @return
+	 * @return int
 	 */
-	UserBase setRegisterInfo(UserBase userBase,UserDetail userDetail);
+	int setRegisterInfo(UserBase userBase,UserDetail userDetail);
 	
 	/**
 	 * 增加用户基本（记录）
 	 * @param userDetail
 	 * @return int
 	 */
-	int addUserDetail(UserBase userBase);
+	int addUser(UserBase userBase);
 	
 	/**
 	 * 删除用户基本（记录）
 	 * @param userDetail
 	 * @return int
 	 */
-	int deleteUserDetail(UserBase userBase);
+	int deleteUser(UserBase userBase);
 	
 	/***
 	 * 获取最大页数
@@ -77,5 +77,5 @@ public interface UserService {
 	 * @param userBase，查询条件（userId查询）
 	 * @return List<UserBase>
 	 */
-	List<UserBase> findUserBase(int pageSize, int rowNum, UserBase userBase);
+	List<UserBase> findFormList(int pageSize, int rowNum, UserBase userBase);
 }

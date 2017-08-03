@@ -73,5 +73,5 @@ public interface UserDao {
 	 * @param userBase，查询条件（userId查询）
 	 * @return List<UserBase>
 	 */
-	List<UserBase> findUserBase(int pageSize, int rowNum, UserBase userBase);
+	List<UserBase> findFormList(int pageSize, int rowNum, UserBase userBase);
 }

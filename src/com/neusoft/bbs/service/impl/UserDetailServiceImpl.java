@@ -1,9 +1,10 @@
 package com.neusoft.bbs.service.impl;
 
 import com.neusoft.bbs.commons.util.db.TransactionProxy;
+import com.neusoft.bbs.dao.UserDetailDao;
+import com.neusoft.bbs.dao.impl.UserDetailDaoImpl;
 import com.neusoft.bbs.domain.UserDetail;
 import com.neusoft.bbs.domain.form.UserForm;
-import com.neusoft.bbs.service.SectionService;
 import com.neusoft.bbs.service.UserDetailService;
 
 /**
@@ -17,7 +18,7 @@ public class UserDetailServiceImpl implements UserDetailService {
 	 */
 	private static final TransactionProxy transctionProxy = new TransactionProxy();
 	private static final UserDetailService instance = (UserDetailService) transctionProxy.newProxyInstance(new UserDetailServiceImpl());
-	
+	private UserDetailDao userDetailDao = new UserDetailDaoImpl();
 	/**
 	 * 取得实例
 	 */
@@ -39,26 +40,30 @@ public class UserDetailServiceImpl implements UserDetailService {
 
 	@Override
 	public int addUserDetail(UserDetail userDetail) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+		result = userDetailDao.insert(userDetail);
+		return result;
 	}
 
 	@Override
 	public int deleteUserDetail(UserDetail userDetail) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+		result = userDetailDao.delete(userDetail);
+		return result;
 	}
 
 	@Override
 	public int setUserDetail(UserDetail userDetail) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+		result = userDetailDao.update(userDetail);
+		return result;
 	}
 
 	@Override
 	public UserForm findUserForm(Long userId) {
-		// TODO Auto-generated method stub
-		return null;
+		UserForm userFrom = null;
+		userFrom = userDetailDao.findUserForm(userId);
+		return userFrom;
 	}
 
 }

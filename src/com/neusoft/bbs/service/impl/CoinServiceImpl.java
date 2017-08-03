@@ -79,19 +79,20 @@ public class CoinServiceImpl implements CoinService{
 	}
 	@Override
 	public int getListPageCount(int pageSize, Long userId) {
-		// TODO Auto-generated method stub
-		return 0;
+		int pageCount = 0;
+		pageCount = coinDao.getListPageCount(pageSize, userId);
+		return pageCount;
 	}
 	@Override
 	public int getListRowCount(Long userId) {
-		// TODO Auto-generated method stub
-		return 0;
+		int rowCount = 0;
+		rowCount = coinDao.getListRowCount(userId);
+		return rowCount;
 	}
 	@Override
 	public List<CoinRecord> findFormList(int pageSize, int rowNum, Long userId) {
-		// TODO Auto-generated method stub
-		return null;
+		List<CoinRecord> coinRecordList = null;
+		coinRecordList = coinDao.findFormList(pageSize, rowNum, userId);
+		return coinRecordList;
 	}
-	
-	
 }
