@@ -24,7 +24,7 @@ import com.neusoft.bbs.service.UserService;
 import com.neusoft.bbs.service.impl.UserServiceImpl;
 
 /**
- * UserServlet
+ * 用户 UserServlet
  * @author yangz
  *
  */

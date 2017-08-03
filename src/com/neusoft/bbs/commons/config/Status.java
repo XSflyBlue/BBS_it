@@ -10,7 +10,7 @@ public enum Status {
 	 */
 	ON {
 		@Override
-		public int value() {
+		public short value() {
 			return 1;
 		}
 	},
@@ -19,9 +19,9 @@ public enum Status {
 	 */
 	OFF {
 		@Override
-		public int value() {
+		public short value() {
 			return 2;
 		}
 	};
-	public abstract int value();
+	public abstract short value();
 }

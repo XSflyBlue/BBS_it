@@ -10,7 +10,7 @@ public enum Identity {
 	 */
 	AREA {
 		@Override
-		public int value() {
+		public short value() {
 			return 16;
 		}
 	},
@@ -19,7 +19,7 @@ public enum Identity {
 	 */
 	MODERATOR {
 		@Override
-		public int value() {
+		public short value() {
 			return 8;
 		}
 	},
@@ -28,10 +28,10 @@ public enum Identity {
 	 */
 	USER {
 		@Override
-		public int value() {
+		public short value() {
 			return 4;
 		}
 	};
 	
-	public abstract int value();
+	public abstract short value();
 }
