@@ -146,7 +146,7 @@ public class SectionDaoImpl implements SectionDao {
 			find_sql.append(
 					"SELECT S.SECTION_ID,S.SECTION_NAME,S.IS_SHOW,S.DISTRICT_ID,S.SECTION_DESCRI,COUNT (M.USER_ID) ADMIN_NUM");
 			find_sql.append(" FROM B_SECTION S,B_MODERATOR M");
-			find_sql.append(" WHERE S.SECTION_ID = 1");
+			find_sql.append(" WHERE S.SECTION_ID = ?");
 			find_sql.append(" AND M .MODERATOR_TYPE = 0");
 			find_sql.append(" AND M .AREA_ID = S.SECTION_ID");
 			find_sql.append(" GROUP BY S.SECTION_ID,SECTION_NAME,S.IS_SHOW,S.DISTRICT_ID,S.SECTION_DESCRI;");
