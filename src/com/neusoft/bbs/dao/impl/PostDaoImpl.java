@@ -136,6 +136,12 @@ public class PostDaoImpl implements PostDao {
 			find_sql.append(" AND IS_ELITE=?");
 			arrList.add(id);
 		}
+		if (post.getIsHidden() != null) {
+			// 根据是否隐藏查询
+			str = post.getPostTitle();
+			find_sql.append(" AND IS_HIDDEN=?");
+			arrList.add(str);
+		}
 		if (post.getPostTitle() != null) {
 			// 根据标题查询
 			str = post.getPostTitle();
@@ -186,6 +192,12 @@ public class PostDaoImpl implements PostDao {
 			id = post.getIsElite().longValue();
 			find_sql.append(" AND IS_ELITE=?");
 			arrList.add(id);
+		}
+		if (post.getIsHidden() != null) {
+			// 根据是否隐藏查询
+			str = post.getPostTitle();
+			find_sql.append(" AND IS_HIDDEN=?");
+			arrList.add(str);
 		}
 		if (post.getPostTitle() != null) {
 			// 根据标题查询
