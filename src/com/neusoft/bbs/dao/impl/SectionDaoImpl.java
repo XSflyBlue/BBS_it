@@ -170,8 +170,15 @@ public class SectionDaoImpl implements SectionDao {
 
 	@Override
 	public Section findBySectionName(String sectionName) {
-		// TODO Auto-generated method stub
-		return null;
+		Section section = null;
+		String sql = "select * from b_section where section_name=?";
+		Object params[] = {sectionName};
+		try {
+			section = (Section)DatabaseUtil.query(sql, params, new BeanHandler(Section.class));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return section;
 	}
 
 }

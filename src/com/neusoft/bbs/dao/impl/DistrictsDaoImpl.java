@@ -151,8 +151,15 @@ public class DistrictsDaoImpl implements DistrictsDao{
 
 	@Override
 	public Districts findByDistrictName(String districtName) {
-		// TODO Auto-generated method stub
-		return null;
+		Districts districts = null;
+		String sql= "select * from b_districts where district_name=?";
+		Object params[] = {districtName};
+		try {
+			districts = (Districts)DatabaseUtil.query(sql, params, new BeanHandler(Districts.class));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return districts;
 	}
 
 }
