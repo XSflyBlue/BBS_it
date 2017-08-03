@@ -203,6 +203,7 @@ public class PostDaoImpl implements PostDao {
 		String sql = "select * farom (select a1.*,rownum rn from (" + find_sql.toString() + ") a1 where rownum<="
 				+ rowNum * pageSize + ") where rn>" + ((rowNum - 1) * pageSize);
 		Object params[] = arrList.toArray();
+		System.out.println(sql);
 		List<PostForm> postFormList = new ArrayList<PostForm>();
 		try {
 			postFormList = (List)DatabaseUtil.query(sql, params, new BeanListHandler(PostForm.class));
