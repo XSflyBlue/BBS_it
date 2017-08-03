@@ -20,7 +20,10 @@ import com.neusoft.bbs.commons.util.StringUtils;
 import com.neusoft.bbs.commons.util.db.JdbcUtil_DBCP;
 import com.neusoft.bbs.dao.impl.UserDaoImpl;
 import com.neusoft.bbs.domain.UserBase;
+import com.neusoft.bbs.domain.UserDetail;
+import com.neusoft.bbs.service.UserDetailService;
 import com.neusoft.bbs.service.UserService;
+import com.neusoft.bbs.service.impl.UserDetailServiceImpl;
 import com.neusoft.bbs.service.impl.UserServiceImpl;
 
 /**
@@ -34,33 +37,21 @@ public class UserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private UserService userBaseService = UserServiceImpl.getInstance();
+	private UserDetailService userDetailService = UserDetailServiceImpl.getInstance();
 	
        
     public UserServlet() {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		UserDaoImpl u = new UserDaoImpl();
-		UserBase user = new UserBase();
-		user.setUserId(1L);
-		System.out.println(u.findFormList(4, 1, user));
 		
-		user.setUserId(null);
-		user.setUsername("王");
-		System.out.println(u.findFormList(4, 1, user));
-		
-		user.setUsername(null);
-		short s = 0;
-		user.setPower(s);
-		System.out.println(u.findFormList(4, 1, user));
-		
-//		String action = request.getParameter("action");
-//		if(action != null) {
-//			//根据action调用相应的方法
-//			ServletUtils.invoke(this, action, request, response);
-//		}else {
-//			//
-//		}
+		String action = request.getParameter("action");
+		if(action != null) {
+			//根据action调用相应的方法
+			ServletUtils.invoke(this, action, request, response);
+		}else {
+			//
+		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -130,7 +121,11 @@ public class UserServlet extends HttpServlet {
 			JSONUtils.writeJSON(response, new Msg(0, "密码不能为空"));
 		}
 	}
-	
+	/**
+	 * 修改密码
+	 * @param request
+	 * @param response
+	 */
 	private void updatePassword(HttpServletRequest request, HttpServletResponse response) {
 		UserBase userBase = (UserBase) request.getSession().getAttribute("userBase");
 		String password = request.getParameter("password");
@@ -138,7 +133,11 @@ public class UserServlet extends HttpServlet {
 			//修改密码
 		}
 	}
-	
+	/**
+	 * 检查注册邮箱是否存在
+	 * @param request
+	 * @param response
+	 */
 	private void checkRegistEmail(HttpServletRequest request, HttpServletResponse response) {
 		String check = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
 		Pattern regex = Pattern.compile(check);
@@ -159,14 +158,34 @@ public class UserServlet extends HttpServlet {
 			JSONUtils.writeJSON(response, new Msg(0, "空的邮箱输入"));
 		}
 	}
-	
+	/**
+	 * 根据用户名查询用户详情
+	 * @param request
+	 * @param response
+	 */
 	private void queryUserDetailByUserName(HttpServletRequest request, HttpServletResponse response) {
 		String username = request.getParameter("username");
 		if(StringUtils.isNotNullString(username)) {
 			
 		}
 	}
-	
+	/**
+	 * 根据用户ID查询用户详情
+	 * @param request
+	 * @param response
+	 */
+	private void queryUserDetailByUserId(HttpServletRequest request, HttpServletResponse response) {
+		String uIdStr = request.getParameter("uId");
+		if(StringUtils.isNotNullString(uIdStr)) {
+			Long uId = Long.parseLong(uIdStr);
+			JSONUtils.writeJSON(response, userDetailService.findUserForm(uId));
+		}
+	}
+	/**
+	 * 注册（初始化其他表待实现...）
+	 * @param request
+	 * @param response
+	 */
 	private void regist(HttpServletRequest request, HttpServletResponse response) {
 		UserBase userBase = FormToObjUtils.parseToObject(request, UserBase.class);
 		String username = userBase.getUsername();
@@ -178,7 +197,9 @@ public class UserServlet extends HttpServlet {
 			userBase.setLastLoginTime(now);
 			userBase.setPower((short) 0);
 			userBase.setRegistTime(now);
-			//
+			UserDetail detail = new UserDetail();
+			int result = userBaseService.setRegisterInfo(userBase, detail);
+			System.out.println(result);
 		}
 	}
 

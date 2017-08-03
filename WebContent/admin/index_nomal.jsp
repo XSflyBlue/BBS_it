@@ -30,7 +30,7 @@
 							<span id="bbs_poster_name">${userBase.username}</span>
 						</a>
 						<div style="margin-bottom: 15px;">
-							<span> [社区元老] </span>
+							<span id="j_userId" j_val="${userBase.userId}" style="display: none;"></span>
 							<span> 经验：7899/10000 </span>
 							<span> 金币：333 </span>
 						</div>
@@ -65,27 +65,7 @@
 					<div style="border-top: none;">
 						<div id="bbs_admin_mainBox">
 							<div id="bbs_admin_showInfo">
-								<table class="table bbs_twoColTable">
-									<tr>
-										<td>用户名:</td>
-										<td>张三</td>
-									</tr>
-									<tr>
-										<td>年龄:</td>
-										<td>21</td>
-									</tr>
-									<tr>
-										<td>性别:</td>
-										<td>男</td>
-									</tr>
-									<tr>
-										<td>自我介绍:</td>
-										<td>我是一个帅气十足的美男子...我是一个帅气十足的美男子...我是一个帅气十足的美男子...我是一个帅气十足的美男子...我是一个帅气十足的美男子...</td>
-									</tr>
-									<tr>
-										<td>签名:</td>
-										<td>原谅我一身放荡爱自由~</td>
-									</tr>
+								<table class="table bbs_twoColTable" id="j_userInfo">
 									<tr>
 										<td></td>
 										<td>
@@ -385,6 +365,32 @@
 </body>
 <script type="text/javascript">
 	$(function(){
+		
+		//获取用户资料
+		var userId = $('#j_userId').attr("j_val");
+		$.ajax({
+			type: 'POST',
+			url: '<c:url value="/UserServlet?action=queryUserDetailByUserId"></c:url>',
+			data:"uId="+userId,
+			success: function(data){
+				if(data!=null){
+					var str = '<tr><td>用户名：</td><td>'+data.username+'</td></tr>';
+					str += '<tr><td>邮 箱：</td><td>'+data.email+'</td></tr>';
+					str += '<tr><td>注册时间 ：</td><td>'+data.registTime+'</td></tr>';
+					str += '<tr><td>性别：</td><td>'+data.sex+'</td></tr>';
+					str += '<tr><td>个人介绍：</td><td>'+data.intro+'</td></tr>';
+					str += '<tr><td>个性签名：</td><td>'+data.signature+'</td></tr>';
+					str += '<tr><td>出生日期：</td><td>'+data.birthday+'</td></tr>';
+					str += '<tr><td>QQ：</td><td>'+data.qq+'</td></tr>';
+					str += '<tr><td>经验值：</td><td>'+data.expNum+'</td></tr>';
+					str += '<tr><td>等 级：</td><td>'+data.levelName+'</td></tr>';
+					str += '<tr><td>个人主页：</td><td><a href="http://'+data.website+'">'+data.website+'</a></td></tr>';
+					$('#j_userInfo').append(str);
+				}
+			}
+		});
+		
+		//页面基础
 		$('#bbs_admin_showInfo').css("display","inline");
 		$('.j_admin_nav').click(function(){
 			var clickVal = $(this).attr("value");

@@ -67,10 +67,12 @@ public class UserServiceImpl implements UserService{
 		int result = 0;
 		int result1 = 0;
 		int result2 = 0;
-		
 		result1 = addUser(userBase);
+		UserBase tempUser = userDao.findByEmail(userBase.getEmail());
+		if(tempUser != null ) {
+			userDetail.setUserId(tempUser.getUserId());
+		}
 		result2 = UserDetailServiceImpl.getInstance().addUserDetail(userDetail);
-		
 		if (result1 == 1 && result2 == 1) {
 			result = 1;
 		}

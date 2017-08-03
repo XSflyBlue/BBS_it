@@ -97,7 +97,7 @@ public class UserForm {
 	/**
 	 * 经验值
 	 */
-	private Long expValue;
+	private Long expNum;
 	/**
 	 * 等级（名称）
 	 */
@@ -206,12 +206,6 @@ public class UserForm {
 	public void setQq(String qq) {
 		this.qq = qq;
 	}
-	public Long getExpValue() {
-		return expValue;
-	}
-	public void setExpValue(Long expValue) {
-		this.expValue = expValue;
-	}
 	public String getLevelName() {
 		return levelName;
 	}
@@ -230,6 +224,13 @@ public class UserForm {
 	public void setRn(Long rn) {
 		this.rn = rn;
 	}
+	
+	public Long getExpNum() {
+		return expNum;
+	}
+	public void setExpNum(Long expNum) {
+		this.expNum = expNum;
+	}
 	@Override
 	public String toString() {
 		return "UserForm [userId=" + userId + ", username=" + username
@@ -239,8 +240,8 @@ public class UserForm {
 				+ registTime + ", icon=" + icon + ", sex=" + sex
 				+ ", signature=" + signature + ", intro=" + intro
 				+ ", birthday=" + birthday + ", region=" + region
-				+ ", website=" + website + ", qq=" + qq + ", expValue="
-				+ expValue + ", levelName=" + levelName + ", coinNum="
+				+ ", website=" + website + ", qq=" + qq + ", expNum="
+				+ expNum + ", levelName=" + levelName + ", coinNum="
 				+ coinNum + ", rn=" + rn + "]";
 	}
 

@@ -86,7 +86,7 @@
 			var sectionId = $(subNavs[i]).attr('j_val');
 			$.ajax({
 				type: 'POST',
-				url: '<c:url value="PageServlet?action=querySectionByDistrictId"></c:url>',
+				url: '<c:url value="/PageServlet?action=querySectionByDistrictId"></c:url>',
 				data:"qId="+sectionId,
 				async:false,
 				success: function(data){
