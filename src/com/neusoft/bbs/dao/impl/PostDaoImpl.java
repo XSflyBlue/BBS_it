@@ -124,6 +124,12 @@ public class PostDaoImpl implements PostDao {
 			find_sql.append(" AND SECTION_ID=?");
 			arrList.add(id);
 		}
+		if (post.getPostId() != null) {
+			// 根据postID查询
+			id = post.getPostId();
+			find_sql.append(" AND POST_ID=?");
+			arrList.add(id);
+		}
 		if (post.getUserId() != null) {
 			// 根据用户ID查询
 			id = post.getUserId();
@@ -187,6 +193,12 @@ public class PostDaoImpl implements PostDao {
 			find_sql.append(" AND SECTION_ID=?");
 			arrList.add(id);
 		}
+		if (post.getPostId() != null) {
+			// 根据postID查询
+			id = post.getPostId();
+			find_sql.append(" AND POST_ID=?");
+			arrList.add(id);
+		}
 		if (post.getUserId() != null) {
 			// 根据用户ID查询
 			id = post.getUserId();
@@ -198,7 +210,7 @@ public class PostDaoImpl implements PostDao {
 			id = post.getIsElite().longValue();
 			find_sql.append(" AND IS_ELITE=?");
 			arrList.add(id);
-		}else {
+		}else if(post.getIsOverhead()!=null){
 			//是否置顶
 			id = post.getIsOverhead().longValue();
 			find_sql.append(" AND IS_OVERHEAD=?");
@@ -229,7 +241,7 @@ public class PostDaoImpl implements PostDao {
 				+ rowNum * pageSize + ") where rn>" + ((rowNum - 1) * pageSize);
 		Object params[] = arrList.toArray();
 //		System.out.println(arrList);
-		List<PostForm> postFormList = new ArrayList<PostForm>();
+		List<PostForm> postFormList = null;
 		try {
 			postFormList = (List)DatabaseUtil.query(sql, params, new BeanListHandler(PostForm.class));
 		} catch (SQLException e) {
