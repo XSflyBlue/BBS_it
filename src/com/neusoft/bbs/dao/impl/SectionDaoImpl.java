@@ -2,6 +2,7 @@ package com.neusoft.bbs.dao.impl;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.neusoft.bbs.commons.util.db.BeanHandler;
@@ -119,8 +120,8 @@ public class SectionDaoImpl implements SectionDao {
 	@Override
 	public int getListRowCount(Section section) {
 		StringBuffer find_sql = new StringBuffer();
-		find_sql.append("SELECT count(*) ROW_COUNT ");
-		find_sql.append("FROM B_SECTION");
+		find_sql.append("SELECT count(*) ROW_COUNT");
+		find_sql.append(" FROM B_SECTION");
 		find_sql.append(" WHERE 1=1");
 		Long id = null;
 		String str = null;
@@ -149,10 +150,10 @@ public class SectionDaoImpl implements SectionDao {
 				// districtId查询
 				id = section.getDistrictId();
 				find_sql.append(" AND DISTRICT_ID=?");
+				arrList.add(id);
 			}
-		} else {
-			return 0;
-		}
+		} 
+		System.out.println(find_sql.toString());
 		Object params[] = arrList.toArray();
 		PageForm pageForm = null;
 		try {
@@ -160,6 +161,7 @@ public class SectionDaoImpl implements SectionDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		System.out.println("in SectionDaoImpl :"+pageForm.getRowCount().intValue());
 		return pageForm.getRowCount().intValue();
 	}
 
@@ -169,7 +171,7 @@ public class SectionDaoImpl implements SectionDao {
 		find_sql.append(
 				"SELECT S.SECTION_ID,S.SECTION_NAME,S.IS_SHOW,S.DISTRICT_ID,S.SECTION_DESCRI,COUNT (M.USER_ID) ADMIN_NUM");
 		find_sql.append(" FROM B_SECTION S,B_MODERATOR M");
-		find_sql.append(" WHERE M.AREA_ID = S.SECTION_ID");
+		find_sql.append(" WHERE 1=1");
 
 		List<Object> arrList = new ArrayList<Object>();
 		Long id = null;
@@ -181,6 +183,7 @@ public class SectionDaoImpl implements SectionDao {
 				id = section.getSectionId();
 				find_sql.append(" AND S.SECTION_ID = ?");
 				find_sql.append(" AND M.MODERATOR_TYPE = 0");
+				find_sql.append(" AND M.AREA_ID = S.SECTION_ID");
 				arrList.add(id);
 			}
 			if (section.getSectionName() != null) {
@@ -199,11 +202,9 @@ public class SectionDaoImpl implements SectionDao {
 				// districtId查询
 				id = section.getDistrictId();
 				find_sql.append(" AND DISTRICT_ID=?");
+				arrList.add(id);
 			}
-		} else {
-			// section为null直接返回
-			return null;
-		}
+		} 
 
 		find_sql.append(" GROUP BY S.SECTION_ID,SECTION_NAME,S.IS_SHOW,S.DISTRICT_ID,S.SECTION_DESCRI");
 
@@ -211,8 +212,9 @@ public class SectionDaoImpl implements SectionDao {
 		String sql = "select * from (select a1.*,rownum rn from (" + find_sql.toString() + ") a1 where rownum<="
 				+ rowNum * pageSize + ") where rn>" + ((rowNum - 1) * pageSize);
 
-		System.out.println(sql);
+		System.out.println("完整："+sql);
 		Object params[] = arrList.toArray();
+		System.out.println(Arrays.toString(params));
 		List<SectionForm> sectionFormList = null;
 		try {
 			sectionFormList = (List<SectionForm>) DatabaseUtil.query(sql, params,
