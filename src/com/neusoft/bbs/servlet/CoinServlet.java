@@ -8,21 +8,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.neusoft.bbs.commons.config.CoinConfig;
-import com.neusoft.bbs.commons.config.ExpConfig;
 import com.neusoft.bbs.commons.util.ServletUtils;
 import com.neusoft.bbs.domain.UserBase;
 
 /**
- * 经验/等级 LevelServlet
+ * 金币 CoinServlet
  */
-@WebServlet("/LevelServlet")
-public class LevelServlet extends HttpServlet {
+@WebServlet("/CoinServlet")
+public class CoinServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LevelServlet() {
+    public CoinServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -52,17 +51,16 @@ public class LevelServlet extends HttpServlet {
 			//
 		}
 	}
-	
 	/**
 	 * demo示例，仅供参考
 	 * @param request
 	 * @param response
 	 */
 	private void demo(HttpServletRequest request, HttpServletResponse response) {
-		//从前端得到的经验修改类型
+		//从前端得到的金币修改类型
 		Long type = 0L;
-		//取得应该修改的经验数
-		Long exp = ExpConfig.valueOfExpType(type);
+		//取得应该修改的金币数
+		Long coin = CoinConfig.valueOfCoinType(type);
 		//从前端获取原因
 		String cause = "";
 		//从后台获取userID
@@ -73,8 +71,8 @@ public class LevelServlet extends HttpServlet {
 		//do things...
 		/**
 		 * 要做两件事：
-		 * 1、更新经验表，经验值和等级等。。
-		 * 2、插入经验记录表
+		 * 1、更新金币表
+		 * 2、插入金币记录表
 		 */
 	}
 

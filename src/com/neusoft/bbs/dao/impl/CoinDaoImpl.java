@@ -161,4 +161,18 @@ public class CoinDaoImpl implements CoinDao{
 			}
 			return coinRecordList;
 	}
+
+	@Override
+	public int insertCoin(Coin coin) {
+		String sql = "insert into b_coin(user_id,coin_id,coin_num)"
+				+ "values(?,B_COIN_RECORD_ID_SEQ.nextval,?) ";
+		Object params[] = {coin.getUserId(), coin.getCoinNum()};
+		int result = 0;
+		try {
+			result = DatabaseUtil.update(sql, params);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 }

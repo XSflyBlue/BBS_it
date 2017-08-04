@@ -48,6 +48,12 @@ body{
 	padding: 2em;
 	background: red;
 }
+#bbs_map{
+	margin: 16px;
+}
+#bbs_map>a{
+	color: gray;
+}
 .bbs_nav>li>a:focus, .bbs_nav>li>a:hover{
 	background: rgba(0,0,0,.8)!important;
 	color:white;

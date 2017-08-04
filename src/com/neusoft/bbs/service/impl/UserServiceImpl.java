@@ -3,8 +3,16 @@ package com.neusoft.bbs.service.impl;
 import java.util.List;
 
 import com.neusoft.bbs.commons.util.db.TransactionProxy;
+import com.neusoft.bbs.dao.CoinDao;
+import com.neusoft.bbs.dao.ExpDao;
 import com.neusoft.bbs.dao.UserDao;
+import com.neusoft.bbs.dao.UserDetailDao;
+import com.neusoft.bbs.dao.impl.CoinDaoImpl;
+import com.neusoft.bbs.dao.impl.ExpDaoImpl;
 import com.neusoft.bbs.dao.impl.UserDaoImpl;
+import com.neusoft.bbs.dao.impl.UserDetailDaoImpl;
+import com.neusoft.bbs.domain.Coin;
+import com.neusoft.bbs.domain.EXP;
 import com.neusoft.bbs.domain.UserBase;
 import com.neusoft.bbs.domain.UserDetail;
 import com.neusoft.bbs.service.UserService;
@@ -21,6 +29,9 @@ public class UserServiceImpl implements UserService{
 	private static final UserService instance = (UserService) transctionProxy.newProxyInstance(new UserServiceImpl());
 
 	private UserDao userDao = new UserDaoImpl();
+	private UserDetailDao userDetailDao = new UserDetailDaoImpl();
+	private ExpDao expDao = new ExpDaoImpl();
+	private CoinDao coinDao = new CoinDaoImpl();
 	
 	/**
 	 * 取得实例
@@ -55,7 +66,7 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public UserBase findUserBase(Long userId) {
+	public UserBase findUserId(Long userId) {
 		UserBase userbase = new UserBase();
 		userbase.setUserId(userId);
 		userbase = (UserBase)(findFormList(1, 1, userbase).get(0));
@@ -69,10 +80,24 @@ public class UserServiceImpl implements UserService{
 		int result2 = 0;
 		result1 = addUser(userBase);
 		UserBase tempUser = userDao.findByEmail(userBase.getEmail());
+		System.out.println(tempUser.getUserId());
 		if(tempUser != null ) {
 			userDetail.setUserId(tempUser.getUserId());
+			//用户详细初始化
+			result2 = userDetailDao.insert(userDetail);
+			//金币初始化
+			Coin coin = new Coin();
+			coin.setUserId(tempUser.getUserId());
+			coin.setCoinNum(0L);
+			coinDao.insertCoin(coin );
+			//经验初始化
+			EXP exp = new EXP();
+			exp.setUserId(tempUser.getUserId());
+			exp.setExpNum(0L);
+			exp.setLevelId(0L);
+			expDao.insertExp(exp);
 		}
-		result2 = UserDetailServiceImpl.getInstance().addUserDetail(userDetail);
+		
 		if (result1 == 1 && result2 == 1) {
 			result = 1;
 		}
@@ -112,5 +137,10 @@ public class UserServiceImpl implements UserService{
 		List<UserBase> userBaseList = null;
 		userBaseList = userDao.findFormList(pageSize, rowNum, userBase);
 		return userBaseList;
+	}
+
+	@Override
+	public UserBase findUserEmail(String email) {
+		return userDao.findByEmail(email);
 	}
 }

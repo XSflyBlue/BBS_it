@@ -38,7 +38,7 @@
 							<tr>
 								<td>贴子标题</td>
 								<td>
-									<input type="text" name="">
+									<input type="text" name="postTitle">
 								</td>
 							</tr>
 							<tr>
@@ -46,12 +46,13 @@
 								<td>
 									<input type="radio" name="postType" value="suject"> 主题贴
 									<input type="radio" name="postType" value="file"> 附件贴
+									<input type="radio" name="postType" value="top"> 置顶贴
 								</td>
 							</tr>
 							<tr>
 								<td>贴子内容</td>
 								<td>
-									<textarea id="post_content_bbs" name="content1" cols="100" rows="8" style="width:700px;height:300px;visibility:hidden;resize: none;" >
+									<textarea id="post_content_bbs" name="postContent" cols="100" rows="8" style="width:700px;height:300px;visibility:hidden;resize: none;" >
 										<%=StringUtils.htmlspecialchars("发表您的主题...")%>
 									</textarea>
 								</td>
@@ -59,13 +60,13 @@
 							<tr id="j_fileInput">
 								<td>附件</td>
 								<td>
-									<input type="file" name="">
+									<input type="file" name="postFile">
 								</td>
 							</tr>
 							<tr>
 								<td>选择版块</td>
 								<td>
-									<select>
+									<select name="sectionId">
 										<option value="">Java</option>
 										<option value="">C++</option>
 										<option value="">闲谈灌水</option>

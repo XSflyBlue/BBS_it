@@ -4,6 +4,7 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 /**
  * JSON工具
  * @author yangz
@@ -11,8 +12,11 @@ import com.google.gson.Gson;
  */
 public class JSONUtils {
 	
-	private static Gson gson = new Gson();
-
+	private static Gson gson;
+	static{
+		GsonBuilder gsonbuilder = new GsonBuilder().serializeNulls();
+		gson = gsonbuilder.create();
+	}
 	/**
 	 * 返回JSON到前台
 	 * @param response

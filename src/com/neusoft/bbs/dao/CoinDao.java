@@ -34,6 +34,12 @@ public interface CoinDao {
 	public int insertCoinRecord(CoinRecord coinRecord);
 	
 	/**
+	 * 插入金币
+	 * @param coin
+	 * @return
+	 */
+	public int insertCoin(Coin coin);
+	/**
 	 * 根据用户id修改数据
 	 * @param userId
 	 * @return

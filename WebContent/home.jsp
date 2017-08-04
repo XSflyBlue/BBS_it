@@ -24,6 +24,11 @@
 		<div class="row">
 			<div class="col-md-9">
 				<div>
+					<div id="bbs_map">
+						<a href="#">论坛</a>
+						 >
+						<a href="#">首页</a>
+					</div>
 					<ul class="nav nav-tabs bbs_subNav">
 						<li class="j_subNav active" value="nomal" role="presentation"><a href="#">主题帖</a></li>
 						<li class="j_subNav" value="better" role="presentation"><a href="#">精华帖</a></li>

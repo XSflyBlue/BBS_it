@@ -17,6 +17,7 @@
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 <script src='<c:url value="/js/bootstrap.min.js"></c:url>'></script>
 <link rel="stylesheet" href='<c:url value="/css/bbsStyle.css"></c:url>'>
+<script src='<c:url value="/js/bbs_utils.js"></c:url>'></script>
 </head>
 <body>
 	<%@include file='/common/nav.jsp' %>
@@ -31,8 +32,8 @@
 						</a>
 						<div style="margin-bottom: 15px;">
 							<span id="j_userId" j_val="${userBase.userId}" style="display: none;"></span>
-							<span> 经验：7899/10000 </span>
-							<span> 金币：333 </span>
+							经验：<span id="j_exp"></span>
+							金币：<span id="j_coin"></span>
 						</div>
 					</div>
 					<div class="">
@@ -364,6 +365,7 @@
 	</div>
 </body>
 <script type="text/javascript">
+	
 	$(function(){
 		
 		//获取用户资料
@@ -374,18 +376,20 @@
 			data:"uId="+userId,
 			success: function(data){
 				if(data!=null){
-					var str = '<tr><td>用户名：</td><td>'+data.username+'</td></tr>';
-					str += '<tr><td>邮 箱：</td><td>'+data.email+'</td></tr>';
-					str += '<tr><td>注册时间 ：</td><td>'+data.registTime+'</td></tr>';
-					str += '<tr><td>性别：</td><td>'+data.sex+'</td></tr>';
-					str += '<tr><td>个人介绍：</td><td>'+data.intro+'</td></tr>';
-					str += '<tr><td>个性签名：</td><td>'+data.signature+'</td></tr>';
-					str += '<tr><td>出生日期：</td><td>'+data.birthday+'</td></tr>';
-					str += '<tr><td>QQ：</td><td>'+data.qq+'</td></tr>';
-					str += '<tr><td>经验值：</td><td>'+data.expNum+'</td></tr>';
-					str += '<tr><td>等 级：</td><td>'+data.levelName+'</td></tr>';
+					var str = '<tr><td>用户名：</td><td>'+bbs_dealNull(data.username)+'</td></tr>';
+					str += '<tr><td>邮 箱：</td><td>'+bbs_dealNull(data.email)+'</td></tr>';
+					str += '<tr><td>注册时间 ：</td><td>'+bbs_dealNull(data.registTime)+'</td></tr>';
+					str += '<tr><td>性别：</td><td>'+bbs_dealNull(data.sex)+'</td></tr>';
+					str += '<tr><td>个人介绍：</td><td>'+bbs_dealNull(data.intro)+'</td></tr>';
+					str += '<tr><td>个性签名：</td><td>'+bbs_dealNull(data.signature)+'</td></tr>';
+					str += '<tr><td>出生日期：</td><td>'+bbs_dealNull(data.birthday)+'</td></tr>';
+					str += '<tr><td>QQ：</td><td>'+bbs_dealNull(data.qq)+'</td></tr>';
+					str += '<tr><td>经验值：</td><td>'+bbs_dealNull(data.expNum,0)+'</td></tr>';
+					str += '<tr><td>等 级：</td><td>'+bbs_dealNull(data.levelName,0)+'</td></tr>';
 					str += '<tr><td>个人主页：</td><td><a href="http://'+data.website+'">'+data.website+'</a></td></tr>';
 					$('#j_userInfo').append(str);
+					$('#j_exp').text(bbs_dealNull(data.expNum,0));
+					$('#j_coin').text(bbs_dealNull(data.coinNum,0));
 				}
 			}
 		});

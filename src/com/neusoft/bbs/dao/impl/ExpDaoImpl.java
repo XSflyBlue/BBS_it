@@ -51,7 +51,7 @@ public class ExpDaoImpl implements ExpDao {
 
 	@Override
 	public int insertExp(EXP exp) {
-		String sql = "insert into b_exp values(?,b_exp_seq.nextval,?,?)";
+		String sql = "insert into b_exp values(?,b_exp_id_seq.nextval,?,?)";
 		Object params[] = { exp.getUserId(), exp.getExpNum(), exp.getLevelId() };
 		int res = 0;
 		try {

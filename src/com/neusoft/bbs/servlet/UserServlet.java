@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.neusoft.bbs.commons.struct.Msg;
 import com.neusoft.bbs.commons.util.FormToObjUtils;
 import com.neusoft.bbs.commons.util.JSONUtils;
@@ -199,8 +201,15 @@ public class UserServlet extends HttpServlet {
 			userBase.setRegistTime(now);
 			UserDetail detail = new UserDetail();
 			int result = userBaseService.setRegisterInfo(userBase, detail);
-			System.out.println(result);
+			UserBase user = userBaseService.findUserEmail(email);
+			if(result == 1 && user != null) {
+				request.getSession().setAttribute("userBase", user);
+				JSONUtils.writeJSON(response, new Msg(1, "注册成功"));
+			}else {
+				JSONUtils.writeJSON(response, new Msg(0, "注册错误，请重试"));
+			}
+		}else {
+			JSONUtils.writeJSON(response, new Msg(0, "请填写完整的注册信息"));
 		}
 	}
-
 }
