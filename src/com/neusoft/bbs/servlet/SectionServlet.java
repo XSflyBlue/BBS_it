@@ -81,7 +81,6 @@ public class SectionServlet extends HttpServlet {
 		short isShow; // 版块是否可见，1可见，0隐藏
 		Long districtId;// 区块ID
 		Section section;
-		List<SectionForm> sectionFormList = null;
 		try {
 			pageSize = Integer.parseInt(request.getParameter("pageSize"));
 			pageNum = Integer.parseInt(request.getParameter("pageNum"));
@@ -101,8 +100,10 @@ public class SectionServlet extends HttpServlet {
 		} else {
 			section = null;
 		}
-		sectionFormList = sectionService.findFormList(pageSize, pageNum, section);
-		JSONUtils.writeJSON(response, sectionFormList);
+		SectionJson sectionJson = new SectionJson();
+		sectionJson.setSectionFormList(sectionService.findFormList(pageSize, pageNum, section));
+		sectionJson.setMaxPage(sectionService.getListPageCount(pageSize, section));
+		JSONUtils.writeJSON(response, sectionJson);
 	}
 
 	/**
@@ -125,10 +126,7 @@ public class SectionServlet extends HttpServlet {
 				section = new Section();
 				section.setSectionId(sectionId);
 
-			} else {
-				// JSONUtils.writeJSON(response, new Msg(0,
-				// "sectionId错误："+sectionId));
-			}
+			} 
 			if (sectionService.findFormList(1, 1, section) != null) {
 				// 获取第一页中的第一条数据
 				sectionForm = sectionService.findFormList(1, 1, section).get(0);

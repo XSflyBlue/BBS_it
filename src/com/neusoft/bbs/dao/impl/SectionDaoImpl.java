@@ -125,29 +125,33 @@ public class SectionDaoImpl implements SectionDao {
 		Long id = null;
 		String str = null;
 		List<Object> arrList = new ArrayList<Object>();
-		// 参数确定
-		if (section.getSectionId() != null) {
-			// sectionId查询
-			id = section.getSectionId();
-			find_sql.append(" AND SECTION_ID=?");
-			arrList.add(id);
-		}
-		if (section.getSectionName() != null) {
-			// sectionName查询
-			str = section.getSectionName();
-			find_sql.append(" AND SECTION_NAME=?");
-			arrList.add(str);
-		}
-		if (section.getIsShow() != null) {
-			// isShow查询
-			id = section.getIsShow().longValue();
-			find_sql.append(" AND IS_SHOW=?");
-			arrList.add(id);
-		}
-		if (section.getDistrictId() != null) {
-			// districtId查询
-			id = section.getDistrictId();
-			find_sql.append(" AND DISTRICT_ID=?");
+		if (section != null) {
+			// 参数确定
+			if (section.getSectionId() != null) {
+				// sectionId查询
+				id = section.getSectionId();
+				find_sql.append(" AND SECTION_ID=?");
+				arrList.add(id);
+			}
+			if (section.getSectionName() != null) {
+				// sectionName查询
+				str = section.getSectionName();
+				find_sql.append(" AND SECTION_NAME=?");
+				arrList.add(str);
+			}
+			if (section.getIsShow() != null) {
+				// isShow查询
+				id = section.getIsShow().longValue();
+				find_sql.append(" AND IS_SHOW=?");
+				arrList.add(id);
+			}
+			if (section.getDistrictId() != null) {
+				// districtId查询
+				id = section.getDistrictId();
+				find_sql.append(" AND DISTRICT_ID=?");
+			}
+		} else {
+			return 0;
 		}
 		Object params[] = arrList.toArray();
 		PageForm pageForm = null;
@@ -171,7 +175,7 @@ public class SectionDaoImpl implements SectionDao {
 		Long id = null;
 		String str = null;
 		if (section != null) {
-			//section 不为空情况
+			// section 不为空情况
 			// 参数确定
 			if (section.getSectionId() != null) {
 				id = section.getSectionId();
@@ -196,11 +200,11 @@ public class SectionDaoImpl implements SectionDao {
 				id = section.getDistrictId();
 				find_sql.append(" AND DISTRICT_ID=?");
 			}
-		}else {
+		} else {
 			// section为null直接返回
 			return null;
 		}
-		
+
 		find_sql.append(" GROUP BY S.SECTION_ID,SECTION_NAME,S.IS_SHOW,S.DISTRICT_ID,S.SECTION_DESCRI");
 
 		// 分页SQL语句
