@@ -151,7 +151,7 @@ public class DistrictsDaoImpl implements DistrictsDao{
 
 		System.out.println(sql);
 		Object params[] = object.toArray();
-	
+		System.out.println(sql);
 		List<DistrictsForm> followFormList = null;
 		try {
 			followFormList = (List<DistrictsForm>) DatabaseUtil.query(sql, params, new BeanListHandler(DistrictsForm.class));

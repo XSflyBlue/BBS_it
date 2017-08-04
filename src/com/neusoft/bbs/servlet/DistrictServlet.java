@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.neusoft.bbs.commons.struct.Msg;
 import com.neusoft.bbs.commons.util.JSONUtils;
 import com.neusoft.bbs.commons.util.ServletUtils;
+import com.neusoft.bbs.commons.util.StringUtils;
 import com.neusoft.bbs.domain.Districts;
 import com.neusoft.bbs.domain.form.DistrictsForm;
 import com.neusoft.bbs.domain.json.DistrictsJson;
@@ -25,42 +26,44 @@ import com.neusoft.bbs.service.impl.DistrictsServiceImpl;
 @WebServlet("/DistrictServlet")
 public class DistrictServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-      
+
 	private DistrictsService distService = DistrictsServiceImpl.getInstance();
-  
-    public DistrictServlet() {
-        super();
-    }
 
-	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public DistrictServlet() {
+		super();
+	}
+
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action");
-		if(action != null) {
-			//根据action调用相应的方法
+		if (action != null) {
+			// 根据action调用相应的方法
 			ServletUtils.invoke(this, action, request, response);
-		}else {
+		} else {
 			//
 		}
 	}
 
-	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action");
-		if(action != null) {
-			//根据action调用相应的方法
+		if (action != null) {
+			// 根据action调用相应的方法
 			ServletUtils.invoke(this, action, request, response);
-		}else {
+		} else {
 			//
 		}
 	}
+
 	/***
 	 * 查看所有的统计区块
+	 * 
 	 * @param request
 	 * @param response
 	 */
-	private void findAll(HttpServletRequest request,HttpServletResponse response){
-		int pageSize = 0;//页面大小
-		int pageNum = 0; //所需页数
+	private void findAll(HttpServletRequest request,HttpServletResponse response) {
+		int pageSize = 0;// 页面大小
+		int pageNum = 0; // 所需页数
 		try {
 			pageSize = Integer.parseInt(request.getParameter("pageSize"));
 			pageNum = Integer.parseInt(request.getParameter("pageNum"));
@@ -70,43 +73,50 @@ public class DistrictServlet extends HttpServlet {
 		}
 		DistrictsJson disJson = new DistrictsJson();
 		Districts districts = new Districts();
-		
-		disJson.setDistrictsFormsList(distService.findFormList(pageSize, pageNum, districts));
+
+		disJson.setDistrictsFormsList(distService.findFormList(pageSize,
+				pageNum, districts));
 		disJson.setMaxPage(distService.getListPageCount(pageSize, districts));
-		//传回json
+		// 传回json
 		JSONUtils.writeJSON(response, disJson);
 	}
+
 	/**
 	 * 根据id查询区块
+	 * 
 	 * @param request
 	 * @param response
 	 */
-	private void findById(HttpServletRequest request,HttpServletResponse response) {
+	private void findById(HttpServletRequest request,
+			HttpServletResponse response) {
 		Long id = null;
 		Districts districts = new Districts();
 		DistrictsForm districtsForm = null;
 		// 获取页面传入的参数
 		String distrId = request.getParameter("qId");
 		System.out.println(distrId);
-		if (distrId != null) {
+		if (distrId != null&&!distrId.trim().equals("")) {
 			// 判断获取到的id是否为数字
 			Pattern pattern = Pattern.compile("^-?[0-9]+");
 			if (pattern.matcher(distrId).matches()) {
 				id = Long.parseLong(distrId);
 				districts.setDistrictId(id);
-				districtsForm = distService.findFormList(1, 1, districts).get(0);// 显示一条数据
-			} 
-//			else {
-//				JSONUtils.writeJSON(response, new Msg(0, "您输入的id不是数字！"));
-//			}
-		} 
-//		else {
-//			JSONUtils.writeJSON(response, new Msg(0, "您输入的id为空！"));
-//		}
+				districtsForm = distService.findFormList(1, 1, districts)
+						.get(0);// 显示一条数据
+			}
+			// else {
+			// JSONUtils.writeJSON(response, new Msg(0, "您输入的id不是数字！"));
+			// }
+		}
+		// else {
+		// JSONUtils.writeJSON(response, new Msg(0, "您输入的id为空！"));
+		// }
 		JSONUtils.writeJSON(response, districtsForm);
 	}
+
 	/**
 	 * 根据名字查找区块
+	 * 
 	 * @param request
 	 * @param response
 	 */
@@ -116,37 +126,47 @@ public class DistrictServlet extends HttpServlet {
 		DistrictsForm districtsForm = null;
 		if(districtName!=null&&!districtName.trim().equals("")){
 			districts.setDistrictName(districtName);
-			districtsForm = distService.findFormList(1, 1, districts).get(0);
-			System.out.println("districtsForm:"+districtsForm);
+			if(distService.findFormList(1, 1, districts)!=null){
+				districtsForm = distService.findFormList(1, 1, districts).get(0);
+			}	
 		}
 //		else{
 //			JSONUtils.writeJSON(response, new Msg(0, "您输入的区名为空！"));
 //		}
 		JSONUtils.writeJSON(response, districtsForm);
 	}
+
 	/**
-	 * 修改区块 =bbbb&districtName=xxx&districtDescri=oo
+	 * 修改区块 
+	 * 
 	 * @param request
 	 * @param response
 	 */
-	private void update(HttpServletRequest request,HttpServletResponse response){
+	private void update(HttpServletRequest request, HttpServletResponse response) {
 		Districts districts = new Districts();
 		String districtId = request.getParameter("districtId");
 		String districtName = request.getParameter("districtName");
 		String districtDescri = request.getParameter("districtDescri");
-		districts.setDistrictId(Long.valueOf(districtId));
-		districts.setDistrictName(districtName);
-		districts.setDistrictDescri(districtDescri);
-		if(districts!=null){
-			int i = distService.setDistricts(districts);
-			if(i==1){
-				JSONUtils.writeJSON(response, new Msg(1, "修改区块信息成功！") );
-			}else{
-				JSONUtils.writeJSON(response, new Msg(0, "修改区块信息失败！") );
+		if(StringUtils.isNotNullString(districtId,districtName)){
+			
+			Pattern pattern = Pattern.compile("^-?[0-9]+");//id格式校驗
+			if (pattern.matcher(districtId).matches()) {
+				districts.setDistrictId(Long.parseLong(districtId));
+				districts.setDistrictName(districtName);
+				System.out.println("districtName"+districtName);
+				districts.setDistrictDescri(districtDescri);
+				if (districts != null) {
+					int i = distService.setDistricts(districts);
+					if (i == 1) {
+						JSONUtils.writeJSON(response, new Msg(1, "修改区块信息成功！"));
+					} else {
+						JSONUtils.writeJSON(response, new Msg(0, "修改区块信息失败！"));
+					}
+				} 
 			}
 			
-		}else{
-			JSONUtils.writeJSON(response, new Msg(0, "修改区块信息失败！") );
+		}else {
+			JSONUtils.writeJSON(response, new Msg(0, "修改区块信息失败！"));
 		}
 	}
 }
