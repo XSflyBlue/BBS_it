@@ -31,7 +31,7 @@ public interface UserService {
 	 * @param userId
 	 * @return UserDetail
 	 */
-	UserBase findUserBase(Long userId);
+	UserBase findUserId(Long userId);
 	
 	/**
 	 * 注册用户（用户基本和详细信息）
@@ -40,7 +40,12 @@ public interface UserService {
 	 * @return int
 	 */
 	int setRegisterInfo(UserBase userBase,UserDetail userDetail);
-	
+	/**
+	 * 根据用户邮箱查询用户详情
+	 * @param userId
+	 * @return UserDetail
+	 */
+	UserBase findUserEmail(String email);
 	/**
 	 * 增加用户基本（记录）
 	 * @param userDetail

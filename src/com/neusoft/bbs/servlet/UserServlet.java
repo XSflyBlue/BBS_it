@@ -199,7 +199,15 @@ public class UserServlet extends HttpServlet {
 			userBase.setRegistTime(now);
 			UserDetail detail = new UserDetail();
 			int result = userBaseService.setRegisterInfo(userBase, detail);
-			System.out.println(result);
+			UserBase user = userBaseService.findUserEmail(email);
+			if(result == 1 && user != null) {
+				request.getSession().setAttribute("userBase", user);
+				JSONUtils.writeJSON(response, new Msg(1, "注册成功"));
+			}else {
+				JSONUtils.writeJSON(response, new Msg(0, "注册错误，请重试"));
+			}
+		}else {
+			JSONUtils.writeJSON(response, new Msg(0, "请填写完整的注册信息"));
 		}
 	}
 

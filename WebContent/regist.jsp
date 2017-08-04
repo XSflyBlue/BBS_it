@@ -23,7 +23,7 @@
 	<div class="container">
 		<div id="inputForm">
 			<h3>用户注册</h3>
-			<form action='<c:url value="/UserServlet?action=regist"></c:url>' method="post">
+			<form action='<c:url value="/UserServlet?action=regist"></c:url>' id="j_regForm">
 			  <div class="form-group">
 			    <label for="userName">用户名</label>
 			    <input type="text" name="username" class="form-control" id="userName" placeholder="支持中英文、数字和下划线，4-12位">
@@ -38,11 +38,80 @@
 			  </div>
 			   <div class="form-group">
 			    <label for="rePassWord">确认密码</label>
-			    <input type="password" name="rePassWord" class="form-control" id="rePassWord" placeholder="请输入密码">
+			    <input type="password" id="j_rePassword" class="form-control" id="rePassWord" placeholder="请输入密码">
 			  </div>
-			  <button type="submit" class="btn btn-primary" style="width: 100%;">注册</button>
+			  <button id="j_regSubmit" type="button" class="btn btn-primary" style="width: 100%;">注册</button>
 			</form>
+			<div style="margin-top: 5px;">
+				<font color="" id="j_msg"></font>
+			</div>
 		</div>
 	</div>
 </body>
+<script type="text/javascript">
+
+	$(function(){
+		
+		//检测邮箱
+		$('input[name=email]').blur(function(){
+			$.ajax({
+				type: 'POST',
+				url: '<c:url value="/UserServlet?action=checkRegistEmail"></c:url>',
+				data:"email="+$('input[name=email]').val(),
+				success: function(data){
+					$('#j_regSubmit').attr("disabled","disabled");
+					if(data.code == 1){
+						$('#j_msg').empty();
+						$('#j_msg').attr("color","red");
+						$('#j_msg').text("邮箱已经注册");
+					}else if(data.msg=='邮箱不存在'){
+						$("#j_submitButton").attr({"disabled":"disabled"});
+						$('#j_msg').empty();
+						$('#j_msg').attr("color","green");
+						$('#j_msg').text("邮箱可以注册");
+						$('#j_regSubmit').removeAttr("disabled");
+					}else{
+						$('#j_msg').empty();
+						$('#j_msg').attr("color","red");
+						$('#j_msg').text(data.msg);
+					}
+				}
+			});
+		});
+		//检测密码一致性
+		$('#j_rePassword').blur(function(){
+			var pwd = $('input[name=password]').val();
+			var rePwd = $('#j_rePassword').val();
+			if(pwd != rePwd){
+				$('#j_msg').empty();
+				$('#j_msg').attr("color","red");
+				$('#j_msg').text("密码不一致！");
+				$('#j_regSubmit').attr("disabled","disabled");
+			}else{
+				$('#j_regSubmit').removeAttr("disabled");
+			}
+		});
+		//注册提交
+		$('#j_regSubmit').click(function(){
+			regist();
+		});
+	});
+	
+	function regist(){
+		var mdata = $('#j_regForm').serialize();
+		$.ajax({
+			type: 'POST',
+			url: '<c:url value="/UserServlet?action=regist"></c:url>',
+			data:mdata,
+			success: function(data){
+				if(data.code == 1){
+					window.location.href='<c:url value="/admin/index_nomal.jsp"/>';
+				}else{
+					$('#j_msg').empty();
+					$('#j_msg').text(data.msg);
+				}
+			}
+		});
+	}
+</script>
 </html>
