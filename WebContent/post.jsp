@@ -33,7 +33,7 @@
 					<div>
 						<h4>发表新贴子</h4>
 					</div>
-					<form name="bbs_editor" method="post" action="#">
+					<form name="bbs_editor" method="get" action='<c:url value="/"></c:url>' enctype="multipart/form-data">
 						<table class="table">
 							<tr>
 								<td>贴子标题</td>
@@ -57,19 +57,44 @@
 									</textarea>
 								</td>
 							</tr>
-							<tr id="j_fileInput">
+							<tr class="j_fileInput">
 								<td>附件</td>
 								<td>
 									<input type="file" name="postFile">
 								</td>
 							</tr>
-							<tr>
-								<td>选择版块</td>
+							<tr class="j_fileInput">
+								<td>附件描述</td>
 								<td>
-									<select name="sectionId">
-										<option value="">Java</option>
-										<option value="">C++</option>
-										<option value="">闲谈灌水</option>
+									<input type="text" name="accessoryDescri">
+								</td>
+							</tr>
+							<tr class="j_fileInput">
+								<td>附件价值</td>
+								<td>
+									<input type="text" name="costCoin"> 个金币
+								</td>
+							</tr>
+							<tr>
+								<td>发布到哪</td>
+								<td>
+									区块：
+									<select id="j_qSel">
+										<option value="0">请选择区块</option>
+										<%
+										if(navs != null && navs.size() > 0){
+											for(Districts nav: navs){
+												
+										%>
+											<option value="<%=nav.getDistrictId()%>"><%=nav.getDistrictName()%></option>
+										<%} }%>
+										
+										
+									</select>
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									版块：
+									<select name="sectionId" id="j_bSel" disabled="disabled">
+										<option value="0">请选择版块</option>
 									</select>
 								</td>
 							</tr>
@@ -77,7 +102,7 @@
 							<tr>
 								<td></td>
 								<td>
-									<button type="button" class="btn btn-primary" onclick="submitPost()">发新贴</button>
+									<button type="submit" class="btn btn-primary">发新贴</button>
 								</td>
 							</tr>
 						</table>
@@ -131,13 +156,9 @@
 	</div>
 </body>
 <script>
-	function submitPost(){
-		editor.sync();
-		var html = $('#post_content_bbs').val(); // jQuery
-	}
 	var editor;
 	KindEditor.ready(function(K) {
-		editor = K.create('textarea[name="content1"]', {
+		editor = K.create('textarea[name="postContent"]', {
 			cssPath : '<c:url value="/kindeditor/plugins/code/prettify.css"></c:url>',
 			uploadJson : '<c:url value="/kindeditor/jsp/upload_json.jsp"></c:url>',
 			fileManagerJson : '<c:url value="/kindeditor/jsp/file_manager_json.jsp"></c:url>',
@@ -148,14 +169,40 @@
 	});
 	
 	$(function(){
-		$("#j_fileInput").hide();
+		//文件上传显示
+		$(".j_fileInput").hide();
 		$('input[name=postType]').click(function(){
 			if($(this).val()=='file'){
-				$("#j_fileInput").show();
+				$(".j_fileInput").show();
 			}else{
-				$("#j_fileInput").hide();
+				$(".j_fileInput").hide();
 			}
 		});
+		
+		//区块初始化
+		$('#j_qSel').change(function(){
+			//版块初始化
+			var qId = $('#j_qSel').val();
+			$.ajax({
+				type: 'POST',
+				url: '<c:url value="/PageServlet?action=querySectionByDistrictId"></c:url>',
+				data:"qId="+qId,
+				async:false,
+				success: function(data){
+					if(data != null){
+						$('#j_bSel').empty();
+						$('#j_bSel').removeAttr('disabled');
+						$(data).each(function(index,item){
+							if(item.isShow != 0){
+								var str = '<option value="'+item.sectionId+'">'+item.sectionName+'</option>';
+								$('#j_bSel').append(str);
+							}
+						});
+					}
+				}
+			});
+		});
+		
 	});
 </script>
 </html>
