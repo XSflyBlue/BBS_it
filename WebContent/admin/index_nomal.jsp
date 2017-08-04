@@ -374,6 +374,7 @@
 			data:"uId="+userId,
 			success: function(data){
 				if(data!=null){
+					alert(JSON.stringify(data));
 					var str = '<tr><td>用户名：</td><td>'+data.username+'</td></tr>';
 					str += '<tr><td>邮 箱：</td><td>'+data.email+'</td></tr>';
 					str += '<tr><td>注册时间 ：</td><td>'+data.registTime+'</td></tr>';

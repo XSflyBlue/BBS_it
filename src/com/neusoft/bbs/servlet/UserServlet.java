@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.neusoft.bbs.commons.struct.Msg;
 import com.neusoft.bbs.commons.util.FormToObjUtils;
 import com.neusoft.bbs.commons.util.JSONUtils;
@@ -210,5 +212,4 @@ public class UserServlet extends HttpServlet {
 			JSONUtils.writeJSON(response, new Msg(0, "请填写完整的注册信息"));
 		}
 	}
-
 }
