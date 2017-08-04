@@ -48,9 +48,6 @@ public class UserForm {
      * （注册）时间
      */
     private Date registTime;
-    
-    
-    
 
     /***
      * 头像（路径）
