@@ -196,7 +196,11 @@ public class SectionDaoImpl implements SectionDao {
 				id = section.getDistrictId();
 				find_sql.append(" AND DISTRICT_ID=?");
 			}
+		}else {
+			// section为null直接返回
+			return null;
 		}
+		
 		find_sql.append(" GROUP BY S.SECTION_ID,SECTION_NAME,S.IS_SHOW,S.DISTRICT_ID,S.SECTION_DESCRI");
 
 		// 分页SQL语句
