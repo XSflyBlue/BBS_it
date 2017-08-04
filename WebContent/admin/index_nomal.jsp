@@ -124,124 +124,8 @@
 							</div>
 							
 							<div id="bbs_admin_showCare">
-								<table class="table">
-								<tr>
-									<td>
-										<div class="bbs_showItems">
-											<a href='<c:url value="/userInfo.jsp"></c:url>'>
-												<img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">
-												<span id="bbs_poster_name">鲁班不住这</span>
-											</a>
-										</div>
-									</td>
-									<td>
-										<div class="bbs_showItems">
-											<a href='<c:url value="/userInfo.jsp"></c:url>'>
-												<img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">
-												<span id="bbs_poster_name">鲁班不住这</span>
-											</a>
-										</div>
-									</td>
-									<td>
-										<div class="bbs_showItems">
-											<a href='<c:url value="/userInfo.jsp"></c:url>'>
-												<img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">
-												<span id="bbs_poster_name">鲁班不住这</span>
-											</a>
-										</div>
-									</td>
-									<td>
-										<div class="bbs_showItems">
-											<a href='<c:url value="/userInfo.jsp"></c:url>'>
-												<img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">
-												<span id="bbs_poster_name">鲁班不住这</span>
-											</a>
-										</div>
-									</td>
-									<td>
-										<div class="bbs_showItems">
-											<a href='<c:url value="/userInfo.jsp"></c:url>'>
-												<img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">
-												<span id="bbs_poster_name">鲁班不住这</span>
-											</a>
-										</div>
-									</td>
-									<td>
-										<div class="bbs_showItems">
-											<a href='<c:url value="/userInfo.jsp"></c:url>'>
-												<img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">
-												<span id="bbs_poster_name">鲁班不住这</span>
-											</a>
-										</div>
-									</td>
-									<td>
-										<div class="bbs_showItems">
-											<a href='<c:url value="/userInfo.jsp"></c:url>'>
-												<img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">
-												<span id="bbs_poster_name">鲁班不住这</span>
-											</a>
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<div class="bbs_showItems">
-											<a href='<c:url value="/userInfo.jsp"></c:url>'>
-												<img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">
-												<span id="bbs_poster_name">鲁班不住这</span>
-											</a>
-										</div>
-									</td>
-									<td>
-										<div class="bbs_showItems">
-											<a href='<c:url value="/userInfo.jsp"></c:url>'>
-												<img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">
-												<span id="bbs_poster_name">鲁班不住这</span>
-											</a>
-										</div>
-									</td>
-									<td>
-										<div class="bbs_showItems">
-											<a href='<c:url value="/userInfo.jsp"></c:url>'>
-												<img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">
-												<span id="bbs_poster_name">鲁班不住这</span>
-											</a>
-										</div>
-									</td>
-									<td>
-										<div class="bbs_showItems">
-											<a href='<c:url value="/userInfo.jsp"></c:url>'>
-												<img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">
-												<span id="bbs_poster_name">鲁班不住这</span>
-											</a>
-										</div>
-									</td>
-									<td>
-										<div class="bbs_showItems">
-											<a href='<c:url value="/userInfo.jsp"></c:url>'>
-												<img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">
-												<span id="bbs_poster_name">鲁班不住这</span>
-											</a>
-										</div>
-									</td>
-									<td>
-										<div class="bbs_showItems">
-											<a href='<c:url value="/userInfo.jsp"></c:url>'>
-												<img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">
-												<span id="bbs_poster_name">鲁班不住这</span>
-											</a>
-										</div>
-									</td>
-									<td>
-										<div class="bbs_showItems">
-											<a href='<c:url value="/userInfo.jsp"></c:url>'>
-												<img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">
-												<span id="bbs_poster_name">鲁班不住这</span>
-											</a>
-										</div>
-									</td>
-								</tr>
-							</table>
+								<table class="table" id="j_follows">
+								</table>
 							<nav aria-label="Page navigation" style="text-align: center;">
 							  <ul class="pagination">
 							    <li>
@@ -366,6 +250,43 @@
 </body>
 <script type="text/javascript">
 	
+	//获取关注列表
+	function follows(index){
+		var rowNum = index;
+		$.ajax({
+			type: 'POST',
+			url: '<c:url value="/UserServlet?action=queryFollows"></c:url>',
+			data:"rowNum="+rowNum,
+			success: function(data){
+				if(data!=null){
+					var len = data.length;
+					var colNum = 0;
+					var str = '<tr>';
+					for(i = 0;i < len;i++){
+						colNum++;
+						if(colNum % 8 != 0){
+							str += '<td><div class="bbs_showItems">';
+							str += '<a href="#">';
+							str += '<img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">';
+							str += '<span id="bbs_poster_name">'+data[i].followUsername+'</span>';
+							str += '</a></div></td>';
+						}else{
+							str += '</tr><tr>';
+							str += '<td><div class="bbs_showItems">';
+							str += '<a href="#">';
+							str += '<img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">';
+							str += '<span id="bbs_poster_name">鲁班不住这</span>';
+							str += '</a></div></td>';
+						}
+					}
+					str += '</tr>';
+					$('#j_follows').empty();
+					$('#j_follows').append(str);
+				}
+			}
+		});
+	}
+	
 	$(function(){
 		
 		//获取用户资料
@@ -393,6 +314,9 @@
 				}
 			}
 		});
+		
+		//关注列表
+		follows(1);
 		
 		//页面基础
 		$('#bbs_admin_showInfo').css("display","inline");

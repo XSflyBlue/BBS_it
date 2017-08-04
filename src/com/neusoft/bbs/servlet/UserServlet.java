@@ -3,6 +3,7 @@ package com.neusoft.bbs.servlet;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,10 +22,14 @@ import com.neusoft.bbs.commons.util.ServletUtils;
 import com.neusoft.bbs.commons.util.StringUtils;
 import com.neusoft.bbs.commons.util.db.JdbcUtil_DBCP;
 import com.neusoft.bbs.dao.impl.UserDaoImpl;
+import com.neusoft.bbs.domain.Follow;
 import com.neusoft.bbs.domain.UserBase;
 import com.neusoft.bbs.domain.UserDetail;
+import com.neusoft.bbs.domain.form.FollowForm;
+import com.neusoft.bbs.service.FollowService;
 import com.neusoft.bbs.service.UserDetailService;
 import com.neusoft.bbs.service.UserService;
+import com.neusoft.bbs.service.impl.FollowServiceImpl;
 import com.neusoft.bbs.service.impl.UserDetailServiceImpl;
 import com.neusoft.bbs.service.impl.UserServiceImpl;
 
@@ -40,6 +45,7 @@ public class UserServlet extends HttpServlet {
 	
 	private UserService userBaseService = UserServiceImpl.getInstance();
 	private UserDetailService userDetailService = UserDetailServiceImpl.getInstance();
+	private FollowService followService = FollowServiceImpl.getInstance();
 	
        
     public UserServlet() {
@@ -184,7 +190,7 @@ public class UserServlet extends HttpServlet {
 		}
 	}
 	/**
-	 * 注册（初始化其他表待实现...）
+	 * 注册
 	 * @param request
 	 * @param response
 	 */
@@ -210,6 +216,26 @@ public class UserServlet extends HttpServlet {
 			}
 		}else {
 			JSONUtils.writeJSON(response, new Msg(0, "请填写完整的注册信息"));
+		}
+	}
+	
+	/**
+	 * 查看关注的用户列表
+	 * @param request
+	 * @param response
+	 */
+	private void queryFollows(HttpServletRequest request, HttpServletResponse response) {
+		String rowNumStr = request.getParameter("rowNum");//页数
+		if(StringUtils.isNotNullString(rowNumStr)) {
+			int rowNum = Integer.parseInt(rowNumStr);
+			int pageSize = 14;//页面大小
+			Follow follow = new Follow();
+			UserBase userBase = (UserBase) request.getSession().getAttribute("userBase");
+			if(userBase != null) {
+				follow.setUserId(userBase.getUserId());
+				List<FollowForm> result = followService.findFormList(pageSize, rowNum, follow);
+				JSONUtils.writeJSON(response, result);
+			}
 		}
 	}
 }
