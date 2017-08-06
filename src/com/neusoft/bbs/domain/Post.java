@@ -149,6 +149,11 @@ public class Post {
      * 帖子标题
      */
     private String postTitle;
+    
+    /**
+     * 是否是本人（OR语句标识）
+     */
+    private String isSelf;
 
     public Long getPostId() {
         return postId;
@@ -385,6 +390,14 @@ public class Post {
 				+ recomUserId + ", recomValidity=" + recomValidity + ", isHidden=" + isHidden + ", hiddenCause="
 				+ hiddenCause + ", hiddenUserId=" + hiddenUserId + ", isAccessory=" + isAccessory + ", editUserId="
 				+ editUserId + ", editTime=" + editTime + ", postTitle=" + postTitle + "]";
+	}
+
+	public String getIsSelf() {
+		return isSelf;
+	}
+
+	public void setIsSelf(String isSelf) {
+		this.isSelf = isSelf;
 	}
 	
 }

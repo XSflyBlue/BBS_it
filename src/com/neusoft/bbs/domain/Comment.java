@@ -52,6 +52,11 @@ public class Comment {
      * 跟帖IP
      */
     private String commentIp;
+    
+    /**
+     * 是否是本人（OR语句标识）
+     */
+    private String isSelf;
 
     public Long getCommentId() {
         return commentId;
@@ -124,4 +129,12 @@ public class Comment {
     public void setCommentIp(String commentIp) {
         this.commentIp = commentIp;
     }
+
+	public String getIsSelf() {
+		return isSelf;
+	}
+
+	public void setIsSelf(String isSelf) {
+		this.isSelf = isSelf;
+	}
 }

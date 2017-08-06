@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -86,7 +87,7 @@ public class PostServlet extends HttpServlet {
 	}
 
 	/**
-	 * 获取置顶贴 （版主可见隐藏传入uid）
+	 * 获取置顶贴 
 	 * 
 	 * @param request
 	 * @param response
@@ -94,32 +95,49 @@ public class PostServlet extends HttpServlet {
 	private void findOverheadPost(HttpServletRequest request, HttpServletResponse response) {
 		// 参数声明
 		String bId; // 板块ID（前端参数）
-		String uId; // 非必须参数（版主需要）
 		int pageSize;// 页面大小
 		int pageNum; // 所需页数
+		
+		//无需传递参数
+		UserBase userbase; // 用户基本
 		Post post; // 所需封装参数
 		PostJson postJson;// json结构
+		
 		// 获取并处理参数
 		bId = request.getParameter("bId");
-		uId = request.getParameter("uId");
+		userbase = (UserBase)request.getSession().getAttribute("userBase");
+		
 		// 所需封装参数封装
 		post = new Post();
-		post.setIsHidden(Short.parseShort("1"));// 除去隐藏贴
 		try {
 			if (bId != null) {
 				post.setSectionId(Long.parseLong(bId));
 			}
+
 			pageSize = Integer.parseInt(request.getParameter("pageSize"));
 			pageNum = Integer.parseInt(request.getParameter("pageNum"));
-			if (uId != null) {
-				// 判断是否是版主
-				Moderator moderator = new Moderator();
-				moderator.setUserId(Short.parseShort(uId));// 需要底层支持
-				for (ModeratorForm moderatorForm : ModeratorServiceImpl.getInstance().findFormList(1, 1, moderator)) {
-					if (Short.parseShort(uId) == moderatorForm.getUserId()) {
-						post.setIsHidden(null);// 所有帖子
+
+			if(userbase!=null) {
+				if (userbase.getUserId() != null) {
+					// 判断是否是版主
+					Moderator moderator = new Moderator();
+					moderator.setUserId(Short.parseShort(String.valueOf(userbase.getUserId())));// 需要底层支持
+					for (ModeratorForm moderatorForm : ModeratorServiceImpl.getInstance().findFormList(1, 1, moderator)) {
+						if (Short.parseShort(String.valueOf(userbase.getUserId())) == moderatorForm.getUserId()) {
+							post.setIsHidden(null);// 所有帖子
+						}
 					}
+					
+					//本人可见自己隐藏和别人公开的帖子
+					if(post.getIsHidden()!=null) {
+						//需要底层支持（select中where子句加入OR判断）
+						post.setIsSelf("1");//1是本人
+					}
+				}else {
+					post.setIsHidden(Short.parseShort("1"));// 除去隐藏贴
 				}
+			}else {
+				post.setIsHidden(Short.parseShort("1"));// 除去隐藏贴
 			}
 		} catch (Exception e) {
 			pageSize = 10;
@@ -139,7 +157,7 @@ public class PostServlet extends HttpServlet {
 	}
 
 	/**
-	 * 获取普通贴（版主可见隐藏传入uid）
+	 * 获取普通贴
 	 * 
 	 * @param request
 	 * @param response
@@ -147,40 +165,56 @@ public class PostServlet extends HttpServlet {
 	private void findOrdinaryPost(HttpServletRequest request, HttpServletResponse response) {
 		// 参数声明
 		String bId; // 板块ID（前端参数）
-		String uId; // 非必须参数（版主需要）
 		int pageSize;// 页面大小
 		int pageNum; // 所需页数
+		
+		//无需传递参数
+		UserBase userbase; // 用户基本
 		Post post; // 所需封装参数
 		PostJson postJson;// json结构
+		
 		// 获取并处理参数
 		bId = request.getParameter("bId");
-		uId = request.getParameter("uId");
+		userbase = (UserBase)request.getSession().getAttribute("userBase");
+		
 		// 所需封装参数封装
 		post = new Post();
-		post.setIsHidden(Short.parseShort("1"));// 除去隐藏贴
 		try {
 			if (bId != null) {
 				post.setSectionId(Long.parseLong(bId));
 			}
+
 			pageSize = Integer.parseInt(request.getParameter("pageSize"));
 			pageNum = Integer.parseInt(request.getParameter("pageNum"));
 
-			if (uId != null) {
-				// 判断是否是版主
-				Moderator moderator = new Moderator();
-				moderator.setUserId(Short.parseShort(uId));// 需要底层支持
-				for (ModeratorForm moderatorForm : ModeratorServiceImpl.getInstance().findFormList(1, 1, moderator)) {
-					if (Short.parseShort(uId) == moderatorForm.getUserId()) {
-						post.setIsHidden(null);// 所有帖子
+			if(userbase!=null) {
+				if (userbase.getUserId() != null) {
+					// 判断是否是版主
+					Moderator moderator = new Moderator();
+					moderator.setUserId(Short.parseShort(String.valueOf(userbase.getUserId())));// 需要底层支持
+					for (ModeratorForm moderatorForm : ModeratorServiceImpl.getInstance().findFormList(1, 1, moderator)) {
+						if (Short.parseShort(String.valueOf(userbase.getUserId())) == moderatorForm.getUserId()) {
+							post.setIsHidden(null);// 所有帖子
+						}
 					}
+					
+					//本人可见自己隐藏和别人公开的帖子
+					if(post.getIsHidden()!=null) {
+						//需要底层支持（select中where子句加入OR判断）
+						post.setIsSelf("1");//1是本人
+					}
+				}else {
+					post.setIsHidden(Short.parseShort("1"));// 除去隐藏贴
 				}
+			}else {
+				post.setIsHidden(Short.parseShort("1"));// 除去隐藏贴
 			}
 		} catch (Exception e) {
 			pageSize = 10;
 			pageNum = 1;
 		}
 
-		post.setIsOverhead(Short.parseShort("0"));// 置顶
+		post.setIsOverhead(Short.parseShort("0"));// 非置顶
 		// 获取服务
 		PostService postService = PostServiceImpl.getInstance();
 		postJson = new PostJson();
@@ -193,22 +227,24 @@ public class PostServlet extends HttpServlet {
 	}
 
 	/**
-	 * 获取精华贴（版主可见隐藏传入uid）
+	 * 获取精华贴
 	 * 
 	 * @param request
 	 * @param response
 	 */
 	private void findElitePost(HttpServletRequest request, HttpServletResponse response) {
 		// 参数声明
-		String bId; // 板块ID（前端参数）
-		String uId; // 非必须参数（版主需要）
+		String bId;  // 板块ID（前端参数）
 		int pageSize;// 页面大小
 		int pageNum; // 所需页数
+		
+		//无需传递参数
 		Post post; // 所需封装参数
-		PostJson postJson;// json结构
+		UserBase userbase; // 用户基本
+		PostJson postJson; // json结构
 		// 获取并处理参数
 		bId = request.getParameter("bId");
-		uId = request.getParameter("uId");
+		userbase = (UserBase)request.getSession().getAttribute("userBase");
 		// 所需封装参数封装
 		post = new Post();
 
@@ -220,22 +256,33 @@ public class PostServlet extends HttpServlet {
 			pageSize = Integer.parseInt(request.getParameter("pageSize"));
 			pageNum = Integer.parseInt(request.getParameter("pageNum"));
 
-			if (uId != null) {
-				// 判断是否是版主
-				Moderator moderator = new Moderator();
-				moderator.setUserId(Short.parseShort(uId));// 需要底层支持
-				for (ModeratorForm moderatorForm : ModeratorServiceImpl.getInstance().findFormList(1, 1, moderator)) {
-					if (Short.parseShort(uId) == moderatorForm.getUserId()) {
-						post.setIsHidden(null);// 所有帖子
+			if(userbase!=null) {
+				if (userbase.getUserId() != null) {
+					// 判断是否是版主
+					Moderator moderator = new Moderator();
+					moderator.setUserId(Short.parseShort(String.valueOf(userbase.getUserId())));// 需要底层支持
+					for (ModeratorForm moderatorForm : ModeratorServiceImpl.getInstance().findFormList(1, 1, moderator)) {
+						if (Short.parseShort(String.valueOf(userbase.getUserId())) == moderatorForm.getUserId()) {
+							post.setIsHidden(null);// 所有帖子
+						}
 					}
+					
+					//本人可见自己隐藏和别人公开的帖子
+					if(post.getIsHidden()!=null) {
+						//需要底层支持（select中where子句加入OR判断）
+						post.setIsSelf("1");//1是本人
+					}
+				}else {
+					post.setIsHidden(Short.parseShort("1"));// 除去隐藏贴
 				}
+			}else {
+				post.setIsHidden(Short.parseShort("1"));// 除去隐藏贴
 			}
 		} catch (Exception e) {
 			pageSize = 10;
 			pageNum = 1;
 		}
-
-		post.setIsHidden(Short.parseShort("1"));// 除去隐藏贴
+		
 		post.setIsElite(Short.parseShort("1"));// 精华帖
 		System.out.println(post);
 		// 获取服务
@@ -260,33 +307,42 @@ public class PostServlet extends HttpServlet {
 	private void findPostbyPostId(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 参数声明
 		String tId; // 帖子ID（前端参数）
-		String uId; // 前端非必须（发帖者需要传）
-		Post post;  // 所需封装参数
+
+		//无需传递参数
+		UserBase userBase; // 用户基本
+		Post post;         // 所需封装参数
 		PostForm postForm = null;// PostForm结构
 		Accessory accessory = null;//附件
 		PostFormJson postFormJson = null;//帖子详情
 		// 获取并处理参数
 		tId = request.getParameter("tId");
-		uId = request.getParameter("uId");
+		userBase = (UserBase)request.getSession().getAttribute("userBase");
 
 		// 所需封装参数封装
 		post = new Post();
-		post.setIsHidden(Short.parseShort("1"));
 		try {
 			post.setPostId(Long.parseLong(tId));
-			if (uId != null && uId
-					.equals(String.valueOf(((UserBase) request.getSession().getAttribute("userBase")).getUserId()))) {
-				post.setIsHidden(Short.parseShort(null));// 本人可见被隐藏的帖子
-			}
-			if (uId != null) {
-				// 判断是否是版主
-				Moderator moderator = new Moderator();
-				moderator.setUserId(Short.parseShort(uId));// 需要底层支持
-				for (ModeratorForm moderatorForm : ModeratorServiceImpl.getInstance().findFormList(1, 1, moderator)) {
-					if (Short.parseShort(uId) == moderatorForm.getUserId()) {
-						post.setIsHidden(null);// 所有帖子
+			if(userBase!=null) {
+				post = PostServiceImpl.getInstance().findByPostId(Long.parseLong(tId));
+				if (userBase.getUserId()!=null
+						&& post!=null
+						&& userBase.getUserId().longValue()==post.getUserId().longValue()) {
+					// 本人可见被隐藏的帖子
+					post.setIsHidden(Short.parseShort(null));
+				}
+				if (userBase.getUserId() != null
+						&& post!=null) {
+					// 判断是否是版主
+					Moderator moderator = new Moderator();
+					moderator.setUserId(Short.parseShort(String.valueOf(userBase.getUserId())));// 需要底层支持
+					for (ModeratorForm moderatorForm : ModeratorServiceImpl.getInstance().findFormList(1, 1, moderator)) {
+						if (userBase.getUserId().shortValue() == moderatorForm.getUserId().shortValue()) {
+							post.setIsHidden(null);// 所有帖子
+						}
 					}
 				}
+			}else {
+				post.setIsHidden(Short.parseShort("1"));//未登录用户
 			}
 		} catch (Exception e) {
 			JSONUtils.writeJSON(response, new PostFormJson());
@@ -312,38 +368,47 @@ public class PostServlet extends HttpServlet {
 	}
 
 	/**
-	 * 跟贴显示（根据postId）（本用户和发帖人可见隐藏需传入uid）
+	 * 跟贴显示（根据postId）
 	 * 
 	 * @param request
 	 * @param response
 	 */
 	private void findCommentbyPostId(HttpServletRequest request, HttpServletResponse response) {
 		// 参数声明
-		String tId; // 帖子ID（前端参数）
-		String uId; // 前端非必须（发帖者需要传）
-		Comment comment; // 所需封装参数
+		String tId;   // 帖子ID（前端参数）
 		int pageSize; // 页面大小
-		int pageNum; // 所需页数
+		int pageNum;  // 所需页数
+		
+		//无需传递参数
+		UserBase userBase; // 用户基本
+		Comment comment; // 所需封装参数
 		CommentJson commentJson;// 跟帖Json数据
+		
 		// 获取并处理参数
 		tId = request.getParameter("tId");
-		uId = request.getParameter("uId");
+		userBase = (UserBase)request.getSession().getAttribute("userBase");
 
 		// 所需封装参数封装
 		comment = new Comment();
 
 		try {
-			if (tId != null) {
+			if (tId != null) {//指定帖子Id
 				comment.setPostId(Long.parseLong(tId));
+				comment.setIsHidden(Short.parseShort("1"));//仅可见未隐藏回帖
 			}
 			Post post = new Post();
 			post.setPostId(comment.getPostId());
-			if (uId != null
-					&& (!uId.equals(
-							String.valueOf(((UserBase) request.getSession().getAttribute("userBase")).getUserId())))
-					&& (!uId.equals(String.valueOf(PostServiceImpl.getInstance().findFormList(1, 1, post))))) {
-				comment.setIsHidden(Short.parseShort("1"));// 不是本人且不是发帖人，仅可见不被隐藏的回帖
+			if (userBase != null) {
+				if(userBase.getUserId().longValue()==PostServiceImpl.getInstance().findFormList(1, 1, post).get(0).getUserId().longValue()){
+					//发帖人
+					comment.setIsHidden(null);// 发帖人，可见被隐藏的回帖
+				}else if (userBase.getUserId().longValue()==((UserBase) request.getSession().getAttribute("userBase")).getUserId().longValue()){
+					//本人（可查看本人隐藏和别人公开的回帖）
+					//需要底层支持（select中where子句加入OR判断）
+					comment.setIsSelf("1");//1是本人
+				}
 			}
+
 			pageSize = Integer.parseInt(request.getParameter("pageSize"));
 			pageNum = Integer.parseInt(request.getParameter("pageNum"));
 		} catch (Exception e) {
@@ -363,31 +428,41 @@ public class PostServlet extends HttpServlet {
 	}
 
 	/**
-	 * 查看用户最近发布的贴子(top10)根据userId（本用户和发帖人可见隐藏需传入uid）
+	 * 查看用户最近发布的贴子(top10)根据userId
 	 * 
 	 * @param request
 	 * @param response
 	 */
 	private void findRecentPost10byUserId(HttpServletRequest request, HttpServletResponse response) {
 		// 参数声明
-		String uId; // 用户ID（前端参数）
+		String uId;  // 用户ID（本人无需传参）
 		int pageSize;// 页面大小
 		int pageNum; // 所需页数
-		Post post; // 所需封装参数
+		
+		//无需传递参数
+		UserBase userBase = null;
+		Post post;   // 所需封装参数
 		PostJson postJson;// json结构
 		// 获取并处理参数
 		uId = request.getParameter("uId");
+		userBase = (UserBase)request.getSession().getAttribute("userBase");
 		// 所需封装参数封装
 		post = new Post();
-		post.setIsHidden(Short.parseShort("1"));
+		post.setIsHidden(Short.parseShort("1"));//默认只查看未隐藏帖子
 		try {
-			if (uId != null) {
+			//判断用户身份
+			if(userBase == null && uId == null) {//未登录且未传参
+				JSONUtils.writeJSON(response, new Msg(0, "无效参数，查看最近发帖失败"));
+				return;
+			}else if(uId == null||uId.equals(String.valueOf(userBase.getUserId()))){
+				//查看本人
+				post.setIsHidden(Short.parseShort(null));// 本人可见被隐藏的帖子
+			}else if(uId != null
+					&& (!uId.equals(String.valueOf(userBase.getUserId())))) {
+				//查看他人
 				post.setUserId(Long.parseLong(uId));
 			}
-			if (uId != null && uId
-					.equals(String.valueOf(((UserBase) request.getSession().getAttribute("userBase")).getUserId()))) {
-				post.setIsHidden(Short.parseShort(null));// 本人可见被隐藏的帖子
-			}
+			
 			pageSize = Integer.parseInt(request.getParameter("pageSize"));
 			pageNum = Integer.parseInt(request.getParameter("pageNum"));
 		} catch (Exception e) {
@@ -395,7 +470,6 @@ public class PostServlet extends HttpServlet {
 			pageNum = 1;
 		}
 
-		// post.setIsHidden(Short.parseShort("1"));//除去隐藏贴
 		// 获取服务
 		PostService postService = PostServiceImpl.getInstance();
 		postJson = new PostJson();
@@ -415,17 +489,31 @@ public class PostServlet extends HttpServlet {
 	 */
 	private void findCollectionPostbyUserId(HttpServletRequest request, HttpServletResponse response) {
 		// 参数声明
-		String uId; // 用户ID（前端参数）
+		String uId;  // 用户ID（本人无需传参）
 		int pageSize;// 页面大小
 		int pageNum; // 所需页数
 		Collection collection; // 所需封装参数
 		CollectionJson collectionJson;
+		
+		//无需传递参数
+		UserBase userBase;     // 用户Id
+		
 		// 获取并处理参数
 		uId = request.getParameter("uId");
+		userBase = (UserBase) request.getSession().getAttribute("userBase");
 		// 所需封装参数封装
 		collection = new Collection();
 		try {
-			if (uId != null) {
+			//判断用户身份
+			if(userBase == null && uId == null) {//未登录且未传参
+				JSONUtils.writeJSON(response, new Msg(0, "无效参数，查看收藏失败"));
+				return;
+			}else if(uId == null||uId.equals(String.valueOf(userBase.getUserId()))){
+				//查看本人
+				collection.setUserId(userBase.getUserId());
+			}else if(uId != null
+					&& (!uId.equals(String.valueOf(userBase.getUserId())))) {
+				//查看他人
 				collection.setUserId(Long.parseLong(uId));
 			}
 			pageSize = Integer.parseInt(request.getParameter("pageSize"));
@@ -454,13 +542,15 @@ public class PostServlet extends HttpServlet {
 	 */
 	private void addPost(HttpServletRequest request, HttpServletResponse response) {
 		// 参数声明
-		String postTitle; // 帖子标题（前端参数）
-		String postType; // 帖子类型
-		String postContent;// 帖子内容
-		String postFile; // 帖子附件（二进制文件）
-		String sectionId; // 板块Id
-		String userId; // 用户Id
-		Post post; // 封装所需参数
+		String postTitle;  // 帖子标题（前端参数）
+		String postType;   // 帖子类型
+		String postContent;// 帖子内容	
+		String sectionId;  // 板块Id
+		
+		//无需传递参数
+		UserBase userBase;     // 用户Id
+		String postFile;   // 帖子附件（二进制文件）
+		Post post;         // 封装所需参数
 
 		// 获取参数
 		postTitle = (String) request.getAttribute("postTitle");
@@ -468,15 +558,20 @@ public class PostServlet extends HttpServlet {
 		postContent = (String) request.getAttribute("postContent");
 		postFile = (String) request.getAttribute("postFile");
 		sectionId = (String) request.getAttribute("sectionId");
-		userId = String.valueOf(((UserBase) request.getSession().getAttribute("userBase")).getUserId());
+		userBase = (UserBase) request.getSession().getAttribute("userBase");
 
 		// 封装并处理参数
 		post = new Post();
 		try {
+			//判断用户是否登录
+			if(userBase == null) {
+				JSONUtils.writeJSON(response, new Msg(0, "未登录用户，发布帖子失败"));
+				return;
+			}
 			post.setPostType(Short.parseShort(postType));
 			post.setSectionId(Long.parseLong(sectionId));
-			post.setUserId(Long.parseLong(userId));
-			post.setEditUserId(Long.parseLong(userId));// 默认编辑帖子人是发布者
+			post.setUserId(userBase.getUserId());
+			post.setEditUserId(userBase.getUserId());// 默认编辑帖子人是发布者
 		} catch (Exception e) {
 			JSONUtils.writeJSON(response, new Msg(0, "参数错误，发布失败"));
 			return;
@@ -506,9 +601,9 @@ public class PostServlet extends HttpServlet {
 		PostService postService = PostServiceImpl.getInstance();
 		int result = 0;
 		// 差异化参数
-		if (post.getPostType() == 1) {// 主题帖
+		if (post.getPostType().shortValue() == 1) {// 主题帖
 
-		} else if (post.getPostType() == 2) {// 资源帖
+		} else if (post.getPostType().shortValue() == 2) {// 资源帖
 			if (postFile != null) {
 				// TO-DO 多文件上传
 				post.setIsAccessory(Short.parseShort("1"));// 存在资源的主题帖
@@ -536,7 +631,7 @@ public class PostServlet extends HttpServlet {
 					}
 				}
 			}
-		} else if (post.getPostType() == 3) {// 公告
+		} else if (post.getPostType().shortValue() == 3) {// 公告
 			post.setIsOverhead(Short.parseShort("1"));
 			post.setOverheadCause("公告贴");
 			post.setOverheadUserId(0L);// 系统自动设置
@@ -558,24 +653,27 @@ public class PostServlet extends HttpServlet {
 	 */
 	private void updatePost(HttpServletRequest request, HttpServletResponse response) {
 		// （用户）参数声明
-		String postId; // 帖子Id（前端参数）
-		String postTitle; // 帖子标题（前端参数）
-		String uId; // 前端普通用户非必须（版主必须）
-		String postType; // 帖子类型
-		String postContent;// 帖子内容
+		String postId;       // 帖子Id（前端参数）
+		String postTitle;    // 帖子标题（前端参数）
+		String postType;     // 帖子类型
+		String postContent;  // 帖子内容
 		String accessoryStatus; // 帖子附件状态（未改动0，删除1，重新上传2）
-		String sectionId; // 板块Id
-		String userId; // 用户Id
-		Post post; // 封装所需参数
+		String sectionId;    // 板块Id
 
 		// （版主）参数声明
-		String isHighlight; // 高亮状态
-		String isOverhead; // 置顶状态
+		String isHighlight;  // 高亮状态
+		String isOverhead;   // 置顶状态
 		String overheadCause;// 置顶原因
-		String isClose; // 帖子关闭状态
-		String switchCause; // 帖子切换（关闭）原因
-		String isElite; // 帖子精华状态
+		String isClose;      // 帖子关闭状态
+		String switchCause;  // 帖子切换（关闭）原因
+		String isHidden;     // 帖子可见（是否隐藏）状态
+		String hiddenCause;  // 帖子可见状态改变（是否隐藏）原因
+		String isElite;      // 帖子精华状态
 		String recomValidity;// 帖子精华状态变化原因
+		
+		//无需传递参数
+		UserBase userBase;  // 用户基本
+		Post post;          // 封装所需参数
 
 		// 获取用户参数
 		postId = (String) request.getAttribute("postId");
@@ -584,8 +682,7 @@ public class PostServlet extends HttpServlet {
 		postContent = (String) request.getAttribute("postContent");
 		accessoryStatus = (String) request.getAttribute("accessoryStatus");
 		sectionId = (String) request.getAttribute("sectionId");
-		uId = (String) request.getAttribute("uId");
-		userId = String.valueOf(((UserBase) request.getSession().getAttribute("userBase")).getUserId());
+		userBase = (UserBase) request.getSession().getAttribute("userBase");
 
 		// 获取版主参数
 		isHighlight = (String) request.getAttribute("isHighlight");
@@ -593,6 +690,8 @@ public class PostServlet extends HttpServlet {
 		overheadCause = (String) request.getAttribute("overheadCause");
 		isClose = (String) request.getAttribute("isClose");
 		switchCause = (String) request.getAttribute("switchCause");
+		isHidden = (String) request.getAttribute("isHidden");
+		hiddenCause = (String) request.getAttribute("hiddenCause");
 		isElite = (String) request.getAttribute("isElite");
 		recomValidity = (String) request.getAttribute("recomValidity");
 
@@ -605,60 +704,81 @@ public class PostServlet extends HttpServlet {
 
 		// 封装并处理参数
 		try {
+			//判断用户是否登录
+			if(userBase == null) {
+				JSONUtils.writeJSON(response, new Msg(0, "未登录用户，更新帖子失败"));
+				return;
+			}
 			// 获取帖子信息
 			post = postService.findByPostId(Long.parseLong(postId));
 			if (post == null) {// 防止帖子被删
 				JSONUtils.writeJSON(response, new Msg(0, "帖子不存在"));
 				return;
-			}
-			post.setPostType(Short.parseShort(postType));
-			post.setSectionId(Long.parseLong(sectionId));
-			post.setEditUserId(Long.parseLong(userId)); // 编辑帖子用户
-
-			if (uId != null) {
+			}else if(post != null&&post.getUserId().longValue()==userBase.getUserId().longValue()) {
+				post.setPostType(Short.parseShort(postType));
+				post.setSectionId(Long.parseLong(sectionId));
+				post.setEditUserId(userBase.getUserId()); // 编辑帖子用户
+				if (isClose != null) {
+					post.setIsClose(Short.parseShort(isClose)); // 帖子状态（默认打开）
+					post.setSwitchCause(switchCause); // 帖子状态切换原因
+					post.setSwitchUserId(userBase.getUserId());// 帖子状态切换用户
+				}
+			}else {
 				// 判断是否是版主
 				Moderator moderator = new Moderator();
-				moderator.setUserId(Short.parseShort(uId));// 需要底层支持
-				for (ModeratorForm moderatorForm : ModeratorServiceImpl.getInstance().findFormList(1, 1, moderator)) {
-					if (Short.parseShort(uId) == moderatorForm.getUserId()) {
-						if (isHighlight != null) {
-							post.setIsHighlight(Short.parseShort(isHighlight));// 高亮显示（默认不高亮）
-							post.setHighlightUserId(Long.parseLong(uId));
-						}
-
-						if (isOverhead != null) {
-							post.setIsOverhead(Short.parseShort(isOverhead)); // 帖子置顶状态（默认不置顶）
-							post.setOverheadCause(overheadCause); // 帖子置顶原因
-							post.setOverheadUserId(Long.parseLong(uId));// 帖子置顶用户
-						}
-
-						if (isClose != null) {
-							post.setIsClose(Short.parseShort(isClose)); // 帖子状态（默认打开）
-							post.setSwitchCause(switchCause); // 帖子状态切换原因
-							post.setSwitchUserId(Long.parseLong(uId));// 帖子状态切换用户
-						}
-
-						if (isElite != null) {
-							post.setIsElite(Short.parseShort(isElite)); // 帖子是否精华（默认非精华）
-							if (recomValidity != null) {
-								Date date = dateFormat.parse(recomValidity);
-								post.setRecomValidity(date); // 帖子精华状态有效时间
-							} else {
-								// 默认精华状态有效三天
-								dateFormat.format(new Date(editDate.getTime() + 3 * 24 * 60 * 60 * 1000));
-								post.setRecomValidity(dateFormat.parse(
-										dateFormat.format(new Date(editDate.getTime() + 3 * 24 * 60 * 60 * 1000))));
+				moderator.setUserId(Short.parseShort(String.valueOf(userBase.getUserId())));// 需要底层支持
+				List<ModeratorForm> ModeratorFormList = ModeratorServiceImpl.getInstance().findFormList(1, 1, moderator);
+				if(ModeratorFormList!=null) {
+					for (ModeratorForm moderatorForm : ModeratorFormList) {
+						if (Short.parseShort(String.valueOf(userBase.getUserId())) == moderatorForm.getUserId()) {
+							if (isHighlight != null) {
+								post.setIsHighlight(Short.parseShort(isHighlight));// 高亮显示（默认不高亮）
+								post.setHighlightUserId(userBase.getUserId());
 							}
-							post.setRecomUserId(Long.parseLong(uId));// 帖子精华状态切换用户
+
+							if (isOverhead != null) {
+								post.setIsOverhead(Short.parseShort(isOverhead)); // 帖子置顶状态（默认不置顶）
+								post.setOverheadCause(overheadCause); // 帖子置顶原因
+								post.setOverheadUserId(userBase.getUserId());// 帖子置顶用户
+							}
+
+							if (isClose != null) {
+								post.setIsClose(Short.parseShort(isClose)); // 帖子状态（默认打开）
+								post.setSwitchCause(switchCause); // 帖子状态切换原因
+								post.setSwitchUserId(userBase.getUserId());// 帖子状态切换用户
+							}
+							
+							if (isHidden != null) {
+								post.setIsHidden(Short.parseShort(isHidden)); // 帖子状态是否被隐藏
+								post.setHiddenCause(hiddenCause);
+								post.setHiddenUserId(userBase.getUserId());
+							}
+
+							if (isElite != null) {
+								post.setIsElite(Short.parseShort(isElite)); // 帖子是否精华（默认非精华）
+								if (recomValidity != null) {
+									Date date = dateFormat.parse(recomValidity);
+									post.setRecomValidity(date); // 帖子精华状态有效时间
+								} else {
+									// 默认精华状态有效三天
+									dateFormat.format(new Date(editDate.getTime() + 3 * 24 * 60 * 60 * 1000));
+									post.setRecomValidity(dateFormat.parse(
+											dateFormat.format(new Date(editDate.getTime() + 3 * 24 * 60 * 60 * 1000))));
+								}
+								post.setRecomUserId(userBase.getUserId());// 帖子精华状态切换用户
+							}
 						}
 					}
+				}else {
+					JSONUtils.writeJSON(response, new Msg(0, "非版主和本人，更新帖子失败"));
+					return;
 				}
 			}
 		} catch (Exception e) {
 			JSONUtils.writeJSON(response, new Msg(0, "参数错误，修改帖子失败"));
 			return;
 		}
-
+		
 		post.setPostTitle(postTitle);
 		post.setThemeContent(postContent);
 		post.setEditTime(editDate); // 编辑帖子时间
@@ -681,6 +801,7 @@ public class PostServlet extends HttpServlet {
 					JSONUtils.writeJSON(response, new Msg(1, "资源帖修改成功，资源已删除"));
 				} else {
 					JSONUtils.writeJSON(response, new Msg(0, "资源帖修改失败"));
+					return;
 				}
 			} else if (accessoryStatus.equals("2")) {//重新上传
 				post.setIsAccessory(Short.parseShort("1"));// 不存在资源的帖子
@@ -705,17 +826,252 @@ public class PostServlet extends HttpServlet {
 						post.setPostId(accessory.getPostId());
 						postService.deletePost(post);// 帖子发布失败删除帖子
 						JSONUtils.writeJSON(response, new Msg(0, "帖子发布失败，附件上传失败"));
+						return;
 					}
 				}
 			} else if (post.getPostType() == 3) {// 公告
 				
 			}
-
 			// 更新帖子
 			result = postService.setPost(post);
 			if (result == 0) {
 				JSONUtils.writeJSON(response, new Msg(0, "帖子更新失败"));
 			}
+		}
+	}
+
+	/**
+	 * 删除帖子（普通用户删除）
+	 * @param request
+	 * @param response
+	 */
+	private void deletePost(HttpServletRequest request, HttpServletResponse response) {
+		// 参数声明
+		String tId; // 帖子ID（前端参数）
+		
+		String uId; // session中获取
+		Post post;  // 所需封装参数
+		// 获取并处理参数
+		tId = request.getParameter("tId");
+		uId = request.getParameter("uId");
+
+		// 所需封装参数封装
+		post = new Post();
+		try {
+			uId = String.valueOf(((UserBase)request.getSession().getAttribute("userBase")).getUserId());
+			post = PostServiceImpl.getInstance().findByPostId(Long.parseLong(tId));
+			if (uId == null) {// 判断是否登录
+				JSONUtils.writeJSON(response, new Msg(0, "未登录，删回帖失败"));
+				return;
+			}else if(post !=null && uId.equals(String.valueOf(post.getUserId()))){
+				//判断帖子是否存在和是否是发帖人
+				post.setPostId(Long.parseLong(tId));
+			}else {
+				JSONUtils.writeJSON(response, new Msg(0, "帖子删除失败"));
+				return;
+			}
+		} catch (Exception e) {
+			JSONUtils.writeJSON(response, new Msg(0, "参数错误，帖子删除失败"));
+			return;
+		}
+		// 获取服务
+		PostService postService = PostServiceImpl.getInstance();
+		int result = postService.deletePost(post);
+		List<Comment> commentList = CommentServiceImpl.getInstance().findByPostId(post.getPostId());
+		for(Comment comment:commentList) {//删除跟帖
+			result = CommentServiceImpl.getInstance().deleteComment(comment);
+			if(result == 0) {
+				JSONUtils.writeJSON(response, new Msg(0, "回帖删除错误，删帖终止"));
+				return;
+			}
+		}
+		// 传回json
+		if(result == 0) {
+			JSONUtils.writeJSON(response, new Msg(1, "帖子删除成功"));
+		}else {
+			JSONUtils.writeJSON(response, new Msg(0, "帖子删除失败"));
+		}
+	}
+
+	/**
+	 * 增加回帖
+	 * @param request
+	 * @param response
+	 */
+	private void addComment(HttpServletRequest request, HttpServletResponse response) {
+		// 参数声明
+		String tId; // 帖子ID（前端参数）
+		String commentContent;//评论内容
+		Comment comment; // 所需封装参数
+		
+		// 获取并处理参数
+		tId = request.getParameter("tId");
+		commentContent = request.getParameter("commentContent");
+
+		// 所需封装参数封装
+		comment = new Comment();
+		Date commentDate = new Date();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
+		dateFormat.format(commentDate);
+		try {
+			if (request.getSession().getAttribute("userBase") == null) {//判断是否登录
+				JSONUtils.writeJSON(response, new Msg(0, "未登录，回帖失败"));
+				return;
+			}
+			//帖子存在
+			if (tId != null 
+					&& PostServiceImpl.getInstance().findByPostId(Long.parseLong(tId))!=null) {
+				comment.setPostId(Long.parseLong(tId));
+				comment.setCommentContent(commentContent);
+				comment.setCommentIp(ClientAccessIpUtil.getIpAddress(request));
+				comment.setCommentTime(commentDate);
+				comment.setIsHidden(Short.valueOf("1"));//回帖状态（默认打开）
+				comment.setCommentUserId(((UserBase)request.getSession().getAttribute("userBase")).getUserId());
+			}
+		} catch (Exception e) {
+			JSONUtils.writeJSON(response, new Msg(0, "参数错误，回帖失败"));
+			return;
+		}
+		// 获取服务
+		CommentService commentService = CommentServiceImpl.getInstance();
+		int result = commentService.addComment(comment);
+		// 传回json
+		if(result == 1) {
+			JSONUtils.writeJSON(response, new Msg(0, "回帖成功"));
+		}else {
+			JSONUtils.writeJSON(response, new Msg(0, "回帖失败"));
+		}
+	}
+
+	/**
+	 * 删除回帖（回帖人和发帖人）
+	 * @param request
+	 * @param response
+	 */
+	private void deleteComment(HttpServletRequest request, HttpServletResponse response) {
+		// 参数声明
+		String hId; // 回帖ID（前端参数）
+		
+		String uId; // session中取得
+		Comment comment; // 所需封装参数
+
+		// 获取并处理参数
+		hId = request.getParameter("hId");
+
+		// 所需封装参数封装
+		comment = null;
+		// 获取服务
+		CommentService commentService = CommentServiceImpl.getInstance();
+
+		try {
+			uId = String.valueOf(((UserBase)request.getSession().getAttribute("userBase")).getUserId());
+			if (uId == null) {// 判断是否登录
+				JSONUtils.writeJSON(response, new Msg(0, "未登录，删回帖失败"));
+				return;
+			}else {
+				comment = commentService.findByCommentId(Long.parseLong(hId));
+				// 回帖是否不存在
+				if (hId == null || comment==null) {
+					JSONUtils.writeJSON(response, new Msg(0, "回帖不存在，删回帖失败"));
+					return;
+				}else {//判断是否是本人或发帖人
+					String tUserId = String.valueOf(PostServiceImpl.getInstance().findByPostId(comment.getPostId()).getUserId());
+					if(uId.equals(String.valueOf(comment.getCommentUserId()))
+							||uId.equals(tUserId)) {
+						comment.setCommentId(Long.parseLong(hId));
+					}
+				}
+			}
+		} catch (Exception e) {
+			JSONUtils.writeJSON(response, new Msg(0, "参数错误，回帖删除失败"));
+			return;
+		}
+
+		int result = commentService.deleteComment(comment);
+		// 传回json
+		if (result == 1) {
+			JSONUtils.writeJSON(response, new Msg(0, "回帖成功"));
+		} else {
+			JSONUtils.writeJSON(response, new Msg(0, "回帖失败"));
+		}
+	}
+
+	/**
+	 * 更新回帖
+	 * @param request
+	 * @param response
+	 */
+	private void updateComment(HttpServletRequest request, HttpServletResponse response) {
+		// 参数声明
+		String hId; // 回帖ID（前端参数）
+		String commentContent;// 评论内容
+		String isHidden;      // 是否隐藏
+		String hiddenCause;   // 是否隐藏的原因
+		
+		String uId; // session中取得
+		Comment comment; // 所需封装参数
+
+		// 获取并处理参数
+		hId = request.getParameter("hId");
+		commentContent = request.getParameter("commentContent");
+		isHidden = request.getParameter("isHidden");
+		hiddenCause = request.getParameter("hiddenCause");
+
+		// 所需封装参数封装
+		comment = new Comment();
+		Date commentDate = new Date();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
+		dateFormat.format(commentDate);
+		
+		// 获取服务
+		CommentService commentService = CommentServiceImpl.getInstance();
+		try {
+			uId = String.valueOf(((UserBase)request.getSession().getAttribute("userBase")).getUserId());
+			if (uId == null) {// 判断是否登录
+				JSONUtils.writeJSON(response, new Msg(0, "未登录，删回帖失败"));
+				return;
+			}else {
+				comment = commentService.findByCommentId(Long.parseLong(hId));
+				// 回帖是否不存在
+				if (hId == null || comment==null) {
+					JSONUtils.writeJSON(response, new Msg(0, "回帖不存在，删回帖失败"));
+					return;
+				}else {//判断是否是本人或发帖人
+					String tUserId = String.valueOf(PostServiceImpl.getInstance().findByPostId(comment.getPostId()).getUserId());
+					if(uId.equals(String.valueOf(comment.getCommentUserId()))) {//本人
+						comment.setCommentId(Long.parseLong(hId));
+						comment.setCommentContent(commentContent);
+						comment.setCommentIp(ClientAccessIpUtil.getIpAddress(request));
+						comment.setCommentTime(commentDate);
+						comment.setCommentUserId(Long.parseLong(uId));
+						if(hiddenCause!=null) {
+							comment.setHiddenUserId(Long.parseLong(uId));
+							comment.setHiddenCause(hiddenCause);
+							comment.setIsHidden(Short.parseShort(isHidden));
+						}
+					}else if(uId.equals(tUserId)){//发帖人
+						comment.setCommentId(Long.parseLong(hId));
+						if(hiddenCause!=null) {
+							comment.setHiddenUserId(Long.parseLong(uId));
+							comment.setHiddenCause(hiddenCause);
+							comment.setIsHidden(Short.parseShort(isHidden));
+						}
+					}else {
+						JSONUtils.writeJSON(response, new Msg(0, "权限无效，更新回帖失败"));
+						return;
+					}
+				}
+			}
+		} catch (Exception e) {
+			JSONUtils.writeJSON(response, new Msg(0, "参数错误，更新回帖失败"));
+			return;
+		}
+		int result = commentService.setComment(comment);
+		// 传回json
+		if (result == 1) {
+			JSONUtils.writeJSON(response, new Msg(0, "回帖更新成功"));
+		} else {
+			JSONUtils.writeJSON(response, new Msg(0, "回帖更新失败"));
 		}
 	}
 }
