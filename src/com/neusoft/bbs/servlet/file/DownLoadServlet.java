@@ -6,10 +6,15 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URLEncoder;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.neusoft.bbs.commons.struct.Msg;
+import com.neusoft.bbs.commons.util.JSONUtils;
+
+@WebServlet("/DownLoadServlet")
 public class DownLoadServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -31,7 +36,8 @@ public class DownLoadServlet extends HttpServlet {
 		// 如果文件不存在
 		if (!file.exists()) {
 			request.setAttribute("message", "您要下载的资源已被删除！！");
-			request.getRequestDispatcher("/message.jsp").forward(request, response);
+//			request.getRequestDispatcher("/message.jsp").forward(request, response);
+			JSONUtils.writeJSON(response, new Msg(0, "您要下载的资源已被删除！！"));
 			return;
 		}
 		// 处理文件名

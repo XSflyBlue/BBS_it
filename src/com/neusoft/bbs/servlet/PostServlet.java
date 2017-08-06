@@ -254,8 +254,10 @@ public class PostServlet extends HttpServlet {
 	 * 
 	 * @param request
 	 * @param response
+	 * @throws IOException 
+	 * @throws ServletException 
 	 */
-	private void findPostbyPostId(HttpServletRequest request, HttpServletResponse response) {
+	private void findPostbyPostId(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 参数声明
 		String tId; // 帖子ID（前端参数）
 		String uId; // 前端非必须（发帖者需要传）
@@ -300,6 +302,10 @@ public class PostServlet extends HttpServlet {
 			postFormJson = new PostFormJson();
 			postFormJson.setPostForm(postForm);
 			postFormJson.setAccessory(accessory);
+		}
+		if(accessory!=null) {//请求下载文件列表（存放到session中fileNameMap）
+			//提交fileNameMap中url到DownLoadServlet进行下载（待测试）
+			request.getRequestDispatcher("/ListFileServlet").forward(request, response);
 		}
 		// 传回json
 		JSONUtils.writeJSON(response, postFormJson);
