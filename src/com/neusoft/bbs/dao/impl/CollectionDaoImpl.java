@@ -121,24 +121,16 @@ public class CollectionDaoImpl implements CollectionDao {
 		Long userId = null;
 		List<Object> object = new ArrayList<Object>();
 		// 参数确定
-		if (collection.getPostId() != null) {
+		if (collection.getPostId() != null||collection.getUserId() != null) {
+			if (collection.getPostId() != null) {
 			postId = collection.getPostId();
 			object.add(postId);
 			find_sql.append("and p.post_id=? ");
+			}
 			if (collection.getUserId() != null) {
 				userId = collection.getUserId();
 				object.add(userId);
 				find_sql.append("and b.user_id=? ");
-			}
-			find_sql.append("order by c.COLLECT_TIME desc ");
-		} else if (collection.getUserId() != null) {
-			userId = collection.getUserId();
-			object.add(userId);
-			find_sql.append("and b.user_id=? ");
-			if (collection.getPostId() != null) {
-				postId = collection.getPostId();
-				object.add(postId);
-				find_sql.append("and p.post_id=? ");
 			}
 			find_sql.append("order by c.COLLECT_TIME desc ");
 		} else {
@@ -204,4 +196,5 @@ public class CollectionDaoImpl implements CollectionDao {
 		return collectionFormList;
 	}
 
+	
 }

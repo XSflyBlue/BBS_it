@@ -33,7 +33,7 @@
 					<div>
 						<h4>发表新贴子</h4>
 					</div>
-					<form name="bbs_editor" method="get" action='<c:url value="/"></c:url>' enctype="multipart/form-data">
+					<form name="bbs_editor" method="post" action='<c:url value="/UploadHandleServlet"></c:url>' enctype="multipart/form-data" encoding="multipart/form-data">
 						<table class="table">
 							<tr>
 								<td>贴子标题</td>
@@ -44,9 +44,9 @@
 							<tr>
 								<td>贴子类型</td>
 								<td>
-									<input type="radio" name="postType" value="suject"> 主题贴
-									<input type="radio" name="postType" value="file"> 附件贴
-									<input type="radio" name="postType" value="top"> 置顶贴
+									<input type="radio" name="postType" value="1"> 主题贴
+									<input type="radio" name="postType" value="2"> 附件贴
+									<input type="radio" name="postType" value="3"> 置顶贴
 								</td>
 							</tr>
 							<tr>
@@ -172,7 +172,7 @@
 		//文件上传显示
 		$(".j_fileInput").hide();
 		$('input[name=postType]').click(function(){
-			if($(this).val()=='file'){
+			if($(this).val()=='2'){
 				$(".j_fileInput").show();
 			}else{
 				$(".j_fileInput").hide();
