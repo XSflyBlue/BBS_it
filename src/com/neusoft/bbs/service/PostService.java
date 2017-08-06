@@ -33,11 +33,18 @@ public interface PostService {
 	int setPost(Post post);
 
 	/**
-	 * 查询某userId发布的帖子
+	 * 查询某postId的帖子
 	 * @param postId
+	 * @return Post
+	 */
+	Post findByPostId(Long postId);
+	
+	/**
+	 * 查询某userId发的帖子
+	 * @param userId
 	 * @return List<post>
 	 */
-	List<Post> findByPostId(Long userId);
+	List<Post> findByUserId(Long userId);
 	
 	/**
 	 * 查询某sectionId（分区）帖子

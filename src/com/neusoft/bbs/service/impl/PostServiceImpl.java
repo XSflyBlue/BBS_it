@@ -56,9 +56,16 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public List<Post> findByPostId(Long userId) {
+	public Post findByPostId(Long postId) {
+		Post post = null;
+		post = postDao.findByPostId(postId);
+		return post;
+	}
+	
+	@Override
+	public List<Post> findByUserId(Long userId) {
 		List<Post> postList = null;
-		postList = postDao.findByPostId(userId);
+		postList = postDao.findByUserId(userId);
 		return postList;
 	}
 

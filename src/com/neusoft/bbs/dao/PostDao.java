@@ -34,14 +34,21 @@ public interface PostDao {
 
 	/**
 	 * 查询某userId发布的帖子
-	 * @param postId
+	 * @param userId
 	 * @return List<post>
 	 */
-	List<Post> findByPostId(Long userId);
+	List<Post> findByUserId(Long userId);
+	
+	/**
+	 * 查询某postId帖子
+	 * @param postId
+	 * @return Post
+	 */
+	Post findByPostId(Long postId);
 	
 	/**
 	 * 查询某sectionId（分区）帖子
-	 * @param postId
+	 * @param sectionId
 	 * @return List<post>
 	 */
 	List<Post> findBySectionId(Long sectionId);

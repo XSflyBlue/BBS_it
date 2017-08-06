@@ -72,7 +72,7 @@ public class PostDaoImpl implements PostDao {
 	}
 
 	@Override
-	public List<Post> findByPostId(Long userId) {
+	public List<Post> findByUserId(Long userId) {
 		String sql = "select * from b_post where user_id=?";
 		Object params[] = { userId };
 		List<Post> list = null;
@@ -82,6 +82,19 @@ public class PostDaoImpl implements PostDao {
 			e.printStackTrace();
 		}
 		return list;
+	}
+	
+	@Override
+	public Post findByPostId(Long postId) {
+		String sql = "select * from b_post where post_id=?";
+		Object params[] = { postId };
+		Post post = null;
+		try {
+			post = (Post) DatabaseUtil.query(sql, params, new BeanHandler(Post.class));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return post;
 	}
 
 	@Override
