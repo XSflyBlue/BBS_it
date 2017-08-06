@@ -26,6 +26,7 @@ import com.neusoft.bbs.domain.form.ModeratorForm;
 import com.neusoft.bbs.domain.form.PostForm;
 import com.neusoft.bbs.domain.json.CollectionJson;
 import com.neusoft.bbs.domain.json.CommentJson;
+import com.neusoft.bbs.domain.json.PostFormJson;
 import com.neusoft.bbs.domain.json.PostJson;
 import com.neusoft.bbs.service.AccessoryService;
 import com.neusoft.bbs.service.CollectionService;
@@ -258,8 +259,10 @@ public class PostServlet extends HttpServlet {
 		// 参数声明
 		String tId; // 帖子ID（前端参数）
 		String uId; // 前端非必须（发帖者需要传）
-		Post post; // 所需封装参数
+		Post post;  // 所需封装参数
 		PostForm postForm = null;// PostForm结构
+		Accessory accessory = null;//附件
+		PostFormJson postFormJson = null;//帖子详情
 		// 获取并处理参数
 		tId = request.getParameter("tId");
 		uId = request.getParameter("uId");
@@ -284,16 +287,22 @@ public class PostServlet extends HttpServlet {
 				}
 			}
 		} catch (Exception e) {
-			JSONUtils.writeJSON(response, new PostForm());
+			JSONUtils.writeJSON(response, new PostFormJson());
 			return;
 		}
-		// post.setIsHidden(Short.parseShort("1"));//除去隐藏贴
 		// 获取服务
 		PostService postService = PostServiceImpl.getInstance();
 		// 获取帖子详情
 		postForm = postService.findFormList(1, 1, post).get(0);
+		if(postForm!=null) {
+			AccessoryService accessoryService = AccessoryServiceImpl.getInstance();
+			accessory = accessoryService.findAccessory(postForm.getPostId()).get(0);
+			postFormJson = new PostFormJson();
+			postFormJson.setPostForm(postForm);
+			postFormJson.setAccessory(accessory);
+		}
 		// 传回json
-		JSONUtils.writeJSON(response, postForm);
+		JSONUtils.writeJSON(response, postFormJson);
 	}
 
 	/**
