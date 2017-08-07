@@ -7,6 +7,7 @@ import com.neusoft.bbs.dao.ExpDao;
 import com.neusoft.bbs.dao.impl.ExpDaoImpl;
 import com.neusoft.bbs.domain.EXP;
 import com.neusoft.bbs.domain.ExpRecord;
+import com.neusoft.bbs.domain.form.ExpRecordForm;
 import com.neusoft.bbs.service.EXPService;
 
 /**
@@ -101,10 +102,10 @@ public class EXPServiceImpl implements EXPService {
 	}
 
 	@Override
-	public List<ExpRecord> findFormList(int pageSize, int rowNum, Long userId) {
-		List<ExpRecord> expRecordList = null;
-		expRecordList = expDao.findFormList(pageSize, rowNum, userId);
-		return expRecordList;
+	public List<ExpRecordForm> findFormList(int pageSize, int rowNum, Long userId) {
+		List<ExpRecordForm> expRecordFormList = null;
+		expRecordFormList = expDao.findFormList(pageSize, rowNum, userId);
+		return expRecordFormList;
 	}
 
 }
