@@ -94,11 +94,25 @@
 	</div>
 </body>
 <script>
-
+	var postId = GetQueryString('post');
+	//回贴
 	function submitPost(){
 		editor.sync();
 		var html = $('#post_content_bbs').val(); // jQuery
+		$.ajax({
+			type: 'POST',
+			url: '<c:url value="/PostServlet?action=addComment"></c:url>',
+			data: 'tId='+postId+'&commentContent='+html,
+			success: function(data){
+				if(data != null){
+					if(data.code == 1){
+						alert("ok");
+					}
+				}
+			}
+		});
 	}
+	
 	var editor;
 	KindEditor.ready(function(K) {
 		editor = K.create('textarea[name="content1"]', {
@@ -113,7 +127,6 @@
 	
 	$(function(){
 		//获取post详细
-		var postId = GetQueryString('post');
 		if(postId != null){
 			$.ajax({
 				type: 'POST',
