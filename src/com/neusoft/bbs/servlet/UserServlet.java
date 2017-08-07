@@ -26,6 +26,7 @@ import com.neusoft.bbs.domain.Follow;
 import com.neusoft.bbs.domain.UserBase;
 import com.neusoft.bbs.domain.UserDetail;
 import com.neusoft.bbs.domain.form.FollowForm;
+import com.neusoft.bbs.domain.json.CountReturn;
 import com.neusoft.bbs.service.FollowService;
 import com.neusoft.bbs.service.UserDetailService;
 import com.neusoft.bbs.service.UserService;
@@ -225,17 +226,57 @@ public class UserServlet extends HttpServlet {
 	 * @param response
 	 */
 	private void queryFollows(HttpServletRequest request, HttpServletResponse response) {
+		
+		String userIdStr = request.getParameter("userId");
+		UserBase userBase = (UserBase) request.getSession().getAttribute("userBase");
 		String rowNumStr = request.getParameter("rowNum");//页数
 		if(StringUtils.isNotNullString(rowNumStr)) {
 			int rowNum = Integer.parseInt(rowNumStr);
 			int pageSize = 14;//页面大小
 			Follow follow = new Follow();
-			UserBase userBase = (UserBase) request.getSession().getAttribute("userBase");
-			if(userBase != null) {
+			if(StringUtils.isNotNullString(userIdStr)) {
+				Long userId = Long.parseLong(userIdStr);
+				follow.setUserId(userId);
+			}else if(userBase != null) {
 				follow.setUserId(userBase.getUserId());
-				List<FollowForm> result = followService.findFormList(pageSize, rowNum, follow);
-				JSONUtils.writeJSON(response, result);
+			}
+			List<FollowForm> result = followService.findFormList(pageSize, rowNum, follow);
+			JSONUtils.writeJSON(response, result);
+		}
+	}
+	
+	/**
+	 * 查看的基本用户列表
+	 * @param request
+	 * @param response
+	 */
+	private void queryUserBases(HttpServletRequest request, HttpServletResponse response) {
+		String rowNumStr = request.getParameter("rowNum");//页数
+		if(StringUtils.isNotNullString(rowNumStr)) {
+			int rowNum = Integer.parseInt(rowNumStr);
+			UserBase userBase = new UserBase();
+			int count = userBaseService.getListRowCount(userBase);//总数
+			List<UserBase> result = userBaseService.findFormList(10, rowNum, userBase);
+			JSONUtils.writeJSON(response, new CountReturn(count, result));
+		}
+	}
+	
+	/**
+	 * 根据ID查询基本用户
+	 * @param request
+	 * @param response
+	 * @throws IOException 
+	 */
+	private void showUserById(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		String userId = request.getParameter("userId");
+		if(userId != null) {
+			Long uId = Long.parseLong(userId);
+			UserBase userBase = userBaseService.findUserId(uId);
+			if(userBase != null) {
+				request.getSession().setAttribute("goalUser", userBase);
+				response.sendRedirect(request.getContextPath()+"/userInfo.jsp");
 			}
 		}
+		response.sendRedirect(request.getContextPath()+"/");
 	}
 }

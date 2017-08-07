@@ -65,44 +65,23 @@
 								  </div>
 								</form>
 								<br>
-								<table class="table">
-									<tr>
-										<th>ID</th>
-										<th>用户名</th>
-										<th>状态</th>
-										<th>角色</th>
-										<th>操作</th>
-									</tr>
-									<tr>
-										<td>666</td>
-										<td>张三</td>
-										<td>正常</td>
-										<td>版主</td>
-										<td>
-											<a href="#">查看</a>
-											<a href="#">编辑</a>
-											<a href="#">禁用</a>
-										</td>
-									</tr>
+								<table class="table" id="j_userTab">
+									<!-- 用户表 -->
 								</table>
 								<nav aria-label="Page navigation" style="text-align: center;">
 								  <ul class="pagination">
 								    <li>
 								      <a href="#" aria-label="Previous">
-								        <span aria-hidden="true">&laquo;</span>
+								        	上页
 								      </a>
 								    </li>
-								    <li><a href="#">1</a></li>
-								    <li><a href="#">2</a></li>
-								    <li><a href="#">3</a></li>
-								    <li><a href="#">4</a></li>
-								    <li><a href="#">5</a></li>
 								    <li>
 								      <a href="#" aria-label="Next">
-								        <span aria-hidden="true">&raquo;</span>
+								        	下页
 								      </a>
 								    </li>
 								  </ul>
+								  <div>当前第 1 页，共 <span id="j_pageCount"></span> 页</div>
 								</nav>
 							</div>
 							
@@ -119,7 +98,7 @@
 								  <button type="button" class="btn btn-info">查询</button>
 								</form>
 								<br>
-								<table class="table">
+								<table class="table" id="">
 									<tr>
 										<th>ID</th>
 										<th>区块名</th>
@@ -325,7 +304,31 @@
 	</div>
 </body>
 <script type="text/javascript">
+
+	//获取用户列表
+	function follows(index){
+		var rowNum = index;
+		$.ajax({
+			type: 'POST',
+			url: '<c:url value="/UserServlet?action=queryUserBases"></c:url>',
+			data:"rowNum="+rowNum,
+			success: function(data){
+				if(data != null && data.data.length > 0){
+					var str = '<tr><th>ID</th><th>用户名</th><th>状态</th><th>角色</th><th>操作</th></tr>';
+					$(data.data).each(function(i, item){
+						str += '<tr><td>'+item.userId+'</td><td>'+item.username+'</td><td>'+item.power+'</td><td>'+item.power+'</td>';
+						str += '<td><a href="#">查看</a> <a href="#">编辑</a> <a href="#">禁用</a></td></tr>';
+					});
+					$('#j_userTab').append(str);
+					$('#j_pageCount').text(data.count);
+				}
+			}
+		});
+	}
+
+	
 	$(function(){
+		//初始化页面
 		$('#bbs_admin_showUser').css("display","inline");
 		$('.j_admin_nav').click(function(){
 			var clickVal = $(this).attr("value");
@@ -344,6 +347,8 @@
 				$('#bbs_admin_showSafe').css("display","inline");
 			}
 		});
+		//初始化用户列表
+		follows(1);
 	});
 </script>
 </html>
