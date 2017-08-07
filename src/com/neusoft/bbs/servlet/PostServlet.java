@@ -440,7 +440,7 @@ public class PostServlet extends HttpServlet {
 		try {
 			if (tId != null) {//指定帖子Id
 				comment.setPostId(Long.parseLong(tId));
-				comment.setIsHidden(Short.parseShort("1"));//仅可见未隐藏回帖
+				comment.setIsHidden(Short.parseShort("1"));//仅可见未隐藏跟帖
 			}
 			Post post = new Post();
 			post.setPostId(comment.getPostId());
@@ -449,15 +449,15 @@ public class PostServlet extends HttpServlet {
 				if(postFormList!=null) {
 					if(userBase.getUserId().longValue()==postFormList.get(0).getUserId().longValue()){
 						//发帖人
-						comment.setIsHidden(null);// 发帖人，可见被隐藏的回帖
+						comment.setIsHidden(null);// 发帖人，可见被隐藏的跟帖
 					}else if (userBase.getUserId().longValue()==((UserBase) request.getSession().getAttribute("userBase")).getUserId().longValue()){
-						//本人（可查看本人隐藏和别人公开的回帖）
+						//本人（可查看本人隐藏和别人公开的跟帖）
 						//需要底层支持（select中where子句加入OR判断）
 						comment.setCommentUserId(userBase.getUserId());
 						comment.setIsSelf("1");//1是本人
 					}
 				}else {
-					comment.setIsHidden(Short.parseShort("1"));//仅可见未隐藏回帖
+					comment.setIsHidden(Short.parseShort("1"));//仅可见未隐藏跟帖
 				}
 			}
 
@@ -637,7 +637,7 @@ public class PostServlet extends HttpServlet {
 		post.setIssueTime(postDate); // 发帖时间
 		post.setIssueIp(ClientAccessIpUtil.getIpAddress(request));// 发帖IP
 		post.setHitNum(0L); // 浏览次数
-		post.setAnswerSum(0L); // 回帖次数
+		post.setAnswerSum(0L); // 跟帖次数
 		post.setIsHighlight(Short.parseShort("0"));// 高亮显示（默认不高亮）
 		post.setTitleColor("#000000"); // 标题颜色（默认黑色）
 		post.setIsOverhead(Short.parseShort("0")); // 帖子置顶状态（默认不置顶）
@@ -936,7 +936,7 @@ public class PostServlet extends HttpServlet {
 			uId = String.valueOf(((UserBase)request.getSession().getAttribute("userBase")).getUserId());
 			post = PostServiceImpl.getInstance().findByPostId(Long.parseLong(tId));
 			if (uId == null) {// 判断是否登录
-				JSONUtils.writeJSON(response, new Msg(0, "未登录，删回帖失败"));
+				JSONUtils.writeJSON(response, new Msg(0, "未登录，删跟帖失败"));
 				return;
 			}else if(post !=null && uId.equals(String.valueOf(post.getUserId()))){
 				//判断帖子是否存在和是否是发帖人
@@ -956,7 +956,7 @@ public class PostServlet extends HttpServlet {
 		for(Comment comment:commentList) {//删除跟帖
 			result = CommentServiceImpl.getInstance().deleteComment(comment);
 			if(result == 0) {
-				JSONUtils.writeJSON(response, new Msg(0, "回帖删除错误，删帖终止"));
+				JSONUtils.writeJSON(response, new Msg(0, "跟帖删除错误，删帖终止"));
 				return;
 			}
 		}
@@ -969,7 +969,7 @@ public class PostServlet extends HttpServlet {
 	}
 
 	/**
-	 * 增加回帖
+	 * 增加跟帖
 	 * @param request
 	 * @param response
 	 */
@@ -992,7 +992,7 @@ public class PostServlet extends HttpServlet {
 		Post post = PostServiceImpl.getInstance().findByPostId(Long.parseLong(tId));
 		try {
 			if (request.getSession().getAttribute("userBase") == null) {//判断是否登录
-				JSONUtils.writeJSON(response, new Msg(0, "未登录，回帖失败"));
+				JSONUtils.writeJSON(response, new Msg(0, "未登录，跟帖失败"));
 				return;
 			}
 			//帖子存在
@@ -1001,11 +1001,11 @@ public class PostServlet extends HttpServlet {
 				comment.setCommentContent(commentContent);
 				comment.setCommentIp(ClientAccessIpUtil.getIpAddress(request));
 				comment.setCommentTime(commentDate);
-				comment.setIsHidden(Short.valueOf("1"));//回帖状态（默认打开）
+				comment.setIsHidden(Short.valueOf("1"));//跟帖状态（默认打开）
 				comment.setCommentUserId(((UserBase)request.getSession().getAttribute("userBase")).getUserId());
 			}
 		} catch (Exception e) {
-			JSONUtils.writeJSON(response, new Msg(0, "参数错误，回帖失败"));
+			JSONUtils.writeJSON(response, new Msg(0, "参数错误，跟帖失败"));
 			return;
 		}
 		// 获取服务
@@ -1016,24 +1016,24 @@ public class PostServlet extends HttpServlet {
 			post.setAnswerSum(post.getAnswerSum()+1L);
 			result = PostServiceImpl.getInstance().setPost(post);//增加回复数
 			if(result == 1) {
-				JSONUtils.writeJSON(response, new Msg(0, "回帖成功"));
+				JSONUtils.writeJSON(response, new Msg(1, "跟帖成功"));
 			}else {
-				JSONUtils.writeJSON(response, new Msg(0, "回帖失败"));
+				JSONUtils.writeJSON(response, new Msg(0, "跟帖失败"));
 				return;
 			}
 		}else {
-			JSONUtils.writeJSON(response, new Msg(0, "回帖失败"));
+			JSONUtils.writeJSON(response, new Msg(0, "跟帖失败"));
 		}
 	}
 
 	/**
-	 * 删除回帖（回帖人和发帖人）
+	 * 删除跟帖（跟帖人和发帖人）
 	 * @param request
 	 * @param response
 	 */
 	private void deleteComment(HttpServletRequest request, HttpServletResponse response) {
 		// 参数声明
-		String hId; // 回帖ID（前端参数）
+		String hId; // 跟帖ID（前端参数）
 		
 		String uId; // session中取得
 		Comment comment; // 所需封装参数
@@ -1049,13 +1049,13 @@ public class PostServlet extends HttpServlet {
 		try {
 			uId = String.valueOf(((UserBase)request.getSession().getAttribute("userBase")).getUserId());
 			if (uId == null) {// 判断是否登录
-				JSONUtils.writeJSON(response, new Msg(0, "未登录，删回帖失败"));
+				JSONUtils.writeJSON(response, new Msg(0, "未登录，删跟帖失败"));
 				return;
 			}else {
 				comment = commentService.findByCommentId(Long.parseLong(hId));
-				// 回帖是否不存在
+				// 跟帖是否不存在
 				if (hId == null || comment==null) {
-					JSONUtils.writeJSON(response, new Msg(0, "回帖不存在，删回帖失败"));
+					JSONUtils.writeJSON(response, new Msg(0, "跟帖不存在，删跟帖失败"));
 					return;
 				}else {//判断是否是本人或发帖人
 					String tUserId = String.valueOf(postService.findByPostId(comment.getPostId()).getUserId());
@@ -1066,7 +1066,7 @@ public class PostServlet extends HttpServlet {
 				}
 			}
 		} catch (Exception e) {
-			JSONUtils.writeJSON(response, new Msg(0, "参数错误，回帖删除失败"));
+			JSONUtils.writeJSON(response, new Msg(0, "参数错误，跟帖删除失败"));
 			return;
 		}
 
@@ -1077,24 +1077,24 @@ public class PostServlet extends HttpServlet {
 			post.setAnswerSum(post.getAnswerSum()-1L);
 			result = postService.setPost(post);
 			if(result==1) {
-				JSONUtils.writeJSON(response, new Msg(0, "回帖成功"));
+				JSONUtils.writeJSON(response, new Msg(1, "跟帖成功"));
 			}else {
-				JSONUtils.writeJSON(response, new Msg(0, "回帖失败"));
+				JSONUtils.writeJSON(response, new Msg(0, "跟帖失败"));
 				return;
 			}
 		} else {
-			JSONUtils.writeJSON(response, new Msg(0, "回帖失败"));
+			JSONUtils.writeJSON(response, new Msg(0, "跟帖失败"));
 		}
 	}
 
 	/**
-	 * 更新回帖
+	 * 更新跟帖
 	 * @param request
 	 * @param response
 	 */
 	private void updateComment(HttpServletRequest request, HttpServletResponse response) {
 		// 参数声明
-		String hId; // 回帖ID（前端参数）
+		String hId; // 跟帖ID（前端参数）
 		String commentContent;// 评论内容
 		String isHidden;      // 是否隐藏
 		String hiddenCause;   // 是否隐藏的原因
@@ -1119,13 +1119,13 @@ public class PostServlet extends HttpServlet {
 		try {
 			uId = String.valueOf(((UserBase)request.getSession().getAttribute("userBase")).getUserId());
 			if (uId == null) {// 判断是否登录
-				JSONUtils.writeJSON(response, new Msg(0, "未登录，删回帖失败"));
+				JSONUtils.writeJSON(response, new Msg(0, "未登录，删跟帖失败"));
 				return;
 			}else {
 				comment = commentService.findByCommentId(Long.parseLong(hId));
-				// 回帖是否不存在
+				// 跟帖是否不存在
 				if (hId == null || comment==null) {
-					JSONUtils.writeJSON(response, new Msg(0, "回帖不存在，删回帖失败"));
+					JSONUtils.writeJSON(response, new Msg(0, "跟帖不存在，删跟帖失败"));
 					return;
 				}else {//判断是否是本人或发帖人
 					String tUserId = String.valueOf(PostServiceImpl.getInstance().findByPostId(comment.getPostId()).getUserId());
@@ -1148,21 +1148,21 @@ public class PostServlet extends HttpServlet {
 							comment.setIsHidden(Short.parseShort(isHidden));
 						}
 					}else {
-						JSONUtils.writeJSON(response, new Msg(0, "权限无效，更新回帖失败"));
+						JSONUtils.writeJSON(response, new Msg(0, "权限无效，更新跟帖失败"));
 						return;
 					}
 				}
 			}
 		} catch (Exception e) {
-			JSONUtils.writeJSON(response, new Msg(0, "参数错误，更新回帖失败"));
+			JSONUtils.writeJSON(response, new Msg(0, "参数错误，更新跟帖失败"));
 			return;
 		}
 		int result = commentService.setComment(comment);
 		// 传回json
 		if (result == 1) {
-			JSONUtils.writeJSON(response, new Msg(0, "回帖更新成功"));
+			JSONUtils.writeJSON(response, new Msg(1, "跟帖更新成功"));
 		} else {
-			JSONUtils.writeJSON(response, new Msg(0, "回帖更新失败"));
+			JSONUtils.writeJSON(response, new Msg(0, "跟帖更新失败"));
 		}
 	}
 }
