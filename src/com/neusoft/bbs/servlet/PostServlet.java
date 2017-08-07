@@ -121,6 +121,8 @@ public class PostServlet extends HttpServlet {
 				if (userbase.getUserId() != null) {
 					// 判断是否是版主
 					Moderator moderator = new Moderator();
+					moderator.setAreaId(Short.parseShort(bId));
+					moderator.setModeratorType(Short.parseShort("0"));//版块
 					moderator.setUserId(Short.parseShort(String.valueOf(userbase.getUserId())));// 需要底层支持
 					for (ModeratorForm moderatorForm : ModeratorServiceImpl.getInstance().findFormList(1, 1, moderator)) {
 						if (Short.parseShort(String.valueOf(userbase.getUserId())) == moderatorForm.getUserId()) {
@@ -191,6 +193,8 @@ public class PostServlet extends HttpServlet {
 				if (userbase.getUserId() != null) {
 					// 判断是否是版主
 					Moderator moderator = new Moderator();
+					moderator.setAreaId(Short.parseShort(bId));
+					moderator.setModeratorType(Short.parseShort("0"));//版块
 					moderator.setUserId(Short.parseShort(String.valueOf(userbase.getUserId())));// 需要底层支持
 					for (ModeratorForm moderatorForm : ModeratorServiceImpl.getInstance().findFormList(1, 1, moderator)) {
 						if (Short.parseShort(String.valueOf(userbase.getUserId())) == moderatorForm.getUserId()) {
@@ -260,6 +264,8 @@ public class PostServlet extends HttpServlet {
 				if (userbase.getUserId() != null) {
 					// 判断是否是版主
 					Moderator moderator = new Moderator();
+					moderator.setAreaId(Short.parseShort(bId));
+					moderator.setModeratorType(Short.parseShort("0"));//版块
 					moderator.setUserId(Short.parseShort(String.valueOf(userbase.getUserId())));// 需要底层支持
 					for (ModeratorForm moderatorForm : ModeratorServiceImpl.getInstance().findFormList(1, 1, moderator)) {
 						if (Short.parseShort(String.valueOf(userbase.getUserId())) == moderatorForm.getUserId()) {
@@ -334,6 +340,8 @@ public class PostServlet extends HttpServlet {
 						&& post!=null) {
 					// 判断是否是版主
 					Moderator moderator = new Moderator();
+					moderator.setAreaId(Short.parseShort(String.valueOf(post.getSectionId())));
+					moderator.setModeratorType(Short.parseShort("0"));//版块
 					moderator.setUserId(Short.parseShort(String.valueOf(userBase.getUserId())));// 需要底层支持
 					for (ModeratorForm moderatorForm : ModeratorServiceImpl.getInstance().findFormList(1, 1, moderator)) {
 						if (userBase.getUserId().shortValue() == moderatorForm.getUserId().shortValue()) {
