@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.neusoft.bbs.commons.struct.Msg;
+import com.neusoft.bbs.commons.util.JSONUtils;
+
 /**
  * @ClassName: ListFileServlet
  * @Description: 列出Web系统中所有下载文件
@@ -20,15 +23,21 @@ public class ListFileServlet extends HttpServlet {
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 获取上传文件的目录
-//		String uploadFilePath = this.getServletContext().getRealPath("/WEB-INF/upload");
-		String filesPath = request.getParameter("filesPath");
+		String uploadFilePath = this.getServletContext().getRealPath("/WEB-INF/upload");
+		String filePath = request.getParameter("filePath");
+		filePath = uploadFilePath + filePath.substring(filePath.indexOf("upload") + 6);
+		System.out.println(filePath);
 		// 存储要下载的文件名
 		Map<String, String> fileNameMap = new HashMap<String, String>();
 		// 递归遍历filepath目录下的所有文件和目录，将文件的文件名存储到map集合中
-		listfile(new File(filesPath), fileNameMap);// File既可以代表一个文件也可以代表一个目录
-		// 将Map集合发送到listfile.jsp页面进行显示
-		request.getSession().setAttribute("fileNameMap", fileNameMap);
-//		request.getRequestDispatcher("/listfile.jsp").forward(request, response);
+		File file = new File(filePath);
+		if(file.exists()) {
+			listfile(file, fileNameMap);// File既可以代表一个文件也可以代表一个目录
+		}else {
+			JSONUtils.writeJSON(response, fileNameMap);
+			return;
+		}
+		JSONUtils.writeJSON(response, fileNameMap);
 	}
 
 	/**
