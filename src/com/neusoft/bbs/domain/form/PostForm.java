@@ -161,6 +161,11 @@ public class PostForm {
 	 * 分页数
 	 */
 	private Long rn;
+	
+	/**
+	 * 跟帖数
+	 */
+	private String commentNum;
 
 	public String getUserName() {
 		return userName;
@@ -414,6 +419,14 @@ public class PostForm {
 				+ recomValidity + ", isHidden=" + isHidden + ", hiddenCause=" + hiddenCause + ", hiddenUserId="
 				+ hiddenUserId + ", isAccessory=" + isAccessory + ", editUserId=" + editUserId + ", editTime="
 				+ editTime + ", postTitle=" + postTitle + "]";
+	}
+
+	public String getCommentNum() {
+		return commentNum;
+	}
+
+	public void setCommentNum(String commentNum) {
+		this.commentNum = commentNum;
 	}
 
 }

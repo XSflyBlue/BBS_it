@@ -155,8 +155,18 @@ public class PostServlet extends HttpServlet {
 		// 获取服务
 		PostService postService = PostServiceImpl.getInstance();
 		postJson = new PostJson();
+		List<PostForm> postFormList = postService.findFormList(pageSize, pageNum, post);
 		// 获取分页结果
-		postJson.setPostFormList(postService.findFormList(pageSize, pageNum, post));
+		postJson.setPostFormList(postFormList);
+		if(postFormList!=null) {//回帖计数
+			for(PostForm form:postFormList) {
+				Comment comment = new Comment();
+				comment.setPostId(form.getPostId());
+				int num = CommentServiceImpl.getInstance().getListRowCount(comment);
+				String commentNum = String.valueOf(num);
+				form.setCommentNum(commentNum);
+			}
+		}
 		// 获取最大页数
 		postJson.setMaxPage(postService.getListPageCount(pageSize, post));
 		// 传回json
@@ -231,8 +241,18 @@ public class PostServlet extends HttpServlet {
 		// 获取服务
 		PostService postService = PostServiceImpl.getInstance();
 		postJson = new PostJson();
+		List<PostForm> postFormList = postService.findFormList(pageSize, pageNum, post);
 		// 获取分页结果
-		postJson.setPostFormList(postService.findFormList(pageSize, pageNum, post));
+		postJson.setPostFormList(postFormList);
+		if(postFormList!=null) {
+			for(PostForm form:postFormList) {//回帖计数
+				Comment comment = new Comment();
+				comment.setPostId(form.getPostId());
+				int num = CommentServiceImpl.getInstance().getListRowCount(comment);
+				String commentNum = String.valueOf(num);
+				form.setCommentNum(commentNum);
+			}
+		}
 		// 获取最大页数
 		postJson.setMaxPage(postService.getListPageCount(pageSize, post));
 		// 传回json
@@ -307,8 +327,18 @@ public class PostServlet extends HttpServlet {
 		// 获取服务
 		PostService postService = PostServiceImpl.getInstance();
 		postJson = new PostJson();
+		List<PostForm> postFormList = postService.findFormList(pageSize, pageNum, post);
 		// 获取分页结果
-		postJson.setPostFormList(postService.findFormList(pageSize, pageNum, post));
+		postJson.setPostFormList(postFormList);
+		if(postFormList!=null) {//回帖计数
+			for(PostForm form:postFormList) {
+				Comment comment = new Comment();
+				comment.setPostId(form.getPostId());
+				int num = CommentServiceImpl.getInstance().getListRowCount(comment);
+				String commentNum = String.valueOf(num);
+				form.setCommentNum(commentNum);
+			}
+		}
 		// 获取最大页数
 		postJson.setMaxPage(postService.getListPageCount(pageSize, post));
 		// 传回json
