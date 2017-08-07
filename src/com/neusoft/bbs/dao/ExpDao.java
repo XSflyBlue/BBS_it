@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.neusoft.bbs.domain.EXP;
 import com.neusoft.bbs.domain.ExpRecord;
+import com.neusoft.bbs.domain.form.ExpRecordForm;
 
 /**
  * 经验DAO接口
@@ -16,7 +17,7 @@ public interface ExpDao {
 	 * @param userId
 	 * @return EXP
 	 */
-	EXP findExpById(Long user_Id);
+	EXP findExpById(Long userId);
 	
 	/**
 	 * 更新EXP表
@@ -75,5 +76,5 @@ public interface ExpDao {
 	 * @param userId，查询条件（userId）
 	 * @return
 	 */
-	List<ExpRecord> findFormList(int pageSize, int rowNum, Long userId);
+	List<ExpRecordForm> findFormList(int pageSize, int rowNum, Long userId);
 }

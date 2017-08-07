@@ -12,6 +12,7 @@ import com.neusoft.bbs.dao.ExpDao;
 import com.neusoft.bbs.domain.CoinRecord;
 import com.neusoft.bbs.domain.EXP;
 import com.neusoft.bbs.domain.ExpRecord;
+import com.neusoft.bbs.domain.form.ExpRecordForm;
 import com.neusoft.bbs.domain.form.PageForm;
 
 /**
@@ -66,9 +67,8 @@ public class ExpDaoImpl implements ExpDao {
 	public int insertExpRecord(Long userId, ExpRecord expRecord) {
 		// 先根据userId查询b_exp表
 		EXP exp = findExpById(userId);
-		String sql = "insert into b_exp_record values(b_exp_record_id_seq.nextval,?,?,?,?)";
-		Object params[] = { exp.getExpId(), expRecord.getExpGetNum(), expRecord.getExpGetCause(),
-				expRecord.getExpGetTime() };
+		String sql = "insert into b_exp_record (EXP_RECORD_ID,EXP_ID,EXP_GET_NUM,EXP_GET_CAUSE,EXP_GET_TIME) values(b_exp_record_id_seq.nextval,?,?,?,sysdate)";
+		Object params[] = { exp.getExpId(), expRecord.getExpGetNum(), expRecord.getExpGetCause()};
 		int res = 0;
 		try {
 			res = DatabaseUtil.update(sql, params);
@@ -110,31 +110,31 @@ public class ExpDaoImpl implements ExpDao {
 	@Override
 	public int getListPageCount(int pageSize, Long userId) {
 		int res = 0;
-		
+
 		int rowCount = getListRowCount(userId);
-		if (rowCount%pageSize==0) {
+		if (rowCount % pageSize == 0) {
 			res = rowCount / pageSize;
 		} else {
 			res = rowCount / pageSize + 1;
 		}
-		
+
 		return res;
 	}
 
 	@Override
 	public int getListRowCount(Long userId) {
 		StringBuffer find_sql = new StringBuffer();
-		find_sql.append("SELECT count(*) ROW_COUNT  ");
+		find_sql.append("SELECT count(*) ROW_COUNT ");
 		Long id = null;
-		if(userId!=null){
+		if (userId != null) {
 			id = userId;
 			find_sql.append("FROM B_USER_BASE a,B_EXP b,B_EXP_RECORD c,B_LEVEL d ");
 			find_sql.append("WHERE a.USER_ID = b.USER_ID and b.LEVEL_ID = d.LEVEL_ID AND b.EXP_ID = c.EXP_ID ");
 			find_sql.append("and a.USER_ID=? ");
-		}else{
+		} else {
 			return 0;
 		}
-		Object params[] = {id};
+		Object params[] = { id };
 		PageForm pageForm = null;
 		try {
 			pageForm = (PageForm) DatabaseUtil.query(find_sql.toString(), params, new BeanHandler(PageForm.class));
@@ -145,31 +145,32 @@ public class ExpDaoImpl implements ExpDao {
 	}
 
 	@Override
-	public List<ExpRecord> findFormList(int pageSize, int rowNum, Long userId) {
+	public List<ExpRecordForm> findFormList(int pageSize, int rowNum, Long userId) {
 		StringBuffer find_sql = new StringBuffer();
-		Long id = null;
-		//参数确定
-		if(userId!=null){
-			find_sql.append("SELECT a.EXP_RECORD_ID,a.EXP_ID,a.EXP_GET_NUM,a.EXP_GET_CAUSE,a.EXP_GET_TIME ");
-			find_sql.append("FROM B_EXP_RECORD a,B_EXP b,B_LEVEL c ");
-			find_sql.append("where a.EXP_ID = b.EXP_ID and c.LEVEL_ID = b.LEVEL_ID and b.USER_ID = ? ");
-			find_sql.append("and c.user_id=? ");
-			find_sql.append("ORDER BY a.EXP_GET_TIME desc");
-		}else {
+		// 参数确定
+		if (userId != null) {
+			find_sql.append("SELECT R.EXP_RECORD_ID,R.EXP_ID,R.EXP_GET_NUM,R.EXP_GET_CAUSE,R.EXP_GET_TIME");
+			find_sql.append(" FROM B_EXP_RECORD R,B_EXP E,B_LEVEL L");
+			find_sql.append(" WHERE R.EXP_ID = E.EXP_ID");
+			find_sql.append(" AND L.LEVEL_ID = E.LEVEL_ID");
+			find_sql.append(" AND E.USER_ID = ?");
+			find_sql.append(" ORDER BY R.EXP_GET_TIME DESC");
+		} else {
 			return null;
 		}
 		// 分页SQL语句
-			String sql = "select*from (select a1.*,rownum rn from (" + find_sql.toString() + ") a1 where rownum<="
-					+ rowNum * pageSize + ") where rn>" + ((rowNum - 1) * pageSize);
-	
-			System.out.println(sql);
-			Object params[] = {id};
-			List<ExpRecord> expRecordList = null;
-			try {
-				expRecordList = (List<ExpRecord>) DatabaseUtil.query(sql, params, new BeanListHandler(ExpRecord.class));
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			return expRecordList;
+		String sql = "select*from (select a1.*,rownum rn from (" + find_sql.toString() + ") a1 where rownum<="
+				+ rowNum * pageSize + ") where rn>" + ((rowNum - 1) * pageSize);
+
+		System.out.println(sql);
+		Object params[] = { userId };
+		List<ExpRecordForm> expRecordFormList = null;
+		try {
+			expRecordFormList = (List<ExpRecordForm>) DatabaseUtil.query(sql, params,
+					new BeanListHandler(ExpRecordForm.class));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return expRecordFormList;
 	}
 }
