@@ -78,6 +78,7 @@
 	<!-- /.container-fluid --> </nav>
 </div>
 <script type="text/javascript">
+	var sections = [];
 	$(function(){
 		
 		var subNavs = $('.j_section');
@@ -93,6 +94,7 @@
 					if(data != null){
 						$(data).each(function(index,item){
 							$('#j_section_'+sectionId).append('<li><a href="#">'+item.sectionName+'</a></li>');
+							sections[item.sectionId] = item.sectionName;
 						});
 					}
 				}

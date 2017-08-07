@@ -34,8 +34,6 @@ public class PageFileter implements Filter {
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		HttpServletRequest req = (HttpServletRequest) request;
-		String reqUri = req.getRequestURI();
 		chain.doFilter(request, response);
 	}
 

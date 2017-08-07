@@ -16,6 +16,7 @@
 	href='<c:url value="/css/bootstrap-theme.min.css"></c:url>'>
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 <script src='<c:url value="/js/bootstrap.min.js"></c:url>'></script>
+<script src='<c:url value="/js/bbs_utils.js"></c:url>'></script>
 <link rel="stylesheet" href='<c:url value="/css/bbsStyle.css"></c:url>'>
 </head>
 <body>
@@ -106,11 +107,15 @@
 					$(data.postFormList).each(function(index,item){
 						var str = '';
 						str += '<tr><td><a class="bbs_list" href="<c:url value="/poster.jsp?post='+item.postId+'"></c:url>">';
-						str += '<span class="bbs_listSubTitle">[置顶]</span>';
+						if(item.isAccessory == 1){
+							str += '<span class="bbs_listSubTitle">['+sections[item.sectionId]+'][资源贴]</span>';
+						}else{
+							str += '<span class="bbs_listSubTitle">['+sections[item.sectionId]+']</span>';
+						}
 						str += '<span class="bbs_listTitle bbs_bold"> '+item.postTitle+'</span>';
 						str += '<span class="bbs_listSubTitle block">';
-						str += '<span>'+item.userName+'&nbsp;&nbsp;'+item.issueTime+'</span>';
-						str += '<span class="bbs_listCount">浏览:123  回复:456</span>';
+						str += '<span>'+item.userName+'&nbsp;&nbsp;'+date_fmt(item.issueTime)+'</span>';
+						str += '<span class="bbs_listCount">浏览:'+item.hitNum+'  回复:'+item.answerSum+'</span>';
 						str += '</span></a></td></tr>';
 						$('#j_postList').append(str);
 					});
@@ -140,13 +145,18 @@
 					$(data.postFormList).each(function(index,item){
 						var str = '';
 						str += '<tr><td><a class="bbs_list" href="<c:url value="/poster.jsp?post='+item.postId+'"></c:url>">';
-						str += '<span class="bbs_listSubTitle">[置顶]</span>';
+						if(item.isAccessory == 1){
+							str += '<span class="bbs_listSubTitle">[置顶][资源贴]['+sections[item.sectionId]+'] </span>';
+						}else{ 
+							str += '<span class="bbs_listSubTitle">[置顶]['+sections[item.sectionId]+'] </span>';
+						}
 						str += '<span class="bbs_listTitle bbs_bold"> '+item.postTitle+'</span>';
 						str += '<span class="bbs_listSubTitle block">';
-						str += '<span>'+item.userName+'&nbsp;&nbsp;'+item.issueTime+'</span>';
-						str += '<span class="bbs_listCount">浏览:123  回复:456</span>';
+						str += '<span>'+item.userName+'&nbsp;&nbsp;'+date_fmt(item.issueTime)+'</span>';
+						str += '<span class="bbs_listCount">浏览:'+item.hitNum+'  回复:'+item.answerSum+'</span>';
 						str += '</span></a></td></tr>';
 						$('#j_postList').append(str);
+						var d = item.issueTime;
 					});
 				}
 			}
@@ -162,11 +172,15 @@
 					$(data.postFormList).each(function(index,item){
 						var str = '';
 						str += '<tr><td><a class="bbs_list" href="<c:url value="/poster.jsp?post='+item.postId+'"></c:url>">';
-						//str += '<span class="bbs_listSubTitle">[置顶]</span>';
+						if(item.isAccessory == 1){
+							str += '<span class="bbs_listSubTitle">['+sections[item.sectionId]+'][资源贴]</span>';
+						}else{
+							str += '<span class="bbs_listSubTitle">['+sections[item.sectionId]+']</span>';
+						}
 						str += '<span class="bbs_listTitle"> '+item.postTitle+'</span>';
 						str += '<span class="bbs_listSubTitle block">';
-						str += '<span>'+item.userName+'&nbsp;&nbsp;'+item.issueTime+'</span>';
-						str += '<span class="bbs_listCount">浏览:123  回复:456</span>';
+						str += '<span>'+item.userName+'&nbsp;&nbsp;'+date_fmt(item.issueTime)+'</span>';
+						str += '<span class="bbs_listCount">浏览:'+item.hitNum+'  回复:'+item.answerSum+'</span>';
 						str += '</span></a></td></tr>';
 						$('#j_postList').append(str);
 					});

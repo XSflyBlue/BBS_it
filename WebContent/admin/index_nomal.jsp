@@ -70,7 +70,47 @@
 									<tr>
 										<td></td>
 										<td>
-											<a href="#">修改个人资料</a>
+											<a href="#" id="j_modifyInfo">修改个人资料</a>
+										</td>
+									</tr>
+								</table>
+								<table class="table bbs_twoColTable" id="j_editInfo">
+									<tr>
+										<td>用户名：</td>
+										<td><input type="text" name="username" disabled="disabled"></td>
+									</tr>
+									<tr>
+										<td>邮箱：</td>
+										<td><input type="text" name="email"></td>
+									</tr>
+									<tr>
+										<td>性别：</td>
+										<td><input type="text" name="sex"></td>
+									</tr>
+									<tr>
+										<td>个人介绍：</td>
+										<td><textarea name="intro" rows="5" cols="50"></textarea></td>
+									</tr>
+									<tr>
+										<td>个性签名：</td>
+										<td><textarea name="signature" rows="5" cols="50"></textarea>></td>
+									</tr>
+									<tr>
+										<td>出生日期：</td>
+										<td><input type="text" name="birthday"></td>
+									</tr>
+									<tr>
+										<td>QQ：</td>
+										<td><input type="text" name="qq"></td>
+									</tr>
+									<tr>
+										<td>个人主页：</td>
+										<td><input type="text" name="website"></td>
+									</tr>
+									<tr>
+										<td></td>
+										<td>
+											<input type="submit" value="修改" class="btn btn-primary">													
 										</td>
 									</tr>
 								</table>
@@ -265,6 +305,15 @@
 					$('#j_userInfo').append(str);
 					$('#j_exp').text(bbs_dealNull(data.expNum,0));
 					$('#j_coin').text(bbs_dealNull(data.coinNum,0));
+					//编辑框填充
+					$('input[name=username]').val(bbs_dealNull(data.username));
+					$('input[name=email]').val(bbs_dealNull(data.email));
+					$('input[name=sex]').val(bbs_dealNull(data.sex));
+					$('textarea[name=intro]').val(bbs_dealNull(data.intro));
+					$('textarea[name=signature]').val(bbs_dealNull(data.signature));
+					$('input[name=birthday]').val(bbs_dealNull(data.birthday));
+					$('input[name=qq]').val(bbs_dealNull(data.qq));
+					$('input[name=website]').val(bbs_dealNull(data.website));
 				}
 			}
 		});
@@ -331,6 +380,13 @@
 					});
 				}
 			}
+		});
+		
+		//修改个人资料
+		$('#j_modifyInfo').click(function(){
+			$('#j_userInfo').hide();
+			$('#j_editInfo').show();
+			
 		});
 			
 	});

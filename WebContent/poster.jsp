@@ -126,6 +126,16 @@
 						$('#j_title').append(data.postForm.postTitle);
 						$('#bbs_poster_name').text(data.postForm.userName);
 						$('#j_userIndex').attr('href','<c:url value="/userInfo.jsp?user='+data.postForm.userId+'"></c:url>');
+						
+						//资源显示
+						if(data.accessory != null){
+							var link = '<div>';
+							link += '<div style="font-weight:bold;">资源列表:</div>';
+							link += '<a href="<c:url value="/DownLoadServlet?filename='+data.accessory.fileName+'"></c:url>">'+data.accessory.fileName+'</a>';
+							link += '</div>';
+							$('#j_content').append(link);
+						}
+						
 						//用户最近发布列表
 						var url = '<c:url value="/PostServlet?action=findRecentPost10byUserId&uId='+data.postForm.userId+'"></c:url>';
 						$.ajax({
