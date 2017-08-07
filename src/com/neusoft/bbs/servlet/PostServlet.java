@@ -359,10 +359,20 @@ public class PostServlet extends HttpServlet {
 		// 获取服务
 		PostService postService = PostServiceImpl.getInstance();
 		// 获取帖子详情
-		postForm = postService.findFormList(1, 1, post).get(0);
+		List<PostForm> postFormList = postService.findFormList(1, 1, post);
+		if(postFormList!=null) {
+			postForm = postFormList.get(0);
+		}else {
+			postForm = null;
+		}
 		if(postForm!=null) {
 			AccessoryService accessoryService = AccessoryServiceImpl.getInstance();
-			accessory = accessoryService.findAccessory(postForm.getPostId()).get(0);
+			List<Accessory> accessoryList = accessoryService.findAccessory(postForm.getPostId());
+			if(accessoryList!=null) {
+				accessory = accessoryList.get(0);
+			}else {
+				accessory = null;
+			}
 			postFormJson = new PostFormJson();
 			postFormJson.setPostForm(postForm);
 			postFormJson.setAccessory(accessory);
@@ -407,13 +417,18 @@ public class PostServlet extends HttpServlet {
 			Post post = new Post();
 			post.setPostId(comment.getPostId());
 			if (userBase != null) {
-				if(userBase.getUserId().longValue()==PostServiceImpl.getInstance().findFormList(1, 1, post).get(0).getUserId().longValue()){
-					//发帖人
-					comment.setIsHidden(null);// 发帖人，可见被隐藏的回帖
-				}else if (userBase.getUserId().longValue()==((UserBase) request.getSession().getAttribute("userBase")).getUserId().longValue()){
-					//本人（可查看本人隐藏和别人公开的回帖）
-					//需要底层支持（select中where子句加入OR判断）
-					comment.setIsSelf("1");//1是本人
+				List<PostForm> postFormList = PostServiceImpl.getInstance().findFormList(1, 1, post);
+				if(postFormList!=null) {
+					if(userBase.getUserId().longValue()==postFormList.get(0).getUserId().longValue()){
+						//发帖人
+						comment.setIsHidden(null);// 发帖人，可见被隐藏的回帖
+					}else if (userBase.getUserId().longValue()==((UserBase) request.getSession().getAttribute("userBase")).getUserId().longValue()){
+						//本人（可查看本人隐藏和别人公开的回帖）
+						//需要底层支持（select中where子句加入OR判断）
+						comment.setIsSelf("1");//1是本人
+					}
+				}else {
+					comment.setIsHidden(Short.parseShort("1"));//仅可见未隐藏回帖
 				}
 			}
 
@@ -615,29 +630,6 @@ public class PostServlet extends HttpServlet {
 			if (postFile != null) {
 				// TO-DO 多文件上传
 				post.setIsAccessory(Short.parseShort("1"));// 存在资源的主题帖
-				String message = (String) request.getAttribute("message");
-				if (message != null && message.equals("文件上传成功！")) {
-					Accessory accessory = new Accessory();
-					accessory.setAuthor(UserServiceImpl.getInstance().findUserId(post.getUserId()).getUsername());
-					accessory.setAccessoryDescri((String) request.getAttribute("accessoryDescri"));
-					accessory.setCostCoin(Long.parseLong((String) request.getAttribute("costCoin")));
-					accessory.setDownloadNum(0L); // 附件下载次数（默认0次）
-					accessory.setFileName((String) request.getAttribute("fileName"));// 决定文件格式
-					accessory.setFileSize(BigDecimal.valueOf(0L));// 获取二进制文件大小
-					accessory.setPath((String) request.getAttribute("filePath")); // hash生成
-					accessory.setPostId(postService.findFormList(1, 1, post).get(0).getPostId());
-					accessory.setUploadTime(postDate);
-
-					// 获取附件服务
-					AccessoryService accessoryService = AccessoryServiceImpl.getInstance();
-					result = accessoryService.addAccessory(accessory);
-					if (result == 1) {
-						JSONUtils.writeJSON(response, new Msg(1, "资源帖发布成功"));
-					} else {
-						JSONUtils.writeJSON(response, new Msg(0, "帖子发布失败，附件上传失败"));
-						return;
-					}
-				}
 			}
 		} else if (post.getPostType().shortValue() == 3) {// 公告
 			post.setIsOverhead(Short.parseShort("1"));
@@ -650,6 +642,39 @@ public class PostServlet extends HttpServlet {
 			JSONUtils.writeJSON(response, new Msg(0, "帖子发布失败"));
 		}else {
 			JSONUtils.writeJSON(response, new Msg(1, "帖子发布成功"));
+		}
+		
+		if(post.getIsAccessory()!=null && post.getIsAccessory().longValue() == 1) {
+			String message = (String) request.getAttribute("message");
+			if (message != null && message.equals("文件上传成功！")) {
+				Accessory accessory = new Accessory();
+				accessory.setAuthor(UserServiceImpl.getInstance().findUserId(post.getUserId()).getUsername());
+				accessory.setAccessoryDescri((String) request.getAttribute("accessoryDescri"));
+				accessory.setCostCoin(Long.parseLong((String) request.getAttribute("costCoin")));
+				accessory.setDownloadNum(0L); // 附件下载次数（默认0次）
+				accessory.setFileName((String) request.getAttribute("fileName"));// 决定文件格式
+				accessory.setFileSize(BigDecimal.valueOf(0L));// 获取二进制文件大小
+				accessory.setPath((String) request.getAttribute("filePath")); // hash生成
+				List<PostForm> postFormList = postService.findFormList(1, 1, post);
+				if(postFormList!=null) {
+					accessory.setPostId(postFormList.get(0).getPostId());
+				}else {
+					JSONUtils.writeJSON(response, new Msg(0, "帖子未创建，资源帖发布成功"));
+					return;
+				}
+				accessory.setUploadTime(postDate);
+
+				// 获取附件服务
+				AccessoryService accessoryService = AccessoryServiceImpl.getInstance();
+				result = accessoryService.addAccessory(accessory);
+				if (result == 1) {
+					JSONUtils.writeJSON(response, new Msg(1, "资源帖发布成功"));
+				} else {
+					JSONUtils.writeJSON(response, new Msg(0, "帖子发布失败，附件上传失败"));
+					postService.deletePost(post);
+					return;
+				}
+			}
 		}
 	}
 
@@ -734,6 +759,8 @@ public class PostServlet extends HttpServlet {
 			}else {
 				// 判断是否是版主
 				Moderator moderator = new Moderator();
+				moderator.setAreaId(Short.parseShort(String.valueOf(post.getSectionId())));
+				moderator.setModeratorType(Short.parseShort("0"));//版块
 				moderator.setUserId(Short.parseShort(String.valueOf(userBase.getUserId())));// 需要底层支持
 				List<ModeratorForm> ModeratorFormList = ModeratorServiceImpl.getInstance().findFormList(1, 1, moderator);
 				if(ModeratorFormList!=null) {
@@ -803,8 +830,14 @@ public class PostServlet extends HttpServlet {
 
 			} else if (accessoryStatus.equals("1")) {//删除附件
 				post.setIsAccessory(Short.parseShort("0"));// 不存在资源的帖子
+				List<Accessory> accessoryList = accessoryService.findAccessory(post.getPostId());
+				if(accessoryList!=null) {
+					result = accessoryService.deleteAccessory(accessoryList.get(0));
+				}else {
+					JSONUtils.writeJSON(response, new Msg(0, "资源帖修改失败"));
+					return;
+				}
 				
-				result = accessoryService.deleteAccessory(accessoryService.findAccessory(post.getPostId()).get(0));
 				if (result == 1) {
 					JSONUtils.writeJSON(response, new Msg(1, "资源帖修改成功，资源已删除"));
 				} else {
@@ -823,17 +856,22 @@ public class PostServlet extends HttpServlet {
 					accessory.setFileName((String) request.getAttribute("fileName"));// 决定文件格式
 					accessory.setFileSize(BigDecimal.valueOf(0L));// 获取二进制文件大小
 					accessory.setPath((String) request.getAttribute("filePath")); // hash生成
-					accessory.setPostId(postService.findFormList(1, 1, post).get(0).getPostId());
+					List<PostForm> postFormList = postService.findFormList(1, 1, post);
+					if(postFormList!=null) {
+						accessory.setPostId(postFormList.get(0).getPostId());
+					}else {
+						JSONUtils.writeJSON(response, new Msg(1, "帖子不存在，更新失败"));
+					}
 					accessory.setUploadTime(editDate);
 
 					// 增加附件记录
 					result = accessoryService.addAccessory(accessory);
 					if (result == 1) {
-						JSONUtils.writeJSON(response, new Msg(1, "资源帖发布成功"));
+						JSONUtils.writeJSON(response, new Msg(1, "资源帖更新成功"));
 					} else {
 						post.setPostId(accessory.getPostId());
 						postService.deletePost(post);// 帖子发布失败删除帖子
-						JSONUtils.writeJSON(response, new Msg(0, "帖子发布失败，附件上传失败"));
+						JSONUtils.writeJSON(response, new Msg(0, "帖子更新失败，附件上传失败"));
 						return;
 					}
 				}
