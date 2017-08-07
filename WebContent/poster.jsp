@@ -192,7 +192,7 @@
 							$('#j_reply').append(str);
 						});
 					}
-					//回复框
+					//回复框 
 					var replyBox = '<tr><td colspan="2"><h4>快速回复</h4>';
 					replyBox += '<textarea id="post_content_bbs" name="content1" cols="100" rows="8" style="width:100%;height:230px;visibility:hidden;resize: none;" ></textarea>';
 					replyBox += '<br><button type="button" class="btn btn-primary" onclick="submitPost()">回复</button></td></tr>';
