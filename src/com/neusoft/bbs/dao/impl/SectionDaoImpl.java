@@ -212,7 +212,6 @@ public class SectionDaoImpl implements SectionDao {
 		String sql = "select * from (select a1.*,rownum rn from (" + find_sql.toString() + ") a1 where rownum<="
 				+ rowNum * pageSize + ") where rn>" + ((rowNum - 1) * pageSize);
 
-		System.out.println("完整："+sql);
 		Object params[] = arrList.toArray();
 		System.out.println(Arrays.toString(params));
 		List<SectionForm> sectionFormList = null;

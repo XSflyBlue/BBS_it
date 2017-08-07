@@ -21,8 +21,9 @@ public class LevelDaoImpl implements LevelDao {
 	public List<Level> findLevelRules() {
 		String sql = "select * from b_level order by exp_value asc";
 		List<Level> levelList = null;
+		Object params[] = {};
 		try {
-			levelList = (List<Level>) DatabaseUtil.query(sql, null, new BeanListHandler(Level.class));
+			levelList = (List<Level>) DatabaseUtil.query(sql, params, new BeanListHandler(Level.class));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
