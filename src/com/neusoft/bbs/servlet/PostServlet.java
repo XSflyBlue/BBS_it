@@ -307,7 +307,7 @@ public class PostServlet extends HttpServlet {
 		}
 		
 		post.setIsElite(Short.parseShort("1"));// 精华帖
-		System.out.println(post);
+//		System.out.println(post);
 		// 获取服务
 		PostService postService = PostServiceImpl.getInstance();
 		postJson = new PostJson();
@@ -644,6 +644,7 @@ public class PostServlet extends HttpServlet {
 			post.setUserId(userBase.getUserId());
 			post.setEditUserId(userBase.getUserId());// 默认编辑帖子人是发布者
 		} catch (Exception e) {
+			e.printStackTrace();
 			JSONUtils.writeJSON(response, new Msg(0, "参数错误，发布失败"));
 			return;
 		}
@@ -722,6 +723,8 @@ public class PostServlet extends HttpServlet {
 					return;
 				}
 			}
+		}else {
+			JSONUtils.writeJSON(response, new Msg(1, "资源帖发布成功"));
 		}
 	}
 
@@ -1006,7 +1009,7 @@ public class PostServlet extends HttpServlet {
 		comment = new Comment();
 		Date commentDate = new Date();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
-		System.out.println(dateFormat.format(commentDate));
+		dateFormat.format(commentDate);
 		
 		
 		Post post = PostServiceImpl.getInstance().findByPostId(Long.parseLong(tId));

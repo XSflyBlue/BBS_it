@@ -1,8 +1,8 @@
 package com.neusoft.bbs.dao.impl;
 
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import com.neusoft.bbs.commons.util.db.BeanHandler;
@@ -25,12 +25,12 @@ public class PostDaoImpl implements PostDao {
 	public int insert(Post post) {
 		String sql = "insert into b_post values(B_POST_ID_SEQ.nextval,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		Object params[] = { post.getUserId(), post.getSectionId(), post.getPostType(), post.getThemeContent(),
-				new java.sql.Date(post.getIssueTime().getTime()), post.getIssueIp(), post.getHitNum(), post.getAnswerSum(), post.getIsHighlight(),
+				new Timestamp(post.getIssueTime().getTime()), post.getIssueIp(), post.getHitNum(), post.getAnswerSum(), post.getIsHighlight(),
 				post.getHighlightUserId(), post.getTitleColor(), post.getIsOverhead(), post.getOverheadUserId(),
 				post.getOverheadCause(), post.getIsClose(), post.getSwitchUserId(), post.getSwitchCause(),
 				post.getIsElite(), post.getRecomUserId(), post.getRecomValidity(), post.getIsHidden(),
 				post.getHiddenCause(), post.getHiddenUserId(), post.getIsAccessory(), post.getEditUserId(),
-				new java.sql.Date(post.getEditTime().getTime()), post.getPostTitle() };
+				new Timestamp(post.getEditTime().getTime()), post.getPostTitle() };
 		int res = 0;
 		try {
 			res = DatabaseUtil.update(sql, params);
@@ -64,12 +64,12 @@ public class PostDaoImpl implements PostDao {
 				+ "edit_time=?,post_title=? "
 				+ "where post_id=?";
 		Object params[] = { post.getUserId(), post.getSectionId(), post.getPostType(), post.getThemeContent(),
-				new java.sql.Date(post.getIssueTime().getTime()), post.getIssueIp(), post.getHitNum(), post.getAnswerSum(), post.getIsHighlight(),
+				new Timestamp(post.getIssueTime().getTime()), post.getIssueIp(), post.getHitNum(), post.getAnswerSum(), post.getIsHighlight(),
 				post.getHighlightUserId(), post.getTitleColor(), post.getIsOverhead(), post.getOverheadUserId(),
 				post.getOverheadCause(), post.getIsClose(), post.getSwitchUserId(), post.getSwitchCause(),
 				post.getIsElite(), post.getRecomUserId(), post.getRecomValidity(), post.getIsHidden(),
 				post.getHiddenCause(), post.getHiddenUserId(), post.getIsAccessory(), post.getEditUserId(),
-				new java.sql.Date(post.getEditTime().getTime()), post.getPostTitle(), 
+				new Timestamp(post.getEditTime().getTime()), post.getPostTitle(), 
 				post.getPostId() };
 		int res = 0;
 		try {
