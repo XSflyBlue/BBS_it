@@ -117,6 +117,7 @@ public class PostServlet extends HttpServlet {
 			pageSize = Integer.parseInt(request.getParameter("pageSize"));
 			pageNum = Integer.parseInt(request.getParameter("pageNum"));
 
+			post.setIsHidden(Short.parseShort("1"));// 除去隐藏贴
 			if(userbase!=null) {
 				if (userbase.getUserId() != null) {
 					// 判断是否是版主
@@ -133,6 +134,7 @@ public class PostServlet extends HttpServlet {
 					//本人可见自己隐藏和别人公开的帖子
 					if(post.getIsHidden()!=null) {
 						//需要底层支持（select中where子句加入OR判断）
+						post.setUserId(userbase.getUserId());
 						post.setIsSelf("1");//1是本人
 					}
 				}else {
