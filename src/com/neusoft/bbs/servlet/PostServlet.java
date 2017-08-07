@@ -330,26 +330,29 @@ public class PostServlet extends HttpServlet {
 
 		// 所需封装参数封装
 		post = new Post();
+		// 获取服务
+		PostService postService = PostServiceImpl.getInstance();
+		System.out.println(tId);
+		post = postService.findByPostId(Long.parseLong(tId));
 		try {
 			post.setPostId(Long.parseLong(tId));
 			if(userBase!=null) {
-				post = PostServiceImpl.getInstance().findByPostId(Long.parseLong(tId));
-				if (userBase.getUserId()!=null
-						&& post!=null
-						&& userBase.getUserId().longValue()==post.getUserId().longValue()) {
-					// 本人可见被隐藏的帖子
-					post.setIsHidden(Short.parseShort(null));
-				}
-				if (userBase.getUserId() != null
-						&& post!=null) {
-					// 判断是否是版主
-					Moderator moderator = new Moderator();
-					moderator.setAreaId(Short.parseShort(String.valueOf(post.getSectionId())));
-					moderator.setModeratorType(Short.parseShort("0"));//版块
-					moderator.setUserId(Short.parseShort(String.valueOf(userBase.getUserId())));// 需要底层支持
-					for (ModeratorForm moderatorForm : ModeratorServiceImpl.getInstance().findFormList(1, 1, moderator)) {
-						if (userBase.getUserId().shortValue() == moderatorForm.getUserId().shortValue()) {
-							post.setIsHidden(null);// 所有帖子
+				System.out.println(userBase);
+				if (post!=null) {
+					if(userBase.getUserId().longValue()==post.getUserId().longValue()) {
+						// 本人可见被隐藏的帖子
+						post.setIsHidden(null);
+					}else {
+						// 判断是否是版主
+						Moderator moderator = new Moderator();
+						moderator.setAreaId(Short.parseShort(String.valueOf(post.getSectionId())));
+						moderator.setModeratorType(Short.parseShort("0"));//版块
+						moderator.setUserId(Short.parseShort(String.valueOf(userBase.getUserId())));// 需要底层支持
+						for (ModeratorForm moderatorForm : ModeratorServiceImpl.getInstance().findFormList(1, 1, moderator)) {
+							if (userBase.getUserId().shortValue() == moderatorForm.getUserId().shortValue()) {
+								post.setIsHidden(null);// 所有帖子
+								System.out.println("本人可见被隐藏的帖子");
+							}
 						}
 					}
 				}
@@ -357,11 +360,11 @@ public class PostServlet extends HttpServlet {
 				post.setIsHidden(Short.parseShort("1"));//未登录用户
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			JSONUtils.writeJSON(response, new PostFormJson());
 			return;
 		}
-		// 获取服务
-		PostService postService = PostServiceImpl.getInstance();
+		
 		// 获取帖子详情
 		List<PostForm> postFormList = postService.findFormList(1, 1, post);
 		if(postFormList!=null) {
@@ -383,7 +386,7 @@ public class PostServlet extends HttpServlet {
 		}
 		if(accessory!=null) {//请求下载文件列表（存放到session中fileNameMap）
 			//提交fileNameMap中url到DownLoadServlet进行下载（待测试）
-			request.getRequestDispatcher("/ListFileServlet").forward(request, response);
+//			request.getRequestDispatcher("/ListFileServlet").forward(request, response);
 		}
 		// 传回json
 		JSONUtils.writeJSON(response, postFormJson);
@@ -484,7 +487,7 @@ public class PostServlet extends HttpServlet {
 				return;
 			}else if(uId == null||uId.equals(String.valueOf(userBase.getUserId()))){
 				//查看本人
-				post.setIsHidden(Short.parseShort(null));// 本人可见被隐藏的帖子
+				post.setIsHidden(null);// 本人可见被隐藏的帖子
 			}else if(uId != null
 					&& (!uId.equals(String.valueOf(userBase.getUserId())))) {
 				//查看他人
