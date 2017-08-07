@@ -350,7 +350,6 @@ public class PostServlet extends HttpServlet {
 		System.out.println(tId);
 		if(tId!=null) {
 			post = postService.findByPostId(Long.parseLong(tId));
-			post.setPostId(Long.parseLong(tId));
 		}
 		try {
 			if(userBase!=null) {
@@ -390,6 +389,14 @@ public class PostServlet extends HttpServlet {
 		List<PostForm> postFormList = postService.findFormList(1, 1, post);
 		if(postFormList!=null) {
 			postForm = postFormList.get(0);
+			//帖子记录数更新
+			if(post.getHitNum()!=null) {
+				post.setHitNum(post.getHitNum()+1L);
+			}else {
+				post.setHitNum(0L);
+			}
+			postService.setPost(post);
+			
 		}else {
 			postForm = null;
 		}

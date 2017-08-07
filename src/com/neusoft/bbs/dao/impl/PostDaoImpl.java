@@ -2,6 +2,7 @@ package com.neusoft.bbs.dao.impl;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.neusoft.bbs.commons.util.db.BeanHandler;
@@ -54,16 +55,25 @@ public class PostDaoImpl implements PostDao {
 
 	@Override
 	public int update(Post post) {
-		String sql = "update b_post set user_id=?,section_id=?,post_type=?,theme_content=?,issue_time=?,issue_ip=?,hit_num=?,answer_sum=?,is_highlight=?,highlight_user_id=?,title_color=?,is_overhead=?,overhead_user_id=?,overhead_cause=?,is_elite=?,recom_user_id=?,recom_validity=?,is_hidden=?,hidden_cause=?,hidden_user_id=?,is_accessory=?,edit_user_id=?,edit_time=?,post_title=? where post_id=?";
+		String sql = "update b_post set user_id=?,section_id=?,post_type=?,theme_content=?,"
+				+ "issue_time=?,issue_ip=?,hit_num=?,answer_sum=?,is_highlight=?,"
+				+ "highlight_user_id=?,title_color=?,is_overhead=?,overhead_user_id=?,"
+				+ "overhead_cause=?,is_close=?,switch_user_id=?,switch_cause=?,"
+				+ "is_elite=?,recom_user_id=?,recom_validity=?,is_hidden=?,"
+				+ "hidden_cause=?,hidden_user_id=?,is_accessory=?,edit_user_id=?,"
+				+ "edit_time=?,post_title=? "
+				+ "where post_id=?";
 		Object params[] = { post.getUserId(), post.getSectionId(), post.getPostType(), post.getThemeContent(),
 				new java.sql.Date(post.getIssueTime().getTime()), post.getIssueIp(), post.getHitNum(), post.getAnswerSum(), post.getIsHighlight(),
 				post.getHighlightUserId(), post.getTitleColor(), post.getIsOverhead(), post.getOverheadUserId(),
 				post.getOverheadCause(), post.getIsClose(), post.getSwitchUserId(), post.getSwitchCause(),
 				post.getIsElite(), post.getRecomUserId(), post.getRecomValidity(), post.getIsHidden(),
 				post.getHiddenCause(), post.getHiddenUserId(), post.getIsAccessory(), post.getEditUserId(),
-				new java.sql.Date(post.getEditTime().getTime()), post.getPostTitle(), post.getPostId() };
+				new java.sql.Date(post.getEditTime().getTime()), post.getPostTitle(), 
+				post.getPostId() };
 		int res = 0;
 		try {
+//			System.out.println(sql+"\n"+Arrays.toString(params));
 			res = DatabaseUtil.update(sql, params);
 		} catch (SQLException e) {
 			e.printStackTrace();
