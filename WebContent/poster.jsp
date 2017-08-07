@@ -23,6 +23,7 @@
 <script charset="utf-8" src='<c:url value="/kindeditor/kindeditor-all.js"></c:url>'></script>
 <script charset="utf-8" src='<c:url value="/kindeditor/lang/zh-CN.js"></c:url>'></script>
 <script charset="utf-8" src='<c:url value="/kindeditor/plugins/code/prettify.js"></c:url>'></script>
+<script type="text/javascript" src='<c:url value="/js/bbs_utils.js"></c:url>'></script>
 </head>
 <body>
 	<%@include file='/common/nav.jsp' %>
@@ -30,52 +31,17 @@
 		<div class="row">
 			<div class="col-md-9">
 				<div>
-					<h3 style="text-align: center;">如何设置Xiuno BBS URL-Rewrite（伪静态设定）</h3>
-					<div style="font-size: 1.2em;padding: 1em;">
-					<p>经查，杨焕宁同志身为中央委员，严重违反政治纪律和政治规矩，在大是大非问题上背离党性原则；违反廉洁纪律，利用职权谋取私利。依据《中国共产党纪律处分条例》等有关规定，经中央纪委常委会会议研究并报中央政治局会议审议，决定给予杨焕宁同志留党察看二年处分，由监察部报国务院批准给予其行政撤职处分，降为副局级非领导职务；终止其党的十八大代表资格；收缴其违纪所得。给予其留党察看二年的处分，待召开中央委员会全体会议时予以追认。</p>
-					<p>党章规定，党纪处分共分为警告、严重警告、撤销党内职务、留党察看、开除党籍等5种，留党察看的问责力度仅次于开除党籍。</p>
-					<p>在杨焕宁之前，民政部原党组书记、部长李立国，也受到留党察看二年、行政撤职处分，降为副局级非领导职务，终止党的十八大代表资格。曾长期担任中央纪委驻民政部纪检组组长、民政部党组成员的曲淑辉，受到留党察看二年、行政撤职处分，降为正处级非领导职务。</p>
+					<h3 style="text-align: center;" id="j_title"></h3>
+					<div style="font-size: 1.2em;padding: 1em;" id="j_content">
+						<!-- 正文部分 -->
 					</div>
 				</div>
 				<div id="bbs_comment">
 					<div class="bbs_subTitle">最新回复</div>
 					<hr>
 					<div>
-						<table class="table bbs_table">
-							<tr>
-								<td class="bbs_comment_icon">
-									<img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">
-								</td>
-								<td class="bbs_comment_body">
-									<div>
-										<span class="bbs_comment_name">鲁班不住这</span>
-										<span class="bbs_comment_date">15分钟前</span>
-									</div>
-									<div class="bbs_comment_content">这篇水文写得太好了</div>
-								</td>
-							</tr>
-							<tr>
-								<td class="bbs_comment_icon">
-									<img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">
-								</td>
-								<td class="bbs_comment_body">
-									<div>
-										<span class="bbs_comment_name">鲁班不住这</span>
-										<span class="bbs_comment_date">15分钟前</span>
-									</div>
-									<div class="bbs_comment_content">民政部原党组书记、部长李立国，也受到留党察看二年、行政撤职处分，降为副局级非领导职务，终止党的十八大代表资格。曾长期担任。</div>
-								</td>
-							</tr>
-							<tr>
-								<td colspan="2">
-									<h4>快速回复</h4>
-									<textarea id="post_content_bbs" name="content1" cols="100" rows="8" style="width:100%;height:230px;visibility:hidden;resize: none;" >
-										<%=StringUtils.htmlspecialchars("请发表您的看法...")%>
-									</textarea>
-									<br>
-									<button type="button" class="btn btn-primary" onclick="submitPost()">回复</button>
-								</td>
-							</tr>
+						<table class="table bbs_table" id="j_reply">
+							<!-- 回复区 -->
 						</table>
 					</div>
 				</div>
@@ -85,26 +51,30 @@
 				<div class="bbs_rightBox">
 					<div class="bbs_poster">
 						<div>
-							<a href='<c:url value="/userInfo.jsp"></c:url>'>
+							<a id="j_userIndex" href='<c:url value="/userInfo.jsp"></c:url>'>
 								<img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">
-								<span id="bbs_poster_name">鲁班不住这</span>
+								<span id="bbs_poster_name">
+									<!-- 楼主用户名 -->
+								</span>
 							</a>
-							<div>社区元老</div>
+							<div>
+								<!-- 楼主等级 -->
+							</div>
 						</div>
 						<div class="">
 							<table class="table">
 								<tr>
 									<td>
 										<div class="bbs_poster_tip">帖子数</div>
-										<div class="bbs_poster_val">2333</div>
+										<div class="bbs_poster_val">1</div>
 									</td>
 									<td>
 										<div class="bbs_poster_tip">帖子数</div>
-										<div class="bbs_poster_val">2333</div>
+										<div class="bbs_poster_val">2</div>
 									</td>
 									<td>
 										<div class="bbs_poster_tip">帖子数</div>
-										<div class="bbs_poster_val">2333</div>
+										<div class="bbs_poster_val">3</div>
 									</td>
 								</tr>
 							</table>
@@ -127,6 +97,7 @@
 	</div>
 </body>
 <script>
+
 	function submitPost(){
 		editor.sync();
 		var html = $('#post_content_bbs').val(); // jQuery
@@ -141,6 +112,51 @@
 			resizeType:0
 		});
 		prettyPrint();
+	});
+	
+	$(function(){
+		//获取post详细
+		var postId = GetQueryString('post');
+		if(postId != null){
+			$.ajax({
+				type: 'POST',
+				url: '<c:url value="/PostServlet?action=findPostbyPostId&tId='+postId+'"></c:url>',
+				async:false,
+				success: function(data){
+					var str = '';
+					if(data != null){
+						$('#j_content').append(data.postForm.themeContent);
+						$('#j_title').append(data.postForm.postTitle);
+						$('#bbs_poster_name').text(data.postForm.userName);
+						$('#j_userIndex').attr('href','<c:url value="/userInfo.jsp?user='+data.postForm.userId+'"></c:url>');
+					}
+				}
+			});
+		}
+		
+		//获取跟帖
+		$.ajax({
+			type: 'POST',
+			url: '<c:url value="/PostServlet?action=findCommentbyPostId&tId='+postId+'"></c:url>',
+			async:false,
+			success: function(data){
+				if(data != null){
+					$(data.commentFormList).each(function(index, item){
+						var str = '<tr><td class="bbs_comment_icon"><img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">';
+						str += '</td><td class="bbs_comment_body">';
+						str += '<div><span class="bbs_comment_name">'+item.commentUser+'</span>';
+						str += '<span class="bbs_comment_date">'+item.commentTime+'</span></div>';
+						str += '<div class="bbs_comment_content">'+item.commentContent+'</div></td></tr>';
+						$('#j_reply').append(str);
+					});
+				}
+				//回复框
+				var replyBox = '<tr><td colspan="2"><h4>快速回复</h4>';
+				replyBox += '<textarea id="post_content_bbs" name="content1" cols="100" rows="8" style="width:100%;height:230px;visibility:hidden;resize: none;" ></textarea>';
+				replyBox += '<br><button type="button" class="btn btn-primary" onclick="submitPost()">回复</button></td></tr>';
+				$('#j_reply').append(replyBox);
+			}
+		});
 	});
 </script>
 </html>

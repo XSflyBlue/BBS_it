@@ -158,6 +158,7 @@ public class CommentDaoImpl implements CommentDao{
 					+ "b.username comment_user,p.post_title ");
 			find_sql.append("from b_post p,b_comment c,b_user_base b ");
 			find_sql.append("where c.comment_user_id=? ");
+			find_sql.append("OR (c.comment_user_id<>1 AND c.IS_HIDDEN = 1)");
 			find_sql.append("and p.post_id = c.post_id ");
 			find_sql.append("and c.comment_user_id = b.user_id ");
 			find_sql.append("order by c.comment_time desc");
@@ -171,6 +172,7 @@ public class CommentDaoImpl implements CommentDao{
 			find_sql.append("where c.post_id=? ");
 			find_sql.append("and p.post_id = c.post_id ");
 			find_sql.append("and c.comment_user_id = b.user_id ");
+			find_sql.append("");
 			find_sql.append("order by c.comment_time desc");
 		} else {
 			return null;

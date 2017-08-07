@@ -7,6 +7,7 @@ import com.neusoft.bbs.dao.CoinDao;
 import com.neusoft.bbs.dao.impl.CoinDaoImpl;
 import com.neusoft.bbs.domain.Coin;
 import com.neusoft.bbs.domain.CoinRecord;
+import com.neusoft.bbs.domain.form.CoinRecordForm;
 import com.neusoft.bbs.service.CoinService;
 /**
  * 金币service实现类
@@ -32,49 +33,60 @@ public class CoinServiceImpl implements CoinService{
 	
 	@Override
 	public List<CoinRecord> findCoinRecord(Coin coin) {
-		List<CoinRecord> list = coinDao.findCoinRecordByCoinId(coin.getCoinId());
-		if(list!=null&&list.size()>0){
-			return list;
-		}else{
-			return null;
-		}
+		List<CoinRecord> list = null;
+		list= coinDao.findCoinRecordByCoinId(coin.getCoinId());
+		return list;
 	}
 
 	@Override
 	public int deleteCoinRecord(Long userId) {
-		int record = coinDao.deleteCoinRecord(userId);
+		int record = 0;
+		record = coinDao.deleteCoinRecord(userId);
 		return record;
 	}
 
 	@Override
 	public int addCoinRecord(Long userId,CoinRecord coinRecord) {
-		
-		Coin coin = coinDao.findCoinNum(userId);
-		coinRecord.setCoinId(coin.getCoinId());
-		int record = coinDao.insertCoinRecord(coinRecord);
+		Coin coin = null;
+		int record = 0;
+		coin = coinDao.findCoinNum(userId);
+		if(coin!=null){
+			coinRecord.setCoinId(coin.getCoinId());
+			record = coinDao.insertCoinRecord(coinRecord);
+		}else{
+			return 0;
+		}
 		return record;
 	}
 
 	@Override
 	public int setCoinRecord(Long userId,CoinRecord coinRecord) {
-		Coin coin = coinDao.findCoinNum(userId);
-		coinRecord.setCoinId(coin.getCoinId());
-		int record = coinDao.updateCoinRecord(coinRecord);
+		int record = 0;
+		Coin coin = null;
+		coin = coinDao.findCoinNum(userId);
+		if(coin!=null){
+			coinRecord.setCoinId(coin.getCoinId());
+			record = coinDao.updateCoinRecord(coinRecord);
+			System.out.println("record:"+record);
+		}
+		System.out.println(coinRecord.getCoinCause()+"=== "+coinRecord.getCoinGetNum());
 		return record;
 	}
 	@Override
 	public Long findCoinNum(Long userId) {
-		Coin coin = coinDao.findCoinNum(userId);
-		Long coin_num = coin.getCoinNum();
+		Coin coin = null; 
+		Long coin_num = null;
+		coin = coinDao.findCoinNum(userId);
+		if(coin!=null){
+			coin_num = coin.getCoinNum();
+		}
 		return coin_num;
 	}
 	@Override
 	public int setCoinNum(Long userId,Coin coin) {
 		int coinNum = 0;
-		if(coin!=null){
-			coin.setUserId(userId);
-			coinNum = coinDao.updateCoinNum(coin);
-		}
+		coin.setUserId(userId);
+		coinNum = coinDao.updateCoinNum(coin);
 		return coinNum;
 	}
 	@Override
@@ -90,8 +102,8 @@ public class CoinServiceImpl implements CoinService{
 		return rowCount;
 	}
 	@Override
-	public List<CoinRecord> findFormList(int pageSize, int rowNum, Long userId) {
-		List<CoinRecord> coinRecordList = null;
+	public List<CoinRecordForm> findFormList(int pageSize, int rowNum, Long userId) {
+		List<CoinRecordForm> coinRecordList = null;
 		coinRecordList = coinDao.findFormList(pageSize, rowNum, userId);
 		return coinRecordList;
 	}

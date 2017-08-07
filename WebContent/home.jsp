@@ -33,91 +33,8 @@
 						<li class="j_subNav active" value="nomal" role="presentation"><a href="#">主题帖</a></li>
 						<li class="j_subNav" value="better" role="presentation"><a href="#">精华帖</a></li>
 					</ul>
-					<table class="table table-hover bbs_table">
-						<tr>
-							<td>
-								<a class="bbs_list" href="poster.jsp">
-									<span class="bbs_listSubTitle">[程序发布]</span>
-									<span class="bbs_listTitle">xiuno4采集免费分享，支持指定用户和马甲发贴。</span>
-									<span class="bbs_listSubTitle block">
-										<span>axiuno 10月前 ← JOJO 20小时前</span>
-										<span class="bbs_listCount">浏览:123  回复:456</span>
-									</span>
-								</a>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<a class="bbs_list" href="#">
-									<span class="bbs_listSubTitle">[程序发布]</span>
-									<span class="bbs_listTitle bbs_bold">Xiuno BBS 4.0 beta 5 发布 （最后更新：2017/4/8） </span>
-									<span class="bbs_listSubTitle block">
-										<span>axiuno 10月前 ← JOJO 20小时前</span>
-										<span class="bbs_listCount">浏览:123  回复:456</span>
-									</span>
-								</a>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<a class="bbs_list" href="#">
-									<span class="bbs_listSubTitle">[线下交流]</span>
-									<span class="bbs_listTitle bbs_bold">[8月12日][沙龙] 揭秘 “二次元” 企业背后的技术实践丨又拍云 Open Talk NO.34</span>
-									<span class="bbs_listSubTitle block">
-										<span>axiuno 10月前 ← JOJO 20小时前</span>
-										<span class="bbs_listCount">浏览:123  回复:456</span>
-									</span>
-								</a>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<a class="bbs_list" href="#">
-									<span class="bbs_listSubTitle">[程序发布]</span>
-									<span class="bbs_listTitle bbs_bold">Xiuno BBS 4.0 beta 5 发布 （最后更新：2017/4/8） </span>
-									<span class="bbs_listSubTitle block">
-										<span>axiuno 10月前 ← JOJO 20小时前</span>
-										<span class="bbs_listCount">浏览:123  回复:456</span>
-									</span>
-								</a>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<a class="bbs_list" href="#">
-									<span class="bbs_listSubTitle">[问题求助]</span>
-									<span class="bbs_listTitle">求教登陆不进去后台 </span>
-									<span class="bbs_listSubTitle block">
-										<span>axiuno 10月前 ← JOJO 20小时前</span>
-										<span class="bbs_listCount">浏览:123  回复:456</span>
-									</span>
-								</a>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<a class="bbs_list" href="#">
-									<span class="bbs_listSubTitle">[程序发布]</span>
-									<span class="bbs_listTitle">xiuno改造，已经完成70%，二次开发xiuno绝对是最好选择。。</span>
-									<span class="bbs_listSubTitle block">
-										<span>axiuno 10月前 ← JOJO 20小时前</span>
-										<span class="bbs_listCount">浏览:123  回复:456</span>
-									</span>
-								</a>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<a class="bbs_list" href="#">
-									<span class="bbs_listSubTitle">[程序发布]</span>
-									<span class="bbs_listTitle bbs_bold">Xiuno BBS 4.0 beta 5 发布 （最后更新：2017/4/8） </span>
-									<span class="bbs_listSubTitle block">
-										<span>axiuno 10月前 ← JOJO 20小时前</span>
-										<span class="bbs_listCount">浏览:123  回复:456</span>
-									</span>
-								</a>
-							</td>
-						</tr>
+					<table class="table table-hover bbs_table" id="j_postList">
+						
 					</table>
 					<nav aria-label="Page navigation" style="text-align: center;">
 					  <ul class="pagination">
@@ -170,15 +87,89 @@
 	<%@include file='/common/bottom.jsp' %>
 </body>
 <script type="text/javascript">
+
+	//获取精华帖
+	function getBetter(){
+		$('#j_postList').empty();
+		$.ajax({
+			type: 'POST',
+			url: '<c:url value="/PostServlet?action=findElitePost"></c:url>',
+			async:false,
+			success: function(data){
+				if(data != null){
+					$(data.postFormList).each(function(index,item){
+						var str = '';
+						str += '<tr><td><a class="bbs_list" href="<c:url value="/poster.jsp?post='+item.postId+'"></c:url>">';
+						str += '<span class="bbs_listSubTitle">[置顶]</span>';
+						str += '<span class="bbs_listTitle bbs_bold"> '+item.postTitle+'</span>';
+						str += '<span class="bbs_listSubTitle block">';
+						str += '<span>'+item.userName+'&nbsp;&nbsp;'+item.issueTime+'</span>';
+						str += '<span class="bbs_listCount">浏览:123  回复:456</span>';
+						str += '</span></a></td></tr>';
+						$('#j_postList').append(str);
+					});
+				}
+			}
+		});
+	}
+	
+	function getPostList(){
+		$('#j_postList').empty();
+		//获取置顶贴子
+		$.ajax({
+			type: 'POST',
+			url: '<c:url value="/PostServlet?action=findOverheadPost"></c:url>',
+			async:false,
+			success: function(data){
+				if(data != null){
+					$(data.postFormList).each(function(index,item){
+						var str = '';
+						str += '<tr><td><a class="bbs_list" href="<c:url value="/poster.jsp?post='+item.postId+'"></c:url>">';
+						str += '<span class="bbs_listSubTitle">[置顶]</span>';
+						str += '<span class="bbs_listTitle bbs_bold"> '+item.postTitle+'</span>';
+						str += '<span class="bbs_listSubTitle block">';
+						str += '<span>'+item.userName+'&nbsp;&nbsp;'+item.issueTime+'</span>';
+						str += '<span class="bbs_listCount">浏览:123  回复:456</span>';
+						str += '</span></a></td></tr>';
+						$('#j_postList').append(str);
+					});
+				}
+			}
+		});
+		
+		//获取普通贴子
+		$.ajax({
+			type: 'POST',
+			url: '<c:url value="/PostServlet?action=findOrdinaryPost'+'&pageSize='+2+'&pageNum='+1+'"></c:url>',
+			async:false,
+			success: function(data){
+				if(data != null){
+					$(data.postFormList).each(function(index,item){
+						var str = '';
+						str += '<tr><td><a class="bbs_list" href="<c:url value="/poster.jsp?post='+item.postId+'"></c:url>">';
+						//str += '<span class="bbs_listSubTitle">[置顶]</span>';
+						str += '<span class="bbs_listTitle"> '+item.postTitle+'</span>';
+						str += '<span class="bbs_listSubTitle block">';
+						str += '<span>'+item.userName+'&nbsp;&nbsp;'+item.issueTime+'</span>';
+						str += '<span class="bbs_listCount">浏览:123  回复:456</span>';
+						str += '</span></a></td></tr>';
+						$('#j_postList').append(str);
+					});
+				}
+			}
+		});
+	}
+	
 	$(function(){
+		getPostList();
 		$('.j_subNav').click(function(){
 			var clickVal = $(this).attr("value");
 			$('.j_subNav').removeClass("active");
 			$(this).addClass("active");
 			if(clickVal == 'nomal'){
-				//
+				getPostList();
 			}else if(clickVal == 'better'){
-				//
+				getBetter();
 			}
 		});
 	});
