@@ -348,9 +348,11 @@ public class PostServlet extends HttpServlet {
 		// 获取服务
 		PostService postService = PostServiceImpl.getInstance();
 		System.out.println(tId);
-		post = postService.findByPostId(Long.parseLong(tId));
-		try {
+		if(tId!=null) {
+			post = postService.findByPostId(Long.parseLong(tId));
 			post.setPostId(Long.parseLong(tId));
+		}
+		try {
 			if(userBase!=null) {
 				System.out.println(userBase);
 				if (post!=null) {
@@ -667,8 +669,7 @@ public class PostServlet extends HttpServlet {
 		result = postService.addPost(post);
 		if (result == 0) {
 			JSONUtils.writeJSON(response, new Msg(0, "帖子发布失败"));
-		}else {
-			JSONUtils.writeJSON(response, new Msg(1, "帖子发布成功"));
+			return;
 		}
 		
 		if(post.getIsAccessory()!=null && post.getIsAccessory().longValue() == 1) {
@@ -888,6 +889,7 @@ public class PostServlet extends HttpServlet {
 						accessory.setPostId(postFormList.get(0).getPostId());
 					}else {
 						JSONUtils.writeJSON(response, new Msg(1, "帖子不存在，更新失败"));
+						return;
 					}
 					accessory.setUploadTime(editDate);
 
@@ -1017,6 +1019,7 @@ public class PostServlet extends HttpServlet {
 				JSONUtils.writeJSON(response, new Msg(0, "回帖成功"));
 			}else {
 				JSONUtils.writeJSON(response, new Msg(0, "回帖失败"));
+				return;
 			}
 		}else {
 			JSONUtils.writeJSON(response, new Msg(0, "回帖失败"));
@@ -1077,6 +1080,7 @@ public class PostServlet extends HttpServlet {
 				JSONUtils.writeJSON(response, new Msg(0, "回帖成功"));
 			}else {
 				JSONUtils.writeJSON(response, new Msg(0, "回帖失败"));
+				return;
 			}
 		} else {
 			JSONUtils.writeJSON(response, new Msg(0, "回帖失败"));
