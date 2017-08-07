@@ -28,10 +28,10 @@
 					<div>
 						<a href="#">
 							<img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">
-							<span id="bbs_poster_name">${goalUser.username}</span>
+							<span id="bbs_poster_name"></span>
 						</a>
 						<div style="margin-bottom: 15px;">
-							<span id="j_userId" j_val="${goalUser.userId}" style="display: none;"></span>
+							<span id="j_userId" style="display: none;"></span>
 							经验：<span id="j_exp"></span>
 							金币：<span id="j_coin"></span>
 						</div>
@@ -68,12 +68,6 @@
 						<div id="bbs_admin_mainBox">
 							<div id="bbs_admin_showInfo">
 								<table class="table bbs_twoColTable" id="j_userInfo">
-									<tr>
-										<td></td>
-										<td>
-											<a href="#">修改个人资料</a>
-										</td>
-									</tr>
 								</table>
 							</div>
 							
@@ -200,14 +194,14 @@
 						colNum++;
 						if(colNum % 8 != 0){
 							str += '<td><div class="bbs_showItems">';
-							str += '<a href="#">';
+							str += '<a href="<c:url value="/userInfo.jsp?user='+data[i].followUserId+'"></c:url>">';
 							str += '<img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">';
 							str += '<span id="bbs_poster_name">'+data[i].followUsername+'</span>';
 							str += '</a></div></td>';
 						}else{
 							str += '</tr><tr>';
 							str += '<td><div class="bbs_showItems">';
-							str += '<a href="#">';
+							str += '<a href="<c:url value="/userInfo.jsp?user='+data[i].followUserId+'"></c:url>">';
 							str += '<img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">';
 							str += '<span id="bbs_poster_name">鲁班不住这</span>';
 							str += '</a></div></td>';
@@ -261,6 +255,8 @@
 					$('#j_userInfo').append(str);
 					$('#j_exp').text(bbs_dealNull(data.expNum,0));
 					$('#j_coin').text(bbs_dealNull(data.coinNum,0));
+					$('#bbs_poster_name').text(data.username);
+					$('#j_userId').text(data.userId);
 				}
 			}
 		});

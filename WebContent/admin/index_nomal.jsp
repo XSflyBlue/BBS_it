@@ -76,31 +76,8 @@
 								</table>
 							</div>
 							<div id="bbs_admin_showPost">
-								<table class="table table-hover bbs_table">
-								<tr>
-									<td>
-										<a class="bbs_list" href="poster.jsp">
-											<span class="bbs_listSubTitle">[程序发布]</span>
-											<span class="bbs_listTitle">xiuno4采集免费分享，支持指定用户和马甲发贴。</span>
-											<span class="bbs_listSubTitle block">
-												<span>axiuno 10月前 ← JOJO 20小时前</span>
-												<span class="bbs_listCount">浏览:123  回复:456</span>
-											</span>
-										</a>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<a class="bbs_list" href="#">
-											<span class="bbs_listSubTitle">[程序发布]</span>
-											<span class="bbs_listTitle bbs_bold">Xiuno BBS 4.0 beta 5 发布 （最后更新：2017/4/8） </span>
-											<span class="bbs_listSubTitle block">
-												<span>axiuno 10月前 ← JOJO 20小时前</span>
-												<span class="bbs_listCount">浏览:123  回复:456</span>
-											</span>
-										</a>
-									</td>
-								</tr>
+							<table class="table table-hover bbs_table"  id="j_myPost">
+								<!-- 我的贴子 -->	
 							</table>
 							<nav aria-label="Page navigation" style="text-align: center;">
 							  <ul class="pagination">
@@ -147,31 +124,8 @@
 							</nav>
 							</div>
 							<div id="bbs_admin_showSave">
-								<table class="table table-hover bbs_table">
-								<tr>
-									<td>
-										<a class="bbs_list" href="poster.jsp">
-											<span class="bbs_listSubTitle">[程序发布]</span>
-											<span class="bbs_listTitle">xiuno4采集免费分享，支持指定用户和马甲发贴。</span>
-											<span class="bbs_listSubTitle block">
-												<span>axiuno 10月前 ← JOJO 20小时前</span>
-												<span class="bbs_listCount">浏览:123  回复:456</span>
-											</span>
-										</a>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<a class="bbs_list" href="#">
-											<span class="bbs_listSubTitle">[程序发布]</span>
-											<span class="bbs_listTitle bbs_bold">Xiuno BBS 4.0 beta 5 发布 （最后更新：2017/4/8） </span>
-											<span class="bbs_listSubTitle block">
-												<span>axiuno 10月前 ← JOJO 20小时前</span>
-												<span class="bbs_listCount">浏览:123  回复:456</span>
-											</span>
-										</a>
-									</td>
-								</tr>
+							<table class="table table-hover bbs_table" id="j_mySave">
+								<!-- 我的收藏 -->
 							</table>
 							<nav aria-label="Page navigation" style="text-align: center;">
 							  <ul class="pagination">
@@ -266,14 +220,14 @@
 						colNum++;
 						if(colNum % 8 != 0){
 							str += '<td><div class="bbs_showItems">';
-							str += '<a href="#">';
+							str += '<a href="<c:url value="/userInfo.jsp?user='+data[i].followUserId+'"></c:url>">';
 							str += '<img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">';
 							str += '<span id="bbs_poster_name">'+data[i].followUsername+'</span>';
 							str += '</a></div></td>';
 						}else{
 							str += '</tr><tr>';
 							str += '<td><div class="bbs_showItems">';
-							str += '<a href="#">';
+							str += '<a href="<c:url value="/userInfo.jsp?user='+data[i].followUserId+'"></c:url>">';
 							str += '<img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">';
 							str += '<span id="bbs_poster_name">鲁班不住这</span>';
 							str += '</a></div></td>';
@@ -337,6 +291,48 @@
 				$('#bbs_admin_showSafe').css("display","inline");
 			}
 		});
+		
+		//我的贴子
+		$.ajax({
+			type: 'POST',
+			url: '<c:url value="/PostServlet?action=findRecentPost10byUserId&uId='+userId+'"></c:url>',
+			data:"uId="+userId,
+			success: function(data){
+				if(data!=null){
+					$(data.postFormList).each(function(index,item){
+						var myPost = '<tr><td><a class="bbs_list" href="<c:url value="/poster.jsp?post='+item.postId+'"></c:url>">';
+						myPost += '<span class="bbs_listSubTitle">[程序发布]</span>';
+						myPost += '<span class="bbs_listTitle bbs_bold"> '+item.postTitle+' </span>';
+						myPost += '<span class="bbs_listSubTitle block"></a>';
+						myPost += '<span>'+item.issueTime+'</span>';
+						myPost += '<span class="bbs_listCount"><a href="#">编辑</a> <a href="#">删除</a></span>';
+						myPost += '</span></td></tr>';
+						$('#j_myPost').append(myPost);
+					});
+				}
+			}
+		});
+		//我的收藏 
+		$.ajax({
+			type: 'POST',
+			url: '<c:url value="/PostServlet?action=findCollectionPostbyUserId&uId='+10+'"></c:url>',
+			data:"uId="+userId,
+			success: function(data){
+				if(data!=null){
+					$(data.collectionFormList).each(function(index, item){
+						var myPost = '<tr><td><a class="bbs_list" href="<c:url value="/poster.jsp?post='+item.postId+'"></c:url>">';
+						myPost += '<span class="bbs_listSubTitle">[程序发布]</span>';
+						myPost += '<span class="bbs_listTitle bbs_bold"> '+item.postTitle+' </span>';
+						myPost += '<span class="bbs_listSubTitle block"></a>';
+						myPost += '<span>'+item.collectTime+'</span>';
+						myPost += '<span class="bbs_listCount"><a href="#">编辑</a> <a href="#">删除</a></span>';
+						myPost += '</span></td></tr>';
+						$('#j_mySave').append(myPost);
+					});
+				}
+			}
+		});
+			
 	});
 </script>
 </html>

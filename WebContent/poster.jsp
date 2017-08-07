@@ -84,11 +84,8 @@
 				<div class="bbs_rightBox">
 					<h4>楼主最近发布</h4>
 					<div>
-						<ul>
-							<li><a href="#">震惊！UC居然要解散震惊部全体员工</a></li>
-							<li><a href="#">小米6全新发布</a></li>
-							<li><a href="#">论现代社会与深居丛林？</a></li>
-							<li><a href="#">Java快速入门</a></li>
+						<ul id="j_lastPost">
+							
 						</ul>
 					</div>
 				</div><!-- end right box -->
@@ -138,7 +135,7 @@
 							success: function(data){
 								if(data != null){
 									$(data.postFormList).each(function(index, item){
-										
+										$('#j_lastPost').append('<li><a href="<c:url value="/poster.jsp?post='+item.postId+'"></c:url>">'+item.postTitle+'</a></li>');
 									});
 								}
 							}
