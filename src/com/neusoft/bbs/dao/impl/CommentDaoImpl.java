@@ -1,6 +1,7 @@
 package com.neusoft.bbs.dao.impl;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import oracle.net.aso.f;
@@ -150,21 +151,30 @@ public class CommentDaoImpl implements CommentDao{
 	public List<CommentForm> findFormList(int pageSize, int rowNum, Comment comment) {
 		StringBuffer find_sql = new StringBuffer();
 		Long id = null;
+		List<Object> list = new ArrayList<Object>();
 		// 参数确定
 		if (comment.getCommentUserId() != null) {
 			id = comment.getCommentUserId();
+			
 			find_sql.append("select c.comment_id,c.post_id,c.comment_user_id,c.comment_time,"
 					+ "c.comment_content,c.is_hidden,c.hidden_cause,c.hidden_user_id,c.comment_ip,"
 					+ "b.username comment_user,p.post_title ");
 			find_sql.append("from b_post p,b_comment c,b_user_base b ");
-			find_sql.append("where c.comment_user_id=? ");
-			find_sql.append("OR (c.comment_user_id<>1 AND c.IS_HIDDEN = 1)");
-			find_sql.append("and p.post_id = c.post_id ");
+			find_sql.append("where p.post_id = c.post_id ");
 			find_sql.append("and c.comment_user_id = b.user_id ");
+			if("1".equals(comment.getIsSelf())){
+				find_sql.append(" and (c.comment_user_id=? ");
+				find_sql.append("OR (c.comment_user_id<>? AND c.IS_HIDDEN = 1))");
+				list.add(id);
+				list.add(id);
+			}else{
+				find_sql.append(" AND c.IS_HIDDEN = 1 ");
+			}
 			find_sql.append("order by c.comment_time desc");
 
 		} else if (comment.getPostId() != null) {
 			id = comment.getPostId();
+			list.add(id);
 			find_sql.append("select c.comment_id,c.post_id,c.comment_user_id,c.comment_time,"
 					+ "c.comment_content,c.is_hidden,c.hidden_cause,c.hidden_user_id,c.comment_ip,"
 					+ "b.username COMMENT_USER,p.post_title ");
@@ -172,7 +182,6 @@ public class CommentDaoImpl implements CommentDao{
 			find_sql.append("where c.post_id=? ");
 			find_sql.append("and p.post_id = c.post_id ");
 			find_sql.append("and c.comment_user_id = b.user_id ");
-			find_sql.append("");
 			find_sql.append("order by c.comment_time desc");
 		} else {
 			return null;
@@ -181,7 +190,7 @@ public class CommentDaoImpl implements CommentDao{
 		String sql = "select*from (select a1.*,rownum rn from (" + find_sql.toString() + ") a1 where rownum<="
 				+ rowNum * pageSize + ") where rn>" + ((rowNum - 1) * pageSize);
 //		System.out.println(sql);
-		Object params[] = { id };
+		Object params[] = list.toArray();
 		List<CommentForm> commentFormList = null;
 		try {
 			commentFormList = (List<CommentForm>) DatabaseUtil.query(sql, params,
