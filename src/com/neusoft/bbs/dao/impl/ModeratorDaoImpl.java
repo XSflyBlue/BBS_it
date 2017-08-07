@@ -1,6 +1,7 @@
 package com.neusoft.bbs.dao.impl;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.neusoft.bbs.commons.util.db.BeanHandler;
@@ -155,14 +156,16 @@ public class ModeratorDaoImpl implements ModeratorDao {
 		Short userId = null;
 		//参数确定
 		if(moderator.getAreaId()!=null&&moderator.getUserId()!=null){
+			System.out.println("in moderator,areaid="+moderator.getAreaId()+",userid="+moderator.getUserId());
+			System.out.println("moderatorType ="+moderator.getModeratorType());
 			areaId = moderator.getAreaId();
 			userId = moderator.getUserId();
-			if(moderator.getModeratorType().equals("1")){
+			if(moderator.getModeratorType()==1){
 				find_sql.append("SELECT m.MODERATOR_ID,m.AREA_ID,m.MODERATOR_TYPE,m.USER_ID,u.USERNAME,d.DISTRICT_NAME SECTION_DISTR_NAME ");
 				find_sql.append("FROM B_USER_BASE u,B_MODERATOR m,B_DISTRICTS d ");
 				find_sql.append("WHERE u.USER_ID = m.USER_ID and m.AREA_ID = d.DISTRICT_ID ");
 				find_sql.append("and u.user_id=? and m.area_id=?");
-			}else if(moderator.getModeratorType().equals("0")){
+			}else if(moderator.getModeratorType()==0){
 				find_sql.append("SELECT m.MODERATOR_ID,m.AREA_ID,m.MODERATOR_TYPE,m.USER_ID,u.USERNAME,s.SECTION_NAME SECTION_DISTR_NAME ");
 				find_sql.append("FROM B_USER_BASE u,B_MODERATOR m,B_SECTION s ");
 				find_sql.append("WHERE u.USER_ID = m.USER_ID and m.AREA_ID = s.SECTION_ID ");
