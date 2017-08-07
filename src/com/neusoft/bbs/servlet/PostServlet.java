@@ -347,9 +347,11 @@ public class PostServlet extends HttpServlet {
 		post = new Post();
 		// 获取服务
 		PostService postService = PostServiceImpl.getInstance();
-		System.out.println(tId);
 		if(tId!=null) {
 			post = postService.findByPostId(Long.parseLong(tId));
+		}else {
+			JSONUtils.writeJSON(response, new PostFormJson());
+			return;
 		}
 		try {
 			if(userBase!=null) {
@@ -389,14 +391,15 @@ public class PostServlet extends HttpServlet {
 		List<PostForm> postFormList = postService.findFormList(1, 1, post);
 		if(postFormList!=null) {
 			postForm = postFormList.get(0);
-			//帖子记录数更新
-			if(post.getHitNum()!=null) {
-				post.setHitNum(post.getHitNum()+1L);
-			}else {
+
+			// 帖子记录数更新
+			if (post.getHitNum() != null) {
+				post.setHitNum(post.getHitNum() + 1L);
+			} else {
 				post.setHitNum(0L);
 			}
 			postService.setPost(post);
-			
+
 		}else {
 			postForm = null;
 		}
@@ -983,13 +986,13 @@ public class PostServlet extends HttpServlet {
 	private void addComment(HttpServletRequest request, HttpServletResponse response) {
 		// 参数声明
 		String tId; // 帖子ID（前端参数）
-		String commentContent;//评论内容
-		Comment comment; // 所需封装参数
+		String commentContent; // 评论内容
+		Comment comment;       // 所需封装参数
 		
 		// 获取并处理参数
 		tId = request.getParameter("tId");
 		commentContent = request.getParameter("commentContent");
-
+		
 		// 所需封装参数封装
 		comment = new Comment();
 		Date commentDate = new Date();
@@ -1000,6 +1003,10 @@ public class PostServlet extends HttpServlet {
 		try {
 			if (request.getSession().getAttribute("userBase") == null) {//判断是否登录
 				JSONUtils.writeJSON(response, new Msg(0, "未登录，跟帖失败"));
+				return;
+			}
+			if(commentContent==null||commentContent.equals("")) {//待优化，限制内容长度
+				JSONUtils.writeJSON(response, new Msg(0, "跟帖内容为空，跟帖失败"));
 				return;
 			}
 			//帖子存在
