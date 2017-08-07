@@ -9,6 +9,7 @@ import com.neusoft.bbs.commons.util.db.DatabaseUtil;
 import com.neusoft.bbs.dao.CoinDao;
 import com.neusoft.bbs.domain.Coin;
 import com.neusoft.bbs.domain.CoinRecord;
+import com.neusoft.bbs.domain.form.CoinRecordForm;
 import com.neusoft.bbs.domain.form.FollowForm;
 import com.neusoft.bbs.domain.form.PageForm;
 
@@ -46,7 +47,7 @@ public class CoinDaoImpl implements CoinDao{
 	@Override
 	public int insertCoinRecord(CoinRecord coinRecord) {
 		String sql = "insert into b_coin_record(coin_record_id,"
-				+ "coin_id,coin_cause,coin_get_num,coin_get_time) value(B_COIN_RECORD_ID_SEQ.nextval,?,?,?,sysdate) ";
+				+ "coin_id,coin_cause,coin_get_num,coin_get_time) values(B_COIN_RECORD_ID_SEQ.nextval,?,?,?,sysdate) ";
 		Object params[] = {coinRecord.getCoinId(),coinRecord.getCoinCause(),coinRecord.getCoinGetNum()};
 		int a = 0;
 		try {
@@ -59,8 +60,8 @@ public class CoinDaoImpl implements CoinDao{
 
 	@Override
 	public int updateCoinRecord(CoinRecord coinRecord) {
-		String sql = "update b_coin_record  set coin_cause=?,coin_get_num=?,coin_get_time=sysdate where coin_record_id=?";
-		Object params[] = {coinRecord.getCoinCause(),coinRecord.getCoinGetNum(),coinRecord.getCoinRecordId()};
+		String sql = "update b_coin_record  set coin_cause=?,coin_get_num=?,coin_get_time=sysdate where coin_id=?";
+		Object params[] = {coinRecord.getCoinCause(),coinRecord.getCoinGetNum(),coinRecord.getCoinId()};
 		int a = 0;
 		try {
 			a = DatabaseUtil.update(sql, params);
@@ -72,8 +73,13 @@ public class CoinDaoImpl implements CoinDao{
 
 	@Override
 	public Coin findCoinNum(Long userId) {
-		String sql = "select coin_num from b_coin where user_id=?";
+		String sql = "select c.COIN_ID,c.USER_ID,sum(r.coin_get_num) COIN_NUM "
+				+ "from b_coin c,b_user_base b,b_coin_record r "
+				+ "where c.user_id = b.user_id  and c.coin_id = r.coin_id "
+				+ "and b.user_id=? "
+				+ "group by c.coin_id,c.user_id";
 		Object params[] = {userId};
+		System.out.println("sql："+sql);
 		Coin coin = null;
 		try {
 			coin = (Coin)DatabaseUtil.query(sql, params, new BeanHandler(Coin.class));
@@ -86,7 +92,7 @@ public class CoinDaoImpl implements CoinDao{
 	@Override
 	public int updateCoinNum(Coin coin) {
 		String sql = "update b_coin set coin_num = ? where user_id = ?";
-		Object params[] = {coin.getUserId()};
+		Object params[] = {coin.getCoinNum(),coin.getUserId()};
 		int a = 0;
 		try {
 			a = DatabaseUtil.update(sql, params);
@@ -117,7 +123,7 @@ public class CoinDaoImpl implements CoinDao{
 		Long id = null;
 		if(userId!=null){
 			id = userId;
-			find_sql.append("from b_coin a,b_coin_record b,b_user base c ");
+			find_sql.append("from b_coin a,b_coin_record b,b_user_base c ");
 			find_sql.append("where a.user_id = c.user_id and a.coin_id = b.coin_id ");
 			find_sql.append("and c.user_id=? ");
 		}else{
@@ -134,7 +140,7 @@ public class CoinDaoImpl implements CoinDao{
 	}
 
 	@Override
-	public List<CoinRecord> findFormList(int pageSize, int rowNum, Long userId) {
+	public List<CoinRecordForm> findFormList(int pageSize, int rowNum, Long userId) {
 		StringBuffer find_sql = new StringBuffer();
 		Long id = null;
 		//参数确定
@@ -152,14 +158,14 @@ public class CoinDaoImpl implements CoinDao{
 					+ rowNum * pageSize + ") where rn>" + ((rowNum - 1) * pageSize);
 	
 			System.out.println(sql);
-			Object params[] = {id};
-			List<CoinRecord> coinRecordList = null;
+			Object params[] = {userId};
+			List<CoinRecordForm> coinRecordFormList = null;
 			try {
-				coinRecordList = (List<CoinRecord>) DatabaseUtil.query(sql, params, new BeanListHandler(CoinRecord.class));
+				coinRecordFormList = (List<CoinRecordForm>) DatabaseUtil.query(sql, params, new BeanListHandler(CoinRecordForm.class));
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			return coinRecordList;
+			return coinRecordFormList;
 	}
 
 	@Override

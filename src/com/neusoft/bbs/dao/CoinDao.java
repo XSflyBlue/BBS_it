@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.neusoft.bbs.domain.Coin;
 import com.neusoft.bbs.domain.CoinRecord;
+import com.neusoft.bbs.domain.form.CoinRecordForm;
 
 /**
  * 金币DAO接口
@@ -82,5 +83,5 @@ public interface CoinDao {
 	 * @param userId，查询条件（userId）
 	 * @return
 	 */
-	List<CoinRecord> findFormList(int pageSize, int rowNum, Long userId);
+	List<CoinRecordForm> findFormList(int pageSize, int rowNum, Long userId);
 }
