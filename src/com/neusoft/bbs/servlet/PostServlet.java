@@ -345,10 +345,18 @@ public class PostServlet extends HttpServlet {
 
 		// 所需封装参数封装
 		post = new Post();
+		Post postcopy;
 		// 获取服务
 		PostService postService = PostServiceImpl.getInstance();
 		if(tId!=null) {
 			post = postService.findByPostId(Long.parseLong(tId));
+			if(post!=null) {
+				postcopy = new Post();
+				postcopy.setUserId(post.getUserId());
+			}else {
+				JSONUtils.writeJSON(response, new PostFormJson());
+				return;
+			}
 		}else {
 			JSONUtils.writeJSON(response, new PostFormJson());
 			return;
@@ -359,7 +367,7 @@ public class PostServlet extends HttpServlet {
 				if (post!=null) {
 					if(userBase.getUserId().longValue()==post.getUserId().longValue()) {
 						// 本人可见被隐藏的帖子
-						post.setIsHidden(null);
+						postcopy.setIsHidden(null);
 					}else {
 						// 判断是否是版主
 						Moderator moderator = new Moderator();
@@ -374,24 +382,23 @@ public class PostServlet extends HttpServlet {
 								}
 							}
 						}else {
-							post.setIsHidden(Short.parseShort("1"));
+							postcopy.setIsHidden(Short.parseShort("1"));
 						}
 					}
 				}
 			}else {
-				post.setIsHidden(Short.parseShort("1"));//未登录用户
+				postcopy.setIsHidden(Short.parseShort("1"));//未登录用户
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 			JSONUtils.writeJSON(response, new PostFormJson());
 			return;
 		}
 		
 		// 获取帖子详情
-		List<PostForm> postFormList = postService.findFormList(1, 1, post);
+		List<PostForm> postFormList = postService.findFormList(1, 1, postcopy);
 		if(postFormList!=null) {
 			postForm = postFormList.get(0);
-
 			// 帖子记录数更新
 			if (post.getHitNum() != null) {
 				post.setHitNum(post.getHitNum() + 1L);
@@ -451,6 +458,8 @@ public class PostServlet extends HttpServlet {
 			if (tId != null) {//指定帖子Id
 				comment.setPostId(Long.parseLong(tId));
 				comment.setIsHidden(Short.parseShort("1"));//仅可见未隐藏跟帖
+			}else {
+				JSONUtils.writeJSON(response, new CommentJson());
 			}
 			Post post = new Post();
 			post.setPostId(comment.getPostId());
@@ -997,7 +1006,8 @@ public class PostServlet extends HttpServlet {
 		comment = new Comment();
 		Date commentDate = new Date();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
-		dateFormat.format(commentDate);
+		System.out.println(dateFormat.format(commentDate));
+		
 		
 		Post post = PostServiceImpl.getInstance().findByPostId(Long.parseLong(tId));
 		try {
