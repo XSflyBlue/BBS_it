@@ -24,7 +24,7 @@ public class ReportForm {
 	/***
 	 * 被举报帖子ID
 	 */
-	private Long postId;
+	private Long reportPostId;
 	/***
 	 * 被举报帖子标题
 	 */
@@ -38,17 +38,39 @@ public class ReportForm {
 	 */
 	private String reportCause;
 	/***
-	 * 版主ID
+	 * 板块ID
 	 */
-	private Long moderatorId;
+	private Long sectionId;
 	/***
 	 * 版主姓名
 	 */
 	private String moderatorName;
+	/**
+	 * 举报状态
+	 */
+	private String reportState;
+	
 	/***
 	 * 分页
 	 */
 	private Long rn;
+
+	
+	public Long getSectionId() {
+		return sectionId;
+	}
+
+	public void setSectionId(Long sectionId) {
+		this.sectionId = sectionId;
+	}
+
+	public String getReportState() {
+		return reportState;
+	}
+
+	public void setReportState(String reportState) {
+		this.reportState = reportState;
+	}
 
 	public Long getReportId() {
 		return reportId;
@@ -74,12 +96,13 @@ public class ReportForm {
 		this.reportUserName = reportUserName;
 	}
 
-	public Long getPostId() {
-		return postId;
+	
+	public Long getReportPostId() {
+		return reportPostId;
 	}
 
-	public void setPostId(Long postId) {
-		this.postId = postId;
+	public void setReportPostId(Long reportPostId) {
+		this.reportPostId = reportPostId;
 	}
 
 	public String getPostTitle() {
@@ -106,14 +129,6 @@ public class ReportForm {
 		this.reportCause = reportCause;
 	}
 
-	public Long getModeratorId() {
-		return moderatorId;
-	}
-
-	public void setModeratorId(Long moderatorId) {
-		this.moderatorId = moderatorId;
-	}
-
 	public String getModeratorName() {
 		return moderatorName;
 	}
@@ -132,10 +147,12 @@ public class ReportForm {
 
 	@Override
 	public String toString() {
-		return "ReportForm [reportId=" + reportId + ", reportUserId=" + reportUserId + ", reportUserName="
-				+ reportUserName + ", postId=" + postId + ", postTitle=" + postTitle + ", reportTime=" + reportTime
-				+ ", reportCause=" + reportCause + ", moderatorId=" + moderatorId + ", moderatorName=" + moderatorName
-				+ ", rn=" + rn + "]";
+		return "ReportForm [reportId=" + reportId + ", reportUserId="
+				+ reportUserId + ", reportUserName=" + reportUserName
+				+ ", reportPostId=" + reportPostId + ", postTitle=" + postTitle
+				+ ", reportTime=" + reportTime + ", reportCause=" + reportCause
+				+ ", sectionId=" + sectionId + ", moderatorName="
+				+ moderatorName + ", reportState=" + reportState + ", rn=" + rn
+				+ "]";
 	}
-
 }

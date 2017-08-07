@@ -35,9 +35,9 @@ public class ReportServiceImpl implements ReportService {
 	}
 
 	@Override
-	public List<Report> findByModeratorId(Long moderatorId) {
+	public List<Report> findBySectionId(Long sectionId) {
 		List<Report> reportList = null;
-		reportList = reportDao.findByModeratorId(moderatorId);
+		reportList = reportDao.findBySectionId(sectionId);
 		return reportList;
 	}
 

@@ -51,7 +51,7 @@ public interface ReportDao {
 	 * @param moderatorId
 	 * @return List<Report>
 	 */
-	List<Report> findByModeratorId(Long moderatorId);
+	List<Report> findBySectionId(Long sectionId);
 	
 	/**
 	 * 查询举报人存在的举报（记录）

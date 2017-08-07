@@ -2,6 +2,7 @@ package com.neusoft.bbs.domain;
 
 import java.util.Date;
 
+
 /***
  * 举报（帖子）类
  * @author flyblue
@@ -37,8 +38,33 @@ public class Report {
      * 被举报帖子ID
      */
     private Long reportPostId;
+    /**
+     * 板块id
+     */
+    private Long sectionId;
+    /**
+     * 举报状态
+     */
+    private String reportState;
+    
+    
+    public Long getSectionId() {
+		return sectionId;
+	}
 
-    public Long getReportId() {
+	public void setSectionId(Long sectionId) {
+		this.sectionId = sectionId;
+	}
+
+	public String getReportState() {
+		return reportState;
+	}
+
+	public void setReportState(String reportState) {
+		this.reportState = reportState;
+	}
+
+	public Long getReportId() {
         return reportId;
     }
 
@@ -62,7 +88,7 @@ public class Report {
         this.reportCause = reportCause;
     }
 
-    public Date getReportTime() {
+    public Date getReportTime(Date date) {
         return reportTime;
     }
 
