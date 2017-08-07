@@ -986,14 +986,15 @@ public class PostServlet extends HttpServlet {
 		Date commentDate = new Date();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
 		dateFormat.format(commentDate);
+		
+		Post post = PostServiceImpl.getInstance().findByPostId(Long.parseLong(tId));
 		try {
 			if (request.getSession().getAttribute("userBase") == null) {//判断是否登录
 				JSONUtils.writeJSON(response, new Msg(0, "未登录，回帖失败"));
 				return;
 			}
 			//帖子存在
-			if (tId != null 
-					&& PostServiceImpl.getInstance().findByPostId(Long.parseLong(tId))!=null) {
+			if (tId != null && post!=null) {
 				comment.setPostId(Long.parseLong(tId));
 				comment.setCommentContent(commentContent);
 				comment.setCommentIp(ClientAccessIpUtil.getIpAddress(request));
@@ -1010,7 +1011,13 @@ public class PostServlet extends HttpServlet {
 		int result = commentService.addComment(comment);
 		// 传回json
 		if(result == 1) {
-			JSONUtils.writeJSON(response, new Msg(0, "回帖成功"));
+			post.setAnswerSum(post.getAnswerSum()+1L);
+			result = PostServiceImpl.getInstance().setPost(post);//增加回复数
+			if(result == 1) {
+				JSONUtils.writeJSON(response, new Msg(0, "回帖成功"));
+			}else {
+				JSONUtils.writeJSON(response, new Msg(0, "回帖失败"));
+			}
 		}else {
 			JSONUtils.writeJSON(response, new Msg(0, "回帖失败"));
 		}
@@ -1035,7 +1042,7 @@ public class PostServlet extends HttpServlet {
 		comment = null;
 		// 获取服务
 		CommentService commentService = CommentServiceImpl.getInstance();
-
+		PostService postService = PostServiceImpl.getInstance();
 		try {
 			uId = String.valueOf(((UserBase)request.getSession().getAttribute("userBase")).getUserId());
 			if (uId == null) {// 判断是否登录
@@ -1048,7 +1055,7 @@ public class PostServlet extends HttpServlet {
 					JSONUtils.writeJSON(response, new Msg(0, "回帖不存在，删回帖失败"));
 					return;
 				}else {//判断是否是本人或发帖人
-					String tUserId = String.valueOf(PostServiceImpl.getInstance().findByPostId(comment.getPostId()).getUserId());
+					String tUserId = String.valueOf(postService.findByPostId(comment.getPostId()).getUserId());
 					if(uId.equals(String.valueOf(comment.getCommentUserId()))
 							||uId.equals(tUserId)) {
 						comment.setCommentId(Long.parseLong(hId));
@@ -1063,7 +1070,14 @@ public class PostServlet extends HttpServlet {
 		int result = commentService.deleteComment(comment);
 		// 传回json
 		if (result == 1) {
-			JSONUtils.writeJSON(response, new Msg(0, "回帖成功"));
+			Post post = postService.findByPostId(comment.getPostId());
+			post.setAnswerSum(post.getAnswerSum()-1L);
+			result = postService.setPost(post);
+			if(result==1) {
+				JSONUtils.writeJSON(response, new Msg(0, "回帖成功"));
+			}else {
+				JSONUtils.writeJSON(response, new Msg(0, "回帖失败"));
+			}
 		} else {
 			JSONUtils.writeJSON(response, new Msg(0, "回帖失败"));
 		}
