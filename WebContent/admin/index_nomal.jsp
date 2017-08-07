@@ -220,7 +220,7 @@
 				</div>
 			</div>
 			<div class="col-md-3">
-				<button type="button" class="btn btn-primary" style="width: 100%;">签到</button>
+				<button type="button" class="btn btn-primary" style="width: 100%;" id="j_sign">签到</button>
 				<div class="bbs_rightBox">
 					<h4>签到</h4>
 					<div>已经连续签到了23天</div>
@@ -391,13 +391,37 @@
 			$('#j_userInfo').hide();
 			$('#j_editInfo').show();
 		});
-		
+		//修改资料
 		$('#j_userInfoBtn').click(function(){
 			var s = $('#j_editForm').serialize();
 			$.ajax({
 				type: 'POST',
 				url: '<c:url value="/UserServlet?action=updateUser"></c:url>',
 				data:"userId="+userId+"&"+s,
+				success: function(data){
+					if(data!=null){
+						alert(JSON.stringify(data));
+					}
+				}
+			});
+		});
+		
+		//签到
+		$('#j_sign').click(function(){
+			$.ajax({//限制一天一次
+				type: 'POST',
+				url: '<c:url value="/LevelServlet?action=addExp"></c:url>',
+				data:"mType=1&mCause='签到奖励'",
+				success: function(data){
+					if(data!=null){
+						alert(JSON.stringify(data));
+					}
+				}
+			});
+			$.ajax({//能插入但是有问题
+				type: 'POST',
+				url: '<c:url value="/CoinServlet?action=insertCoin"></c:url>',
+				data:"mType=1&mCause='签到奖励'",
 				success: function(data){
 					if(data!=null){
 						alert(JSON.stringify(data));

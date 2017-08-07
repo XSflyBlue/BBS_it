@@ -52,9 +52,11 @@ public class UserDetailDaoImpl implements UserDetailDao {
 	@Override
 	public int update(UserDetail userDetail) {
 		int a = 0;
-		String sql = "update b_user_detail set user_id=?,icon=?,sex=?,signature=?"
+		String sql = "update b_user_detail set icon=?,sex=?,signature=?"
 				+ ",intro=?,birthday=to_date(?,'yyyy-mm-dd'),region=?,website=?,qq=? where user_id=?";
-		Object params[] = { userDetail.getUserId(), userDetail.getIcon(), userDetail.getSex(),
+		
+		System.out.println(sql);
+		Object params[] = { userDetail.getIcon(), userDetail.getSex(),
 				userDetail.getSignature(), userDetail.getIntro(), userDetail.getBirthday(), userDetail.getRegion(),
 				userDetail.getWebsite(), userDetail.getQq(), userDetail.getUserId() };
 		try {
