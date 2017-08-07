@@ -122,13 +122,13 @@ public class ModeratorDaoImpl implements ModeratorDao {
 		Short areaId = null;
 		Short userId = null;
 		if(moderator.getAreaId()!=null&&moderator.getUserId()!=null){
-			if(moderator.getModeratorType().equals("1")){
+			if(moderator.getModeratorType()==1){
 				areaId = moderator.getAreaId();
 				userId = moderator.getUserId();
 				find_sql.append("FROM B_MODERATOR m,B_USER_BASE u,B_DISTRICTS d ");
 				find_sql.append("where u.USER_ID = m.USER_ID and m.MODERATOR_TYPE=1 and m.AREA_ID = d.DISTRICT_ID ");
 				find_sql.append("and u.USER_ID=? AND m.AREA_ID=?");
-			}else if(moderator.getModeratorType().equals("0")){
+			}else if(moderator.getModeratorType()==0){
 				areaId = moderator.getAreaId();
 				userId = moderator.getUserId();
 				find_sql.append("FROM B_MODERATOR m,B_USER_BASE u,B_SECTION s ");
@@ -156,8 +156,6 @@ public class ModeratorDaoImpl implements ModeratorDao {
 		Short userId = null;
 		//参数确定
 		if(moderator.getAreaId()!=null&&moderator.getUserId()!=null){
-			System.out.println("in moderator,areaid="+moderator.getAreaId()+",userid="+moderator.getUserId());
-			System.out.println("moderatorType ="+moderator.getModeratorType());
 			areaId = moderator.getAreaId();
 			userId = moderator.getUserId();
 			if(moderator.getModeratorType()==1){
