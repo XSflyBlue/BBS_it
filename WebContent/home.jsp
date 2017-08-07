@@ -89,11 +89,17 @@
 <script type="text/javascript">
 
 	//获取精华帖
-	function getBetter(){
+	function getBetter(bId,index){
+		var req;
+		if(bId == 0){
+			req = '<c:url value="/PostServlet?action=findElitePost&pageSize=10&pageNum='+index+'"></c:url>';
+		}else{
+			req = '<c:url value="/PostServlet?action=findElitePost&bId='+bId+'&pageSize=10&pageNum='+index+'"></c:url>';
+		}
 		$('#j_postList').empty();
 		$.ajax({
 			type: 'POST',
-			url: '<c:url value="/PostServlet?action=findElitePost"></c:url>',
+			url: req,
 			async:false,
 			success: function(data){
 				if(data != null){
@@ -113,12 +119,21 @@
 		});
 	}
 	
-	function getPostList(){
+	function getPostList(bId,index){
+		var reqOver;
+		var reqNormal;
+		if(bId == 0){
+			reqOver = '<c:url value="/PostServlet?action=findOverheadPost&pageSize=5&pageNum='+index+'"></c:url>';
+			reqNormal = '<c:url value="/PostServlet?action=findOrdinaryPost'+'&pageSize='+8+'&pageNum='+index+'"></c:url>';
+		}else{
+			reqOver = '<c:url value="/PostServlet?action=findOverheadPost&bId='+bId+'&pageSize=5&pageNum='+index+'"></c:url>';
+			reqNormal = '<c:url value="/PostServlet?action=findOrdinaryPost&bId='+bId+'&pageSize='+8+'&pageNum='+index+'"></c:url>';
+		}
 		$('#j_postList').empty();
 		//获取置顶贴子
 		$.ajax({
 			type: 'POST',
-			url: '<c:url value="/PostServlet?action=findOverheadPost"></c:url>',
+			url: reqOver,
 			async:false,
 			success: function(data){
 				if(data != null){
@@ -140,7 +155,7 @@
 		//获取普通贴子
 		$.ajax({
 			type: 'POST',
-			url: '<c:url value="/PostServlet?action=findOrdinaryPost'+'&pageSize='+2+'&pageNum='+1+'"></c:url>',
+			url: reqNormal,
 			async:false,
 			success: function(data){
 				if(data != null){
@@ -161,15 +176,15 @@
 	}
 	
 	$(function(){
-		getPostList();
+		getPostList(0,1);
 		$('.j_subNav').click(function(){
 			var clickVal = $(this).attr("value");
 			$('.j_subNav').removeClass("active");
 			$(this).addClass("active");
 			if(clickVal == 'nomal'){
-				getPostList();
+				getPostList(0,1);
 			}else if(clickVal == 'better'){
-				getBetter();
+				getBetter(0,1);
 			}
 		});
 	});

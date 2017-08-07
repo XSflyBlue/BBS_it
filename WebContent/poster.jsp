@@ -129,34 +129,49 @@
 						$('#j_title').append(data.postForm.postTitle);
 						$('#bbs_poster_name').text(data.postForm.userName);
 						$('#j_userIndex').attr('href','<c:url value="/userInfo.jsp?user='+data.postForm.userId+'"></c:url>');
+						//用户最近发布列表
+						var url = '<c:url value="/PostServlet?action=findRecentPost10byUserId&uId='+data.postForm.userId+'"></c:url>';
+						$.ajax({
+							type: 'POST',
+							url: url,
+							async:false,
+							success: function(data){
+								if(data != null){
+									$(data.postFormList).each(function(index, item){
+										
+									});
+								}
+							}
+						});
+						
 					}
 				}
 			});
-		}
-		
-		//获取跟帖
-		$.ajax({
-			type: 'POST',
-			url: '<c:url value="/PostServlet?action=findCommentbyPostId&tId='+postId+'"></c:url>',
-			async:false,
-			success: function(data){
-				if(data != null){
-					$(data.commentFormList).each(function(index, item){
-						var str = '<tr><td class="bbs_comment_icon"><img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">';
-						str += '</td><td class="bbs_comment_body">';
-						str += '<div><span class="bbs_comment_name">'+item.commentUser+'</span>';
-						str += '<span class="bbs_comment_date">'+item.commentTime+'</span></div>';
-						str += '<div class="bbs_comment_content">'+item.commentContent+'</div></td></tr>';
-						$('#j_reply').append(str);
-					});
+			
+			//获取跟帖
+			$.ajax({
+				type: 'POST',
+				url: '<c:url value="/PostServlet?action=findCommentbyPostId&tId='+postId+'"></c:url>',
+				async:false,
+				success: function(data){
+					if(data != null){
+						$(data.commentFormList).each(function(index, item){
+							var str = '<tr><td class="bbs_comment_icon"><img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">';
+							str += '</td><td class="bbs_comment_body">';
+							str += '<div><span class="bbs_comment_name">'+item.commentUser+'</span>';
+							str += '<span class="bbs_comment_date">'+item.commentTime+'</span></div>';
+							str += '<div class="bbs_comment_content">'+item.commentContent+'</div></td></tr>';
+							$('#j_reply').append(str);
+						});
+					}
+					//回复框
+					var replyBox = '<tr><td colspan="2"><h4>快速回复</h4>';
+					replyBox += '<textarea id="post_content_bbs" name="content1" cols="100" rows="8" style="width:100%;height:230px;visibility:hidden;resize: none;" ></textarea>';
+					replyBox += '<br><button type="button" class="btn btn-primary" onclick="submitPost()">回复</button></td></tr>';
+					$('#j_reply').append(replyBox);
 				}
-				//回复框
-				var replyBox = '<tr><td colspan="2"><h4>快速回复</h4>';
-				replyBox += '<textarea id="post_content_bbs" name="content1" cols="100" rows="8" style="width:100%;height:230px;visibility:hidden;resize: none;" ></textarea>';
-				replyBox += '<br><button type="button" class="btn btn-primary" onclick="submitPost()">回复</button></td></tr>';
-				$('#j_reply').append(replyBox);
-			}
-		});
+			});
+		}
 	});
 </script>
 </html>

@@ -339,7 +339,6 @@ public class PostServlet extends HttpServlet {
 						&& userBase.getUserId().longValue()==post.getUserId().longValue()) {
 					// 本人可见被隐藏的帖子
 					post.setIsHidden(Short.parseShort(null));
-					post.setIsSelf("1");
 				}
 				if (userBase.getUserId() != null
 						&& post!=null) {
@@ -367,9 +366,6 @@ public class PostServlet extends HttpServlet {
 		List<PostForm> postFormList = postService.findFormList(1, 1, post);
 		if(postFormList!=null) {
 			postForm = postFormList.get(0);
-			post = postService.findByPostId(post.getUserId());
-			post.setHitNum(post.getHitNum()+1);//访问量更新
-			postService.setPost(post);
 		}else {
 			postForm = null;
 		}
@@ -387,7 +383,7 @@ public class PostServlet extends HttpServlet {
 		}
 		if(accessory!=null) {//请求下载文件列表（存放到session中fileNameMap）
 			//提交fileNameMap中url到DownLoadServlet进行下载（待测试）
-//			request.getRequestDispatcher("/ListFileServlet").forward(request, response);
+			request.getRequestDispatcher("/ListFileServlet").forward(request, response);
 		}
 		// 传回json
 		JSONUtils.writeJSON(response, postFormJson);
@@ -649,7 +645,8 @@ public class PostServlet extends HttpServlet {
 		result = postService.addPost(post);
 		if (result == 0) {
 			JSONUtils.writeJSON(response, new Msg(0, "帖子发布失败"));
-			return;
+		}else {
+			JSONUtils.writeJSON(response, new Msg(1, "帖子发布成功"));
 		}
 		
 		if(post.getIsAccessory()!=null && post.getIsAccessory().longValue() == 1) {
@@ -667,7 +664,7 @@ public class PostServlet extends HttpServlet {
 				if(postFormList!=null) {
 					accessory.setPostId(postFormList.get(0).getPostId());
 				}else {
-					JSONUtils.writeJSON(response, new Msg(0, "帖子未创建，资源帖发布失败"));
+					JSONUtils.writeJSON(response, new Msg(0, "帖子未创建，资源帖发布成功"));
 					return;
 				}
 				accessory.setUploadTime(postDate);
@@ -680,6 +677,7 @@ public class PostServlet extends HttpServlet {
 				} else {
 					JSONUtils.writeJSON(response, new Msg(0, "帖子发布失败，附件上传失败"));
 					postService.deletePost(post);
+					return;
 				}
 			}
 		}
@@ -861,7 +859,7 @@ public class PostServlet extends HttpServlet {
 					accessory.setCostCoin(Long.parseLong((String) request.getAttribute("costCoin")));
 					accessory.setDownloadNum(0L); // 附件下载次数（默认0次）
 					accessory.setFileName((String) request.getAttribute("fileName"));// 决定文件格式
-					accessory.setFileSize(BigDecimal.valueOf((long)request.getAttribute("fileSize")));// 获取二进制文件大小
+					accessory.setFileSize(BigDecimal.valueOf(0L));// 获取二进制文件大小
 					accessory.setPath((String) request.getAttribute("filePath")); // hash生成
 					List<PostForm> postFormList = postService.findFormList(1, 1, post);
 					if(postFormList!=null) {
@@ -955,15 +953,11 @@ public class PostServlet extends HttpServlet {
 		// 参数声明
 		String tId; // 帖子ID（前端参数）
 		String commentContent;//评论内容
-		
 		Comment comment; // 所需封装参数
-		UserBase userBase;//用户基本
-		Post post;//用于帖子时间更新
 		
 		// 获取并处理参数
 		tId = request.getParameter("tId");
 		commentContent = request.getParameter("commentContent");
-		userBase = (UserBase)request.getSession().getAttribute("userBase");
 
 		// 所需封装参数封装
 		comment = new Comment();
@@ -971,13 +965,13 @@ public class PostServlet extends HttpServlet {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
 		dateFormat.format(commentDate);
 		try {
-			if (userBase == null) {//判断是否登录
+			if (request.getSession().getAttribute("userBase") == null) {//判断是否登录
 				JSONUtils.writeJSON(response, new Msg(0, "未登录，回帖失败"));
 				return;
 			}
-			post = PostServiceImpl.getInstance().findByPostId(Long.parseLong(tId));
 			//帖子存在
-			if (tId != null && post!=null) {
+			if (tId != null 
+					&& PostServiceImpl.getInstance().findByPostId(Long.parseLong(tId))!=null) {
 				comment.setPostId(Long.parseLong(tId));
 				comment.setCommentContent(commentContent);
 				comment.setCommentIp(ClientAccessIpUtil.getIpAddress(request));
@@ -992,18 +986,9 @@ public class PostServlet extends HttpServlet {
 		// 获取服务
 		CommentService commentService = CommentServiceImpl.getInstance();
 		int result = commentService.addComment(comment);
-		
-		if(post!=null&&result==0) {
-			post.setEditTime(commentDate);            //更新时间
-			post.setEditUserId(userBase.getUserId()); //更新回帖编辑者
-			result = PostServiceImpl.getInstance().setPost(post);
-			// 传回json
-			if(result == 1) {
-				JSONUtils.writeJSON(response, new Msg(0, "回帖成功"));
-			}else {
-				JSONUtils.writeJSON(response, new Msg(0, "回帖失败"));
-				return;
-			}
+		// 传回json
+		if(result == 1) {
+			JSONUtils.writeJSON(response, new Msg(0, "回帖成功"));
 		}else {
 			JSONUtils.writeJSON(response, new Msg(0, "回帖失败"));
 		}
