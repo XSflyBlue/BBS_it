@@ -125,4 +125,12 @@ public class UserDetail {
     public void setQq(String qq) {
         this.qq = qq;
     }
+
+	@Override
+	public String toString() {
+		return "UserDetail [userId=" + userId + ", icon=" + icon + ", sex=" + sex + ", signature=" + signature
+				+ ", intro=" + intro + ", birthday=" + birthday + ", region=" + region + ", website=" + website
+				+ ", qq=" + qq + "]";
+	}
+    
 }

@@ -42,6 +42,8 @@ public class FormToObjUtils {
 							setter.invoke(t, Integer.parseInt(value));
 						}else if(field.getType() == Boolean.class) {
 							setter.invoke(t, Boolean.parseBoolean(value));
+						}else if(field.getType() == Short.class) {
+							setter.invoke(t, Short.parseShort(value));
 						}else if(field.getType() == Long.class) {
 							setter.invoke(t, Long.parseLong(value));
 						}else if(field.getType() == Date.class) {

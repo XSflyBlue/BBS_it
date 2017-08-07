@@ -83,4 +83,11 @@ public interface UserService {
 	 * @return List<UserBase>
 	 */
 	List<UserBase> findFormList(int pageSize, int rowNum, UserBase userBase);
+	/**
+	 * 更新用户
+	 * @param userBase
+	 * @param userDetail
+	 * @return
+	 */
+	int updateUser(UserBase userBase, UserDetail userDetail);
 }

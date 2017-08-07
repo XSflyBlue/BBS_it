@@ -26,6 +26,7 @@ import com.neusoft.bbs.domain.Follow;
 import com.neusoft.bbs.domain.UserBase;
 import com.neusoft.bbs.domain.UserDetail;
 import com.neusoft.bbs.domain.form.FollowForm;
+import com.neusoft.bbs.domain.form.UserForm;
 import com.neusoft.bbs.domain.json.CountReturn;
 import com.neusoft.bbs.service.FollowService;
 import com.neusoft.bbs.service.UserDetailService;
@@ -278,5 +279,20 @@ public class UserServlet extends HttpServlet {
 			}
 		}
 		response.sendRedirect(request.getContextPath()+"/");
+	}
+	/**
+	 * 修改用户
+	 * @param request
+	 * @param response
+	 */
+	private void updateUser(HttpServletRequest request, HttpServletResponse response) {
+		UserBase userBase = FormToObjUtils.parseToObject(request, UserBase.class);
+		UserDetail userDetail = FormToObjUtils.parseToObject(request, UserDetail.class);
+		int result = userBaseService.updateUser(userBase, userDetail);
+		if(result == 1) {
+			JSONUtils.writeJSON(response, new Msg(1, "更新成功"));
+		}else {
+			JSONUtils.writeJSON(response, new Msg(0, "更新失败"));
+		}
 	}
 }

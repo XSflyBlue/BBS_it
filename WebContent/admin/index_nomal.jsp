@@ -75,7 +75,7 @@
 										</td>
 									</tr>
 								</table>
-								<form action="">
+								<form id="j_editForm">
 								<table class="table bbs_twoColTable" id="j_editInfo">
 									<tr>
 										<td>用户名：</td>
@@ -112,7 +112,7 @@
 									<tr>
 										<td></td>
 										<td>
-											<input type="submit" value="修改" class="btn btn-primary">													
+											<input type="button" value="修改" class="btn btn-primary" id="j_userInfoBtn">													
 										</td>
 									</tr>
 								</table>
@@ -314,7 +314,7 @@
 					$('input[name=sex]').val(bbs_dealNull(data.sex));
 					$('textarea[name=intro]').val(bbs_dealNull(data.intro));
 					$('textarea[name=signature]').val(bbs_dealNull(data.signature));
-					$('input[name=birthday]').val(bbs_dealNull(data.birthday));
+					$('input[name=birthday]').val(date_fmt(bbs_dealNull(data.birthday)));
 					$('input[name=qq]').val(bbs_dealNull(data.qq));
 					$('input[name=website]').val(bbs_dealNull(data.website));
 				}
@@ -391,7 +391,20 @@
 			$('#j_userInfo').hide();
 			$('#j_editInfo').show();
 		});
-			
+		
+		$('#j_userInfoBtn').click(function(){
+			var s = $('#j_editForm').serialize();
+			$.ajax({
+				type: 'POST',
+				url: '<c:url value="/UserServlet?action=updateUser"></c:url>',
+				data:"userId="+userId+"&"+s,
+				success: function(data){
+					if(data!=null){
+						alert(JSON.stringify(data));
+					}
+				}
+			});
+		});
 	});
 </script>
 </html>

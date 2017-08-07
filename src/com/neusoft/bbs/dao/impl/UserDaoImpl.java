@@ -106,8 +106,9 @@ public class UserDaoImpl implements UserDao{
 			sqlBuilder.append("PASSWORD=? ");
 			arrList.add(password);
 		}
-		Date lastLoginTtime = new Date(userBase.getLastLoginTime().getTime());
-		if(lastLoginTtime != null) {
+		java.util.Date uDate = userBase.getLastLoginTime();
+		if(uDate != null) {
+			Date lastLoginTtime = new Date(uDate .getTime());
 			sqlBuilder.append("LAST_LOGIN_TIME=? ");
 			arrList.add(lastLoginTtime);
 		}
@@ -116,13 +117,14 @@ public class UserDaoImpl implements UserDao{
 			sqlBuilder.append("LAST_LOGIN_IP=? ");
 			arrList.add(lastLoginIp);
 		}
-		short power = userBase.getPower();
-		if(power != 0) {
+		Short power = userBase.getPower();
+		if(power != null) {
 			sqlBuilder.append("POWER=? ");
 			arrList.add(power);
 		}
-		Date registTime = new Date(userBase.getRegistTime().getTime());
-		if(registTime != null) {
+		java.util.Date rDate = userBase.getRegistTime();
+		if(rDate != null) {
+			Date registTime = new Date(rDate .getTime());
 			sqlBuilder.append("REGIST_TIME=?");
 			arrList.add(registTime);
 		}

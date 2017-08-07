@@ -143,4 +143,19 @@ public class UserServiceImpl implements UserService{
 	public UserBase findUserEmail(String email) {
 		return userDao.findByEmail(email);
 	}
+
+	@Override
+	public int updateUser(UserBase userBase, UserDetail userDetail) {
+		int result = 0;
+		if(userBase != null) {
+			result = userDao.update(userBase);
+		}
+		if(userDetail != null && userDetail.getUserId() != null) {
+			result = userDetailDao.update(userDetail);
+		}
+		if(result != 1) {
+			throw new RuntimeException("更新异常");
+		}
+		return result;
+	}
 }
