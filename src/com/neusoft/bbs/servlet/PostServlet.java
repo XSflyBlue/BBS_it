@@ -125,9 +125,12 @@ public class PostServlet extends HttpServlet {
 					moderator.setAreaId(Short.parseShort(bId));
 					moderator.setModeratorType(Short.parseShort("0"));//版块
 					moderator.setUserId(Short.parseShort(String.valueOf(userBase.getUserId())));// 需要底层支持
-					for (ModeratorForm moderatorForm : ModeratorServiceImpl.getInstance().findFormList(1, 1, moderator)) {
-						if (Short.parseShort(String.valueOf(userBase.getUserId())) == moderatorForm.getUserId()) {
-							post.setIsHidden(null);// 所有帖子
+					List<ModeratorForm> moderatorFormList = ModeratorServiceImpl.getInstance().findFormList(1, 1, moderator);
+					if(moderatorFormList!=null) {
+						for (ModeratorForm moderatorForm : moderatorFormList) {
+							if (Short.parseShort(String.valueOf(userBase.getUserId())) == moderatorForm.getUserId()) {
+								post.setIsHidden(null);// 所有帖子
+							}
 						}
 					}
 					
@@ -198,9 +201,12 @@ public class PostServlet extends HttpServlet {
 					moderator.setAreaId(Short.parseShort(bId));
 					moderator.setModeratorType(Short.parseShort("0"));//版块
 					moderator.setUserId(Short.parseShort(String.valueOf(userBase.getUserId())));// 需要底层支持
-					for (ModeratorForm moderatorForm : ModeratorServiceImpl.getInstance().findFormList(1, 1, moderator)) {
-						if (Short.parseShort(String.valueOf(userBase.getUserId())) == moderatorForm.getUserId()) {
-							post.setIsHidden(null);// 所有帖子
+					List<ModeratorForm> moderatorFormList = ModeratorServiceImpl.getInstance().findFormList(1, 1, moderator);
+					if(moderatorFormList!=null) {
+						for (ModeratorForm moderatorForm : moderatorFormList) {
+							if (Short.parseShort(String.valueOf(userBase.getUserId())) == moderatorForm.getUserId()) {
+								post.setIsHidden(null);// 所有帖子
+							}
 						}
 					}
 					
@@ -270,9 +276,12 @@ public class PostServlet extends HttpServlet {
 					moderator.setAreaId(Short.parseShort(bId));
 					moderator.setModeratorType(Short.parseShort("0"));//版块
 					moderator.setUserId(Short.parseShort(String.valueOf(userBase.getUserId())));// 需要底层支持
-					for (ModeratorForm moderatorForm : ModeratorServiceImpl.getInstance().findFormList(1, 1, moderator)) {
-						if (Short.parseShort(String.valueOf(userBase.getUserId())) == moderatorForm.getUserId()) {
-							post.setIsHidden(null);// 所有帖子
+					List<ModeratorForm> moderatorFormList = ModeratorServiceImpl.getInstance().findFormList(1, 1, moderator);
+					if(moderatorFormList!=null) {
+						for (ModeratorForm moderatorForm : moderatorFormList) {
+							if (Short.parseShort(String.valueOf(userBase.getUserId())) == moderatorForm.getUserId()) {
+								post.setIsHidden(null);// 所有帖子
+							}
 						}
 					}
 					
@@ -348,11 +357,15 @@ public class PostServlet extends HttpServlet {
 						moderator.setAreaId(Short.parseShort(String.valueOf(post.getSectionId())));
 						moderator.setModeratorType(Short.parseShort("0"));//版块
 						moderator.setUserId(Short.parseShort(String.valueOf(userBase.getUserId())));// 需要底层支持
-						for (ModeratorForm moderatorForm : ModeratorServiceImpl.getInstance().findFormList(1, 1, moderator)) {
-							if (userBase.getUserId().shortValue() == moderatorForm.getUserId().shortValue()) {
-								post.setIsHidden(null);// 所有帖子
-								System.out.println("本人可见被隐藏的帖子");
+						List<ModeratorForm> moderatorFormList = ModeratorServiceImpl.getInstance().findFormList(1, 1, moderator);
+						if(moderatorFormList!=null) {
+							for (ModeratorForm moderatorForm : moderatorFormList) {
+								if (Short.parseShort(String.valueOf(userBase.getUserId())) == moderatorForm.getUserId()) {
+									post.setIsHidden(null);// 所有帖子
+								}
 							}
+						}else {
+							post.setIsHidden(Short.parseShort("1"));
 						}
 					}
 				}
