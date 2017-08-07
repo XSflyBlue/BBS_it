@@ -74,6 +74,7 @@
 										</td>
 									</tr>
 								</table>
+								<form action="">
 								<table class="table bbs_twoColTable" id="j_editInfo">
 									<tr>
 										<td>用户名：</td>
@@ -114,6 +115,7 @@
 										</td>
 									</tr>
 								</table>
+								</form>
 							</div>
 							<div id="bbs_admin_showPost">
 							<table class="table table-hover bbs_table"  id="j_myPost">
@@ -383,10 +385,10 @@
 		});
 		
 		//修改个人资料
+		$('#j_editInfo').hide();
 		$('#j_modifyInfo').click(function(){
 			$('#j_userInfo').hide();
 			$('#j_editInfo').show();
-			
 		});
 			
 	});
