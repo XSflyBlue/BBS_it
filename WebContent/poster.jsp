@@ -106,7 +106,15 @@
 			success: function(data){
 				if(data != null){
 					if(data.code == 1){
-						alert("ok");
+						alert("OK");
+						var str = '<tr><td class="bbs_comment_icon"><img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">';
+						str += '</td><td class="bbs_comment_body">';
+						str += '<div><span class="bbs_comment_name">'+'${userBase.username}'+'</span>';
+						str += '<span class="bbs_comment_date">'+date_fmt(new Date())+'</span></div>';
+						str += '<div class="bbs_comment_content">'+html+'</div></td></tr>';
+						$('#j_reply').prepend(str);
+					}else{
+						alert(data.msg);
 					}
 				}
 			}
