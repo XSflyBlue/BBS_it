@@ -1,8 +1,7 @@
 package com.neusoft.bbs.servlet;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -21,6 +20,7 @@ import com.neusoft.bbs.domain.Level;
 import com.neusoft.bbs.domain.UserBase;
 import com.neusoft.bbs.domain.form.ExpRecordForm;
 import com.neusoft.bbs.domain.json.ExpRecordJson;
+import com.neusoft.bbs.domain.json.SignReturnJson;
 import com.neusoft.bbs.service.EXPService;
 import com.neusoft.bbs.service.LevelService;
 import com.neusoft.bbs.service.impl.EXPServiceImpl;
@@ -33,6 +33,7 @@ import com.neusoft.bbs.service.impl.LevelServiceImpl;
 public class LevelServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private EXPService expService = EXPServiceImpl.getInstance();
+
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -108,6 +109,37 @@ public class LevelServlet extends HttpServlet {
 		if (userId != null) {
 			EXPService expService = EXPServiceImpl.getInstance();
 			LevelService levelService = LevelServiceImpl.getInstance();
+			// 限制一天只能签到一次
+			if (("签到奖励").equals(cause)) {
+				ExpRecord tmpRecord = new ExpRecord();
+				List<ExpRecord> signExpRecordList = null;
+				signExpRecordList = expService.findSignEXPRecord(userId, expRecord);
+				if (signExpRecordList != null) {
+					tmpRecord = signExpRecordList.get(0);// 获取最近一次签到经验记录
+					
+					// 截取日期
+					String lastSignDay = tmpRecord.getExpGetTime().toLocaleString().substring(0, 8);
+					System.out.println("上次签到日期：" + lastSignDay);
+					String today = new Date().toLocaleString().substring(0, 8);
+					System.out.println("现在时间：" + today);
+					
+					// 构造签到结果Json对象
+					SignReturnJson signReturnJson = new SignReturnJson();
+					if(today.compareTo(lastSignDay)>0){
+						// 今天还没签到
+						signReturnJson.setSignResult("还没签到");
+						signReturnJson.setSingedDays(signExpRecordList.size());
+						JSONUtils.writeJSON(response, signReturnJson);
+					}else {
+						// 已经签过到
+						signReturnJson.setSignResult("今天已经签过到了");
+						signReturnJson.setSingedDays(signExpRecordList.size());
+						JSONUtils.writeJSON(response, signReturnJson);
+						return ;
+					}
+				}
+			}
+
 			// 添加经验值记录
 			res = expService.addExpRecord(userId, expRecord);
 			if (res == 1) {
