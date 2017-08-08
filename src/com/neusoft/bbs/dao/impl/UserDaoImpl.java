@@ -129,6 +129,11 @@ public class UserDaoImpl implements UserDao{
 			arrList.add(registTime);
 		}
 		
+		sqlBuilder.append(" WHERE USER_ID = ?");
+		arrList.add(userBase.getUserId());
+		System.out.println(sqlBuilder.toString());
+		System.out.println(arrList);
+		
 		Object params[] = arrList.toArray();
 		int result = 0;
 		try {

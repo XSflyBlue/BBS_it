@@ -26,11 +26,11 @@
 			<form>
 			  <div class="form-group">
 			    <label>当前密码</label>
-			    <input type="password" class="form-control" name="password" placeholder="请输入密码">
+			    <input type="password" class="form-control" name="oldPassword" placeholder="请输入密码">
 			  </div>
 			  <div class="form-group">
 			    <label>设置新密码</label>
-			    <input type="password" class="form-control" name="newPassword" placeholder="请输入密码">
+			    <input type="password" class="form-control" name="password" placeholder="请输入密码">
 			  </div>
 			  <div class="form-group">
 			    <label>确认新密码</label>
@@ -46,15 +46,29 @@
 </body>
 <script type="text/javascript">
 	function updatePassword(){
+		$.ajax({
+			type: 'POST',
+			url: '<c:url value="/UserServlet?action=updatePassword"></c:url>',
+			data:"password="+$('input[name=password]').val(),
+			success: function(data){
+				alert(JSON.stringify(data));
+				if(data.code == 1){
+					window.location.href='<c:url value="/admin/index_nomal.jsp"/>';
+				}else{
+					$('#j_msg').empty();
+					$('#j_msg').text(data.msg);
+				}
+			}
+		});
 		//window.location.href='<c:url value="/admin/index.jsp"/>';
 	}
 	
 	$(function(){
-		$('input[name=password]').blur(function(){
+		$('input[name=oldPassword]').blur(function(){
 			$.ajax({
 				type: 'POST',
 				url: '<c:url value="/UserServlet?action=checkPassword"></c:url>',
-				data:"password="+$('input[name=password]').val(),
+				data:"password="+$('input[name=oldPassword]').val(),
 				success: function(data){
 					if(data.code == 1){
 						$('#j_msg').empty();

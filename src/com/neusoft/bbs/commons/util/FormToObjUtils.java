@@ -36,6 +36,9 @@ public class FormToObjUtils {
 				Method setter = checkSetter(type,field);
 				try {
 					String value = req.getParameter(field.getName());
+					if(value != null) {
+						value = value.trim();
+					}
 					if(value != null && !"".equals(value.trim())) {
 						//类型
 						if(field.getType()==Integer.class) {
