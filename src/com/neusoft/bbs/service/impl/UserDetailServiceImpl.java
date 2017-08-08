@@ -91,7 +91,7 @@ public class UserDetailServiceImpl implements UserDetailService {
 				expRecord.setExpGetNum(0L);
 				expDao.insertExpRecord(userId, expRecord);				
 			}
-			if(userForm.getCoinNum()==0){
+			if(userForm.getCoinNum()==null){
 				System.out.println("coinNum====");
 				//第一次注册
 				Coin c = new Coin();
