@@ -175,4 +175,63 @@ public class CoinServlet extends HttpServlet {
 			JSONUtils.writeJSON(response, new Msg(0, "查询金币记录失败！"));
 		}
 	}
+	/**
+	 * 减少金币数
+	 * @param request
+	 * @param response
+	 */
+	private void reduceCoin(HttpServletRequest request, HttpServletResponse response) {
+		//从前端得到的金币修改类型
+		Long type = 0L;
+		//从前端获取原因
+		String cause = "";
+		
+		//从后台获取userID
+//		UserBase userBase = (UserBase) request.getSession().getAttribute("userBase");
+		//测试使用
+		UserBase userBase = new UserBase();
+		userBase.setUserId(1L);
+		if(userBase != null) {
+			Long userId = userBase.getUserId();
+			if (userId!=null) {
+				cause = request.getParameter("mCause");
+				String mType = request.getParameter("mType");
+				Pattern pattern = Pattern.compile("^-?[0-9]+");//修改类型格式校验
+				if (pattern.matcher(mType).matches()&&StringUtils.isNotNullString(cause,mType)) {
+					type = Long.parseLong(mType);
+					//取得应该修改的金币数
+					Long coin = CoinConfig.valueOfCoinType(type);
+					CoinRecord coinRecord = new CoinRecord();
+					coinRecord.setCoinCause(cause);
+					coinRecord.setCoinGetNum(coin);
+					System.out.println("cause:"+cause+" userId"+userId+"coin:"+coin);
+					//查询金币数
+					Long coinNum = coinService.findCoinNum(userId);
+					System.out.println("已有的金币总数："+coinNum);
+					if(coinNum>=coin){
+						//更新金币记录
+						if(coinService.addCoinRecord(userId, coinRecord)!=0){
+							if(coinNum!=null){
+								Coin bCoin = new Coin();
+								//查询到金币总数coinNum,再+-coin,更新金币总数
+								bCoin.setCoinNum(coinNum-coin);
+								coinService.setCoinNum(userId, bCoin);
+								JSONUtils.writeJSON(response, new Msg(1, "金币更新成功！"));
+							}
+						}else{
+							JSONUtils.writeJSON(response, new Msg(0, "金币更新失败！"));
+						}
+				}else{
+					JSONUtils.writeJSON(response, new Msg(0, "您的金币数不够！"));
+				}		
+				}else{
+					JSONUtils.writeJSON(response, new Msg(0, "修改类型的格式错误！"));
+				}	
+			}else{
+				JSONUtils.writeJSON(response, new Msg(0, "更新失败！"));
+			}
+		}else{
+			JSONUtils.writeJSON(response, new Msg(0, "更新失败！"));
+		}
+	}
 }

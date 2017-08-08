@@ -70,24 +70,24 @@ public class CoinDaoImpl implements CoinDao{
 		}
 		return a;
 	}
-
-	@Override
-	public Coin findCoinNum(Long userId) {
-		String sql = "select c.COIN_ID,c.USER_ID,sum(r.coin_get_num) COIN_NUM "
-				+ "from b_coin c,b_user_base b,b_coin_record r "
-				+ "where c.user_id = b.user_id  and c.coin_id = r.coin_id "
-				+ "and b.user_id=? "
-				+ "group by c.coin_id,c.user_id";
-		Object params[] = {userId};
-		System.out.println("sql："+sql);
-		Coin coin = null;
-		try {
-			coin = (Coin)DatabaseUtil.query(sql, params, new BeanHandler(Coin.class));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return coin;
-	}
+	
+//	@Override
+//	public Coin findCoinNum(Long userId) {
+//		String sql = "select c.COIN_ID,c.USER_ID,sum(r.coin_get_num) COIN_NUM "
+//				+ "from b_coin c,b_user_base b,b_coin_record r "
+//				+ "where c.user_id = b.user_id  and c.coin_id = r.coin_id "
+//				+ "and b.user_id=? "
+//				+ "group by c.coin_id,c.user_id";
+//		Object params[] = {userId};
+//		System.out.println("sql："+sql);
+//		Coin coin = null;
+//		try {
+//			coin = (Coin)DatabaseUtil.query(sql, params, new BeanHandler(Coin.class));
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return coin;
+//	}
 
 	@Override
 	public int updateCoinNum(Coin coin) {
@@ -180,5 +180,18 @@ public class CoinDaoImpl implements CoinDao{
 			e.printStackTrace();
 		}
 		return result;
+	}
+
+	@Override
+	public Coin findCoinByUserId(Long userId) {
+		String sql = "select * from b_coin where user_id=?";
+		Object params[] = {userId};
+		Coin coin = null;
+		try {
+			coin = (Coin)DatabaseUtil.query(sql, params, new BeanHandler(Coin.class));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return coin;
 	}
 }

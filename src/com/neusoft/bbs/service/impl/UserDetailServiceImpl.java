@@ -1,10 +1,14 @@
 package com.neusoft.bbs.service.impl;
 
 import com.neusoft.bbs.commons.util.db.TransactionProxy;
+import com.neusoft.bbs.dao.CoinDao;
 import com.neusoft.bbs.dao.ExpDao;
 import com.neusoft.bbs.dao.UserDetailDao;
+import com.neusoft.bbs.dao.impl.CoinDaoImpl;
 import com.neusoft.bbs.dao.impl.ExpDaoImpl;
 import com.neusoft.bbs.dao.impl.UserDetailDaoImpl;
+import com.neusoft.bbs.domain.Coin;
+import com.neusoft.bbs.domain.CoinRecord;
 import com.neusoft.bbs.domain.EXP;
 import com.neusoft.bbs.domain.ExpRecord;
 import com.neusoft.bbs.domain.UserDetail;
@@ -24,6 +28,7 @@ public class UserDetailServiceImpl implements UserDetailService {
 	private static final TransactionProxy transctionProxy = new TransactionProxy();
 	private static final UserDetailService instance = (UserDetailService) transctionProxy.newProxyInstance(new UserDetailServiceImpl());
 	private UserDetailDao userDetailDao = new UserDetailDaoImpl();
+	private CoinDao coinDao = new CoinDaoImpl();
 	/**
 	 * 取得实例
 	 */
@@ -69,7 +74,7 @@ public class UserDetailServiceImpl implements UserDetailService {
 		UserForm userForm = null;
 		userForm = userDetailDao.findUserForm(userId);
 		if(userForm!=null){
-			System.out.println("in UserDetailServiceImpl,userFOrm 不为空");
+			System.out.println("in UserDetailServiceImpl,userFOrm 不为空"+userForm.toString());
 			if(userForm.getExpNum()==null){
 				// 新注册用户创建经验表和经验记录表
 				EXP exp = new EXP();
@@ -85,6 +90,26 @@ public class UserDetailServiceImpl implements UserDetailService {
 				expRecord.setExpGetCause("注册");
 				expRecord.setExpGetNum(0L);
 				expDao.insertExpRecord(userId, expRecord);				
+			}
+			if(userForm.getCoinNum()==0){
+				System.out.println("coinNum====");
+				//第一次注册
+				Coin c = new Coin();
+				c.setCoinNum(0L);//奖励10个金币
+				c.setUserId(userId);
+				int i = coinDao.insertCoin(c);//添加一条金币记录到金币表
+				System.out.println("i"+i);
+				if(i!=0){
+					CoinRecord coinRe = new CoinRecord();
+					
+					Coin findCoin = coinDao.findCoinByUserId(userId);
+					System.out.println("  查询金币数："+findCoin.getCoinNum());
+					coinRe.setCoinId(findCoin.getCoinId());//获取coinId
+					coinRe.setCoinCause("注册");
+					coinRe.setCoinGetNum(0L);
+					
+					coinDao.insertCoinRecord(coinRe);	
+				}
 			}
 		}
 		return userForm;

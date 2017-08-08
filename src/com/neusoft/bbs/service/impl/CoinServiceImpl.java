@@ -49,13 +49,11 @@ public class CoinServiceImpl implements CoinService{
 	public int addCoinRecord(Long userId,CoinRecord coinRecord) {
 		Coin coin = null;
 		int record = 0;
-		coin = coinDao.findCoinNum(userId);
 		
+		coin = coinDao.findCoinByUserId(userId);//查询coin
 		if(coin!=null){
 			coinRecord.setCoinId(coin.getCoinId());
 			record = coinDao.insertCoinRecord(coinRecord);
-		}else{
-			return 0;
 		}
 		return record;
 	}
@@ -64,7 +62,7 @@ public class CoinServiceImpl implements CoinService{
 	public int setCoinRecord(Long userId,CoinRecord coinRecord) {
 		int record = 0;
 		Coin coin = null;
-		coin = coinDao.findCoinNum(userId);
+		coin = coinDao.findCoinByUserId(userId);
 		if(coin!=null){
 			coinRecord.setCoinId(coin.getCoinId());
 			record = coinDao.updateCoinRecord(coinRecord);
@@ -77,7 +75,7 @@ public class CoinServiceImpl implements CoinService{
 	public Long findCoinNum(Long userId) {
 		Coin coin = null; 
 		Long coin_num = null;
-		coin = coinDao.findCoinNum(userId);
+		coin = coinDao.findCoinByUserId(userId);
 		if(coin!=null){
 			coin_num = coin.getCoinNum();
 		}

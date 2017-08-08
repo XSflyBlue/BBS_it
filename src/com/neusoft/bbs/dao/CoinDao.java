@@ -48,11 +48,17 @@ public interface CoinDao {
 	public int updateCoinRecord(CoinRecord coinRecord);
 	
 	/**
-	 * 获取每个用户的金币数
+	 * 获取每个用户的金币数,b_base_user,coin,coin_reocrd三张表相关联
 	 * @param userId
 	 * @return
 	 */
-	public Coin findCoinNum(Long userId);
+//	public Coin findCoinNum(Long userId);
+	/**
+	 * 根据userId获取金币
+	 * @param userId
+	 * @return
+	 */
+	public Coin findCoinByUserId(Long userId);
 	
 	/**
 	 * 修改金币总数
