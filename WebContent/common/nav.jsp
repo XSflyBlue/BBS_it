@@ -38,7 +38,9 @@
 				<%} }%>
 			</ul>
 			<ul class="nav navbar-nav navbar-right bbs_nav">
-				<li><a href='<c:url value="/admin/index_admin.jsp"></c:url>'>管理入口</a></li>
+				<c:if test="${userBase.power==99}">
+					<li><a href='<c:url value="/admin/index_admin.jsp"></c:url>'>管理入口</a></li>
+				</c:if>
 				<c:choose>
 					<c:when test="${userBase==null}">
 							<li><a href='<c:url value="/login.jsp"></c:url>'>登录</a></li>

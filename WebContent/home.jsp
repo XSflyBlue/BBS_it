@@ -68,21 +68,21 @@
 				</a>
 				<div class="bbs_rightBox">
 					<h4>论坛介绍</h4>
-					<div>这是论坛介绍....</div>
+					<div>这是简单理解为发帖回帖讨论的平台。是Internet上的一种电子信息服务系统。它提供一块公共电子白板，每个用户都可以在上面书写，可发布信息或提出看法。</div>
 				</div>
 				<div class="bbs_rightBox">
 					<h4>友情链接</h4>
 					<div>
 						<ul>
-							<li><a href='<c:url value=""></c:url>'>百度</a></li>
-							<li><a href="#">阿里巴巴</a></li>
-							<li><a href="#">东软集团 天津</a></li>
-							<li><a href="#">百度</a></li>
-							<li><a href="#">阿里巴巴</a></li>
-							<li><a href="#">东软集团 天津</a></li>
-							<li><a href="#">百度</a></li>
-							<li><a href="#">阿里巴巴</a></li>
-							<li><a href="#">东软集团 天津</a></li>
+							<li><a href="http://www.neusoft.com/">东软</a></li>
+							<li><a href="http://www.baidu.com">百度搜索</a></li>
+							<li><a href="http://www.ithome.com">IT之家</a></li>
+							<li><a href="http://www.cqupt.edu.cn/cqupt/index.shtml">重庆邮电大学</a></li>
+							<li><a href="https://www.zaiqingyang.org/">杨再清的主页</a></li>
+							<li><a href="http://bbs.csdn.net">CSDN论坛</a></li>
+							<li><a href="http://yinwang.org">当然我在扯淡</a></li>
+							<li><a href="https://developers.google.cn/">谷歌开发者社区</a></li>
+							<li><a href="http://www.cnblogs.com">博客园</a></li>
 						</ul>
 					</div>
 				</div>

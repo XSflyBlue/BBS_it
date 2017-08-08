@@ -27,7 +27,7 @@
 				<div class="bbs_poster" style="padding-top: 25px;">
 					<div>
 						<a href="#">
-							<img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">
+							<img  alt="头像" class="bbs_icon" src='<c:url value="/res/default_icon.jpg"></c:url>'>
 							
 							<span id="bbs_poster_name">${userBase.username}</span>
 						</a>
@@ -275,14 +275,14 @@
 						if(colNum % 8 != 0){
 							str += '<td><div class="bbs_showItems">';
 							str += '<a href="<c:url value="/userInfo.jsp?user='+data[i].followUserId+'"></c:url>">';
-							str += '<img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">';
+							str += '<img  alt="头像" class="bbs_icon" src="<c:url value="/res/default_icon.jpg"></c:url>">';
 							str += '<span id="bbs_poster_name">'+data[i].followUsername+'</span>';
 							str += '</a></div></td>';
 						}else{
 							str += '</tr><tr>';
 							str += '<td><div class="bbs_showItems">';
 							str += '<a href="<c:url value="/userInfo.jsp?user='+data[i].followUserId+'"></c:url>">';
-							str += '<img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">';
+							str += '<img  alt="头像" class="bbs_icon" src="<c:url value="/res/default_icon.jpg"></c:url>">';
 							str += '<span id="bbs_poster_name">鲁班不住这</span>';
 							str += '</a></div></td>';
 						}
@@ -307,11 +307,11 @@
 				if(data!=null){
 					var str = '<tr><td>用户名：</td><td>'+bbs_dealNull(data.username)+'</td></tr>';
 					str += '<tr><td>邮 箱：</td><td>'+bbs_dealNull(data.email)+'</td></tr>';
-					str += '<tr><td>注册时间 ：</td><td>'+bbs_dealNull(data.registTime)+'</td></tr>';
-					str += '<tr><td>性别：</td><td>'+bbs_dealNull(data.sex)+'</td></tr>';
+					str += '<tr><td>注册时间 ：</td><td>'+date_fmt(data.registTime)+'</td></tr>';
+					str += '<tr><td>性别：</td><td>'+sex_fmt(data.sex)+'</td></tr>';
 					str += '<tr><td>个人介绍：</td><td>'+bbs_dealNull(data.intro)+'</td></tr>';
 					str += '<tr><td>个性签名：</td><td>'+bbs_dealNull(data.signature)+'</td></tr>';
-					str += '<tr><td>出生日期：</td><td>'+bbs_dealNull(data.birthday)+'</td></tr>';
+					str += '<tr><td>出生日期：</td><td>'+date_fmt(data.birthday)+'</td></tr>';
 					str += '<tr><td>QQ：</td><td>'+bbs_dealNull(data.qq)+'</td></tr>';
 					str += '<tr><td>经验值：</td><td>'+bbs_dealNull(data.expNum,0)+'</td></tr>';
 					str += '<tr><td>等 级：</td><td>'+bbs_dealNull(data.levelName,0)+'</td></tr>';
@@ -434,7 +434,10 @@
 						$('#j_signAlert').append(str);
 						$('#signModel').modal({
 					        keyboard: true
-					    })
+					    });
+						$('#signModel').on('hidden.bs.modal', function () {
+							window.location.href='<c:url value="/admin/index_nomal.jsp"/>';
+						});
 					}
 				}
 			});

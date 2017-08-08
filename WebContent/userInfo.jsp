@@ -27,13 +27,11 @@
 				<div class="bbs_poster" style="padding-top: 25px;">
 					<div>
 						<a href="#">
-							<img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">
+							<img  alt="头像" class="bbs_icon" src='<c:url value="/res/default_icon.jpg"></c:url>'>
 							<span id="bbs_poster_name"></span>
 						</a>
 						<div style="margin-bottom: 15px;">
 							<span id="j_userId" style="display: none;"></span>
-							经验：<span id="j_exp"></span>
-							金币：<span id="j_coin"></span>
 						</div>
 						<div>
 							 <button type="button" id="j_follow" class="btn btn-sm btn-primary" style="margin: 0px 0px 5px 0px;width: 60px;">关注TA</button>
@@ -44,15 +42,15 @@
 						<table class="table">
 							<tr>
 								<td>
-									<div class="bbs_poster_tip">帖子数</div>
-									<div class="bbs_poster_val">2333</div>
+									<div class="bbs_poster_tip">经验</div>
+									<div class="bbs_poster_val" id="j_exp">2333</div>
 								</td>
 								<td>
-									<div class="bbs_poster_tip">帖子数</div>
-									<div class="bbs_poster_val">2333</div>
+									<div class="bbs_poster_tip">等级</div>
+									<div class="bbs_poster_val" id="j_level">2333</div>
 								</td>
 								<td>
-									<div class="bbs_poster_tip">帖子数</div>
+									<div class="bbs_poster_tip">关注人数</div>
 									<div class="bbs_poster_val">2333</div>
 								</td>
 							</tr>
@@ -76,48 +74,50 @@
 							<table class="table table-hover bbs_table" id="j_myPost">
 								<!-- 帖子部分 -->
 							</table>
-							<nav aria-label="Page navigation" style="text-align: center;">
-							  <ul class="pagination">
-							    <li>
-							      <a href="#" aria-label="Previous">
-							        <span aria-hidden="true">&laquo;</span>
-							      </a>
-							    </li>
-							    <li><a href="#">1</a></li>
-							    <li><a href="#">2</a></li>
-							    <li><a href="#">3</a></li>
-							    <li><a href="#">4</a></li>
-							    <li><a href="#">5</a></li>
-							    <li>
-							      <a href="#" aria-label="Next">
-							        <span aria-hidden="true">&raquo;</span>
-							      </a>
-							    </li>
-							  </ul>
-							</nav>
+							<!-- 分页 -->
+							<div style="text-align: center;">
+								<span class="pageIndex">
+									当前第<font color="blue" id="j_curPage">1</font>页
+									&nbsp;&nbsp;&nbsp;共<font color="blue" id="j_maxPage"></font>页
+								</span>
+								<ul class="pager">
+									<li>
+										<a href="">上页</a>
+									</li>
+									<li>
+										<a href="">下页</a>
+									</li>
+									<li>
+										<input id="j_goal" style="width: 50px;border-radius: 33px;">
+										<a onclick='getGoalPage()' href="#">翻页</a>
+									</li>
+								</ul>
+							</div>
+							<!-- end 分页 -->
 							</div>
 							<div id="bbs_admin_showCare">
 								<table class="table" id="j_follows">
 								</table>
-							<nav aria-label="Page navigation" style="text-align: center;">
-							  <ul class="pagination">
-							    <li>
-							      <a href="#" aria-label="Previous">
-							        <span aria-hidden="true">&laquo;</span>
-							      </a>
-							    </li>
-							    <li><a href="#">1</a></li>
-							    <li><a href="#">2</a></li>
-							    <li><a href="#">3</a></li>
-							    <li><a href="#">4</a></li>
-							    <li><a href="#">5</a></li>
-							    <li>
-							      <a href="#" aria-label="Next">
-							        <span aria-hidden="true">&raquo;</span>
-							      </a>
-							    </li>
-							  </ul>
-							</nav>
+							<!-- 分页 -->
+							<div style="text-align: center;">
+								<span class="pageIndex">
+									当前第<font color="blue" id="j_curPage">1</font>页
+									&nbsp;&nbsp;&nbsp;共<font color="blue" id="j_maxPage"></font>页
+								</span>
+								<ul class="pager">
+									<li>
+										<a href="">上页</a>
+									</li>
+									<li>
+										<a href="">下页</a>
+									</li>
+									<li>
+										<input id="j_goal" style="width: 50px;border-radius: 33px;">
+										<a onclick='getGoalPage()' href="#">翻页</a>
+									</li>
+								</ul>
+							</div>
+							<!-- end 分页 -->
 							</div>
 						</div>
 					</div>
@@ -125,32 +125,21 @@
 			</div>
 			<div class="col-md-3">
 				<div class="bbs_rightBox" style="margin-top: 0px;">
-					<h4>楼主最近发布</h4>
-					<div>
-						<ul>
-							<li><a href="#">震惊！UC居然要解散震惊部全体员工</a></li>
-							<li><a href="#">小米6全新发布</a></li>
-							<li><a href="#">论现代社会与深居丛林？</a></li>
-							<li><a href="#">Java快速入门</a></li>
-						</ul>
-					</div>
-				</div><!-- end right box -->
-				<div class="bbs_rightBox">
 					<h4>友情链接</h4>
 					<div>
 						<ul>
-							<li><a href="#">百度</a></li>
-							<li><a href="#">阿里巴巴</a></li>
-							<li><a href="#">东软集团 天津</a></li>
-							<li><a href="#">百度</a></li>
-							<li><a href="#">阿里巴巴</a></li>
-							<li><a href="#">东软集团 天津</a></li>
-							<li><a href="#">百度</a></li>
-							<li><a href="#">阿里巴巴</a></li>
-							<li><a href="#">东软集团 天津</a></li>
+							<li><a href="http://www.neusoft.com/">东软</a></li>
+							<li><a href="http://www.baidu.com">百度搜索</a></li>
+							<li><a href="http://www.ithome.com">IT之家</a></li>
+							<li><a href="http://www.cqupt.edu.cn/cqupt/index.shtml">重庆邮电大学</a></li>
+							<li><a href="https://www.zaiqingyang.org/">杨再清的主页</a></li>
+							<li><a href="http://bbs.csdn.net">CSDN论坛</a></li>
+							<li><a href="http://yinwang.org">当然我在扯淡</a></li>
+							<li><a href="https://developers.google.cn/">谷歌开发者社区</a></li>
+							<li><a href="http://www.cnblogs.com">博客园</a></li>
 						</ul>
 					</div>
-				</div>
+				</div><!-- end right box -->
 			</div>
 		</div>
 	</div>
@@ -174,14 +163,14 @@
 						if(colNum % 8 != 0){
 							str += '<td><div class="bbs_showItems">';
 							str += '<a href="<c:url value="/userInfo.jsp?user='+data[i].followUserId+'"></c:url>">';
-							str += '<img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">';
+							str += '<img  alt="头像" class="bbs_icon" src="<c:url value="/res/default_icon.jpg"></c:url>">';
 							str += '<span id="bbs_poster_name">'+data[i].followUsername+'</span>';
 							str += '</a></div></td>';
 						}else{
 							str += '</tr><tr>';
 							str += '<td><div class="bbs_showItems">';
 							str += '<a href="<c:url value="/userInfo.jsp?user='+data[i].followUserId+'"></c:url>">';
-							str += '<img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">';
+							str += '<img  alt="头像" class="bbs_icon" src="<c:url value="/res/default_icon.jpg"></c:url>">';
 							str += '<span id="bbs_poster_name">鲁班不住这</span>';
 							str += '</a></div></td>';
 						}
@@ -222,11 +211,11 @@
 				if(data!=null){
 					var str = '<tr><td>用户名：</td><td>'+bbs_dealNull(data.username)+'</td></tr>';
 					str += '<tr><td>邮 箱：</td><td>'+bbs_dealNull(data.email)+'</td></tr>';
-					str += '<tr><td>注册时间 ：</td><td>'+bbs_dealNull(data.registTime)+'</td></tr>';
-					str += '<tr><td>性别：</td><td>'+bbs_dealNull(data.sex)+'</td></tr>';
+					str += '<tr><td>注册时间 ：</td><td>'+date_fmt(data.registTime)+'</td></tr>';
+					str += '<tr><td>性别：</td><td>'+sex_fmt(data.sex)+'</td></tr>';
 					str += '<tr><td>个人介绍：</td><td>'+bbs_dealNull(data.intro)+'</td></tr>';
 					str += '<tr><td>个性签名：</td><td>'+bbs_dealNull(data.signature)+'</td></tr>';
-					str += '<tr><td>出生日期：</td><td>'+bbs_dealNull(data.birthday)+'</td></tr>';
+					str += '<tr><td>出生日期：</td><td>'+date_fmt(data.birthday)+'</td></tr>';
 					str += '<tr><td>QQ：</td><td>'+bbs_dealNull(data.qq)+'</td></tr>';
 					str += '<tr><td>经验值：</td><td>'+bbs_dealNull(data.expNum,0)+'</td></tr>';
 					str += '<tr><td>等 级：</td><td>'+bbs_dealNull(data.levelName,0)+'</td></tr>';
@@ -236,6 +225,7 @@
 					$('#j_coin').text(bbs_dealNull(data.coinNum,0));
 					$('#bbs_poster_name').text(data.username);
 					$('#j_userId').text(data.userId);
+					$('#j_level').text(bbs_dealNull(data.levelName,0));
 				}
 			}
 		});
@@ -303,11 +293,11 @@
 				if(data!=null){
 					$(data.postFormList).each(function(index,item){
 						var myPost = '<tr><td><a class="bbs_list" href="<c:url value="/poster.jsp?post='+item.postId+'"></c:url>">';
-						myPost += '<span class="bbs_listSubTitle">[程序发布]</span>';
+						myPost += '<span class="bbs_listSubTitle">['+sections[item.sectionId]+']</span>';
 						myPost += '<span class="bbs_listTitle bbs_bold"> '+item.postTitle+' </span>';
 						myPost += '<span class="bbs_listSubTitle block"></a>';
-						myPost += '<span>'+item.issueTime+'</span>';
-						myPost += '<span class="bbs_listCount"><a href="#">编辑</a> <a href="#">删除</a></span>';
+						myPost += '<span>'+date_fmt(item.issueTime)+'</span>';
+						myPost += '<span class="bbs_listCount"></span>';
 						myPost += '</span></td></tr>';
 						$('#j_myPost').append(myPost);
 					});

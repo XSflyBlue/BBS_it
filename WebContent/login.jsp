@@ -37,11 +37,6 @@
 			    <input type="text" class="form-control" name="verifyCode" style="width: 25%; display: inline-block; margin-right: 12px;">
 			    <img id="j_verifyCodeImg" alt="验证码" src='<c:url value="/VerifyCodeServlet?flush=xxx"></c:url>'>
 			  </div>
-			  <div class="checkbox">
-			    <label>
-			      <input type="checkbox">连续一周内免登录
-			    </label>
-			  </div>
 			  <div style="margin-bottom: 12px;">
 			  	<a href='<c:url value="/find_password.jsp"></c:url>'>忘记密码？</a>
 			  </div>

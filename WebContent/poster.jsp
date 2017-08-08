@@ -47,33 +47,29 @@
 				</div>
 			</div>
 			<div class="col-md-3">
-				<button type="button" class="btn btn-primary" style="width: 100%;">发新帖</button>
-				<div class="bbs_rightBox">
+				<div class="bbs_rightBox" style="margin-top: 0px;">
 					<div class="bbs_poster">
 						<div>
 							<a id="j_userIndex" href='<c:url value="/userInfo.jsp"></c:url>'>
-								<img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">
+								<img  alt="头像" class="bbs_icon" src="<c:url value="/res/default_icon.jpg"></c:url>">
 								<span id="bbs_poster_name">
 									<!-- 楼主用户名 -->
 								</span>
 							</a>
-							<div>
-								<!-- 楼主等级 -->
-							</div>
 						</div>
 						<div class="">
 							<table class="table">
 								<tr>
 									<td>
-										<div class="bbs_poster_tip">帖子数</div>
-										<div class="bbs_poster_val">1</div>
+										<div class="bbs_poster_tip">经验</div>
+										<div class="bbs_poster_val">1000</div>
 									</td>
 									<td>
-										<div class="bbs_poster_tip">帖子数</div>
+										<div class="bbs_poster_tip">等级</div>
 										<div class="bbs_poster_val">2</div>
 									</td>
 									<td>
-										<div class="bbs_poster_tip">帖子数</div>
+										<div class="bbs_poster_tip">关注人数</div>
 										<div class="bbs_poster_val">3</div>
 									</td>
 								</tr>
@@ -107,7 +103,7 @@
 				if(data != null){
 					if(data.code == 1){
 						alert("OK");
-						var str = '<tr><td class="bbs_comment_icon"><img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">';
+						var str = '<tr><td class="bbs_comment_icon"><img  alt="头像" class="bbs_icon" src="<c:url value="/res/default_icon.jpg"></c:url>">';
 						str += '</td><td class="bbs_comment_body">';
 						str += '<div><span class="bbs_comment_name">'+'${userBase.username}'+'</span>';
 						str += '<span class="bbs_comment_date">'+date_fmt(new Date())+'</span></div>';
@@ -135,6 +131,7 @@
 	
 	$(function(){
 		//获取post详细
+		var commentSwitch = 0;
 		if(postId != null){
 			$.ajax({
 				type: 'POST',
@@ -143,11 +140,11 @@
 				success: function(data){
 					var str = '';
 					if(data != null){
+						commentSwitch = data.postForm.isClose;
 						$('#j_content').append(data.postForm.themeContent);
 						$('#j_title').append(data.postForm.postTitle);
 						$('#bbs_poster_name').text(data.postForm.userName);
 						$('#j_userIndex').attr('href','<c:url value="/userInfo.jsp?user='+data.postForm.userId+'"></c:url>');
-						
 						//资源显示
 						if(data.accessory != null){
 							var link = '<div>';
@@ -184,10 +181,10 @@
 				success: function(data){
 					if(data != null){
 						$(data.commentFormList).each(function(index, item){
-							var str = '<tr><td class="bbs_comment_icon"><img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">';
+							var str = '<tr><td class="bbs_comment_icon"><img  alt="头像" class="bbs_icon" src="<c:url value="/res/default_icon.jpg"></c:url>">';
 							str += '</td><td class="bbs_comment_body">';
 							str += '<div><span class="bbs_comment_name">'+item.commentUser+'</span>';
-							str += '<span class="bbs_comment_date">'+item.commentTime+'</span></div>';
+							str += '<span class="bbs_comment_date">'+date_fmt(item.commentTime)+'</span></div>';
 							str += '<div class="bbs_comment_content">'+item.commentContent+'</div></td></tr>';
 							$('#j_reply').append(str);
 						});
@@ -196,7 +193,13 @@
 					var replyBox = '<tr><td colspan="2"><h4>快速回复</h4>';
 					replyBox += '<textarea id="post_content_bbs" name="content1" cols="100" rows="8" style="width:100%;height:230px;visibility:hidden;resize: none;" ></textarea>';
 					replyBox += '<br><button type="button" class="btn btn-primary" onclick="submitPost()">回复</button></td></tr>';
-					$('#j_reply').append(replyBox);
+					//关闭评论框
+					var closeTip = "<tr><td colspan='2'><div style='font-weight:bold;padding:1em;background:#E1FFFF;'>此文已经关闭，现已不支持回复<hr></div></td></tr>";
+					if(commentSwitch == 1){
+						$('#j_reply').append(replyBox);
+					}else{
+						$('#j_reply').append(closeTip);
+					}
 				}
 			});
 		}

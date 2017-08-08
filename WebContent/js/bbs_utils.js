@@ -45,3 +45,13 @@ Date.prototype.format = function (fmt) { //author: meizz
 function date_fmt(date){
 	return new Date(date).format('yyyy-MM-dd HH:mm:ss');
 }
+
+function sex_fmt(sex){
+	if(sex == null){
+		return '未知';
+	}else if(sex == 1){
+		return '男';
+	}else{
+		return '女';
+	}
+}
