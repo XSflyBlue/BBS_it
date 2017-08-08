@@ -119,7 +119,7 @@ public class EXPServiceImpl implements EXPService {
 	public List<ExpRecord> findSignEXPRecord(Long userId, ExpRecord expRecord) {
 		List<ExpRecord> signExpRecordList = null;
 		signExpRecordList = expDao.findSignExpRecord(userId, expRecord);
-		return null;
+		return signExpRecordList;
 	}
 
 }
