@@ -350,7 +350,7 @@ public class PostServlet extends HttpServlet {
 		PostService postService = PostServiceImpl.getInstance();
 		if(tId!=null&&!tId.equals("")) {//参数限定
 			post = postService.findByPostId(Long.parseLong(tId));
-			System.out.println(post);
+//			System.out.println(post);
 			if(post!=null) {
 				postcopy = new Post();
 				postcopy.setPostId(post.getPostId());;
@@ -396,7 +396,7 @@ public class PostServlet extends HttpServlet {
 		}
 		
 		// 获取帖子详情
-		System.out.println(postcopy);
+//		System.out.println(postcopy);
 		List<PostForm> postFormList = postService.findFormList(1, 1, postcopy);
 		if(postFormList!=null) {
 			postForm = postFormList.get(0);
@@ -463,21 +463,21 @@ public class PostServlet extends HttpServlet {
 				JSONUtils.writeJSON(response, new CommentJson());
 			}
 			Post post = new Post();
-			post.setPostId(comment.getPostId());
+			post.setPostId(comment.getPostId());//查找对应帖子
 			if (userBase != null) {
 				List<PostForm> postFormList = PostServiceImpl.getInstance().findFormList(1, 1, post);
-				if(postFormList!=null) {
+
+				if(postFormList!=null) {//查询帖子
 					if(userBase.getUserId().longValue()==postFormList.get(0).getUserId().longValue()){
 						//发帖人
 						comment.setIsHidden(null);// 发帖人，可见被隐藏的跟帖
-					}else if (userBase.getUserId().longValue()==((UserBase) request.getSession().getAttribute("userBase")).getUserId().longValue()){
+					}else{//其他登陆用户
 						//本人（可查看本人隐藏和别人公开的跟帖）
 						//需要底层支持（select中where子句加入OR判断）
 						comment.setCommentUserId(userBase.getUserId());
-						comment.setIsSelf("1");//1是本人
 					}
 				}else {
-					comment.setIsHidden(Short.parseShort("1"));//仅可见未隐藏跟帖
+					JSONUtils.writeJSON(response, new CommentJson());//帖子不存在
 				}
 			}
 

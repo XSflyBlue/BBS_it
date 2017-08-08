@@ -199,7 +199,7 @@ public class PostDaoImpl implements PostDao {
 			find_sql.append(" ORDER BY ISSUE_TIME DESC");
 		}
 
-		System.out.println(find_sql.toString());
+//		System.out.println(find_sql.toString());
 		Object params[] = arrList.toArray();
 		PageForm pageForm = null;
 		try {

@@ -125,28 +125,35 @@ public class CommentDaoImpl implements CommentDao{
 		Long id = null;
 		List<Object> list = new ArrayList<Object>();
 		// 参数确定
-		if (comment.getPostId() != null) {
-			id = comment.getPostId();
-			find_sql.append("from b_post p,b_comment c,b_user_base b ");
-			find_sql.append("where p.post_id = c.post_id and c.comment_user_id = b.user_id ");
-			find_sql.append("and c.post_id = ? ");
-		} else if (comment.getCommentUserId() != null) {
-			id = comment.getCommentUserId();
-			find_sql.append("from b_post p,b_comment c,b_user_base b ");
-			find_sql.append("where p.post_id = c.post_id and c.comment_user_id = b.user_id ");
-			if("1".equals(comment.getIsSelf())){
+		if (comment.getPostId() != null ) {
+			if(comment.getCommentUserId() == null) {//未登录用户
+				id = comment.getPostId();
+				find_sql.append("from b_post p,b_comment c,b_user_base b ");
+				find_sql.append("where p.post_id = c.post_id and c.comment_user_id = b.user_id ");
+				find_sql.append("and c.post_id = ? ");
+				if(comment.getIsHidden()!=null) {//不可见别人隐藏回帖，帖主可见
+					find_sql.append("and c.IS_HIDDEN = 1 ");
+				}
+				list.add(id);
+			}else {//跟帖用户
+				id = comment.getCommentUserId();
+				find_sql.append("from b_post p,b_comment c,b_user_base b ");
+				find_sql.append("where p.post_id = c.post_id and c.comment_user_id = b.user_id ");
+
 				find_sql.append(" and (c.comment_user_id=? ");
 				find_sql.append("OR (c.comment_user_id<>? AND c.IS_HIDDEN = 1))");
 				list.add(id);
 				list.add(id);
-			}else{
-				find_sql.append(" AND c.IS_HIDDEN = 1 ");
+
 			}
-		} else {
+		}else {//帖子Id不存在
 			return 0;
 		}
+
 		Object params[] = list.toArray();
 		PageForm pageForm = null;
+//		System.out.println(list);
+//		System.out.println(find_sql.toString());
 		try {
 			pageForm = (PageForm) DatabaseUtil.query(find_sql.toString(), params, new BeanHandler(PageForm.class));
 		} catch (SQLException e) {
@@ -158,40 +165,36 @@ public class CommentDaoImpl implements CommentDao{
 	@Override
 	public List<CommentForm> findFormList(int pageSize, int rowNum, Comment comment) {
 		StringBuffer find_sql = new StringBuffer();
+		find_sql.append("select c.comment_id,c.post_id,c.comment_user_id,c.comment_time,"
+				+ "c.comment_content,c.is_hidden,c.hidden_cause,c.hidden_user_id,c.comment_ip,"
+				+ "b.username COMMENT_USER,p.post_title ");
 		Long id = null;
 		List<Object> list = new ArrayList<Object>();
 		// 参数确定
-		if (comment.getCommentUserId() != null) {
-			id = comment.getCommentUserId();
-			
-			find_sql.append("select c.comment_id,c.post_id,c.comment_user_id,c.comment_time,"
-					+ "c.comment_content,c.is_hidden,c.hidden_cause,c.hidden_user_id,c.comment_ip,"
-					+ "b.username comment_user,p.post_title ");
-			find_sql.append("from b_post p,b_comment c,b_user_base b ");
-			find_sql.append("where p.post_id = c.post_id ");
-			find_sql.append("and c.comment_user_id = b.user_id ");
-			if("1".equals(comment.getIsSelf())){
+		if (comment.getPostId() != null ) {
+			if(comment.getCommentUserId() == null) {//未登录用户
+				id = comment.getPostId();
+				find_sql.append("from b_post p,b_comment c,b_user_base b ");
+				find_sql.append("where c.post_id=? ");
+				find_sql.append("and p.post_id = c.post_id ");
+				find_sql.append("and c.comment_user_id = b.user_id ");
+				if(comment.getIsHidden()!=null) {//不可见别人隐藏回帖，帖主可见
+					find_sql.append("and c.IS_HIDDEN = 1 ");
+				}
+				find_sql.append("order by c.comment_time desc");
+				list.add(id);
+			}else {//跟帖用户
+				id = comment.getCommentUserId();
+				find_sql.append("from b_post p,b_comment c,b_user_base b ");
+				find_sql.append("where p.post_id = c.post_id ");
+				find_sql.append("and c.comment_user_id = b.user_id ");
 				find_sql.append(" and (c.comment_user_id=? ");
 				find_sql.append("OR (c.comment_user_id<>? AND c.IS_HIDDEN = 1))");
 				list.add(id);
 				list.add(id);
-			}else{
-				find_sql.append(" AND c.IS_HIDDEN = 1 ");
+				find_sql.append("order by c.comment_time desc");
 			}
-			find_sql.append("order by c.comment_time desc");
-
-		} else if (comment.getPostId() != null) {
-			id = comment.getPostId();
-			list.add(id);
-			find_sql.append("select c.comment_id,c.post_id,c.comment_user_id,c.comment_time,"
-					+ "c.comment_content,c.is_hidden,c.hidden_cause,c.hidden_user_id,c.comment_ip,"
-					+ "b.username COMMENT_USER,p.post_title ");
-			find_sql.append("from b_post p,b_comment c,b_user_base b ");
-			find_sql.append("where c.post_id=? ");
-			find_sql.append("and p.post_id = c.post_id ");
-			find_sql.append("and c.comment_user_id = b.user_id ");
-			find_sql.append("order by c.comment_time desc");
-		} else {
+		}else {//帖子Id不存在
 			return null;
 		}
 		// 分页SQL语句
