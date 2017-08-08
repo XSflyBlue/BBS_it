@@ -23,8 +23,8 @@ public class CollectionDaoImpl implements CollectionDao {
 
 	@Override
 	public int insert(Collection collection) {
-		String sql = "insert into b_collection values(?,?,?,B_COLLECTION_ID_SEQ.nextval)";
-		Object params[] = { collection.getUserId(), collection.getPostId(), collection.getCollectTime() };
+		String sql = "insert into b_collection values(?,?,sysdate,B_COLLECTION_ID_SEQ.nextval)";
+		Object params[] = { collection.getUserId(), collection.getPostId()};
 		int res = 0;
 		try {
 			res = DatabaseUtil.update(sql, params);
@@ -36,11 +36,11 @@ public class CollectionDaoImpl implements CollectionDao {
 
 	@Override
 	public int delete(Collection collection) {
-		String sql = "delete * from b_collection where collection_id=?";
-		Object params[] = { collection.getCollectionId() };
+		String sql = "delete from b_collection where post_id=?";
+		Object params[] = { collection.getPostId() };
 		int res = 0;
 		try {
-			DatabaseUtil.update(sql, params);
+			res = DatabaseUtil.update(sql, params);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
