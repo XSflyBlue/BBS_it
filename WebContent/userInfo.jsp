@@ -36,7 +36,8 @@
 							金币：<span id="j_coin"></span>
 						</div>
 						<div>
-							 <button type="button" class="btn btn-sm btn-primary" style="margin: 0px 0px 5px 0px;width: 60px;">关注TA</button>
+							 <button type="button" id="j_follow" class="btn btn-sm btn-primary" style="margin: 0px 0px 5px 0px;width: 60px;">关注TA</button>
+							 <button type="button" id="j_unFollow" class="btn btn-sm btn-primary" style="margin: 0px 0px 5px 0px;width: 60px;display: none;">已关注</button>
 						</div>
 					</div>
 					<div class="">
@@ -241,6 +242,57 @@
 		//关注列表
 		follows(1);
 		
+		//关注按钮初始化
+		$.ajax({
+				type: 'POST',
+				url: '<c:url value="/UserServlet?action=queryIsFollow"></c:url>',
+				data:"userId=${userBase.userId}&followUserId="+userId,
+				success: function(data){
+					if(data!=null){
+						if(data.code==1){
+							$('#j_unFollow').css('display','inline');
+							$('#j_follow').css('display','none');
+						}
+					}
+				}
+			});
+		
+		//关注用户
+		$('#j_follow').click(function(){
+			$.ajax({
+				type: 'POST',
+				url: '<c:url value="/UserServlet?action=follow"></c:url>',
+				data:"followUserId="+userId,
+				success: function(data){
+					if(data!=null){
+						if(data.code == 1){
+							$('#j_unFollow').css('display','inline');
+							$('#j_follow').css('display','none');
+						}else{
+							alert(data.msg);
+						}
+					}
+				}
+			});
+		});
+		//取消关注
+		$('#j_unFollow').click(function(){
+			$.ajax({
+				type: 'POST',
+				url: '<c:url value="/UserServlet?action=unFollow"></c:url>',
+				data:"followUserId="+userId,
+				success: function(data){
+					if(data!=null){
+						if(data.code == 1){
+							$('#j_unFollow').css('display','none');
+							$('#j_follow').css('display','inline');
+						}else{
+							alert(data.msg);
+						}
+					}
+				}
+			});
+		});
 		//查看帖子
 		$.ajax({
 			type: 'POST',

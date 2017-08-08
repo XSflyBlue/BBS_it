@@ -245,6 +245,74 @@ public class UserServlet extends HttpServlet {
 			JSONUtils.writeJSON(response, result);
 		}
 	}
+	/**
+	 * 查询关注是否存在
+	 * @param request
+	 * @param response
+	 */
+	private void queryIsFollow(HttpServletRequest request, HttpServletResponse response) {
+		Follow follow = FormToObjUtils.parseToObject(request, Follow.class);
+		if(follow.getUserId() != null && follow.getFollowUserId()!= null) {
+			Follow result = userBaseService.findFollowBy2ID(follow);
+			if(result != null) {
+				JSONUtils.writeJSON(response, new Msg(1, "存在"));
+			}else {
+				JSONUtils.writeJSON(response, new Msg(0, "不存在"));
+			}
+		}else {
+			JSONUtils.writeJSON(response, new Msg(0, "获取异常"));
+		}
+	}
+	
+	/**
+	 * 关注用户
+	 * @param request
+	 * @param response
+	 */
+	private void follow(HttpServletRequest request, HttpServletResponse response) {
+		Follow follow = FormToObjUtils.parseToObject(request, Follow.class);
+		UserBase userBase = (UserBase)request.getSession().getAttribute("userBase");
+		if(userBase != null&& userBase.getUserId()!=null) {
+			if(follow.getFollowUserId() != null) {
+				follow.setUserId(userBase.getUserId());
+				follow.setNote("关注");
+				int result = userBaseService.follow(follow);
+				if(result == 1) {
+					JSONUtils.writeJSON(response, new Msg(1, "关注成功"));
+				}else {
+					JSONUtils.writeJSON(response, new Msg(0, "关注失败"));
+				}
+			}else {
+				JSONUtils.writeJSON(response, new Msg(0, "关注异常"));
+			}
+		}else {
+			JSONUtils.writeJSON(response, new Msg(0, "请先登录"));
+		}
+	}
+	/**
+	 * 取消关注
+	 * @param request
+	 * @param response
+	 */
+	private void unFollow(HttpServletRequest request, HttpServletResponse response) {
+		Follow follow = FormToObjUtils.parseToObject(request, Follow.class);
+		UserBase userBase = (UserBase)request.getSession().getAttribute("userBase");
+		if(userBase != null && userBase.getUserId()!=null) {
+			if(follow.getFollowUserId() != null) {
+				follow.setUserId(userBase.getUserId());
+				int result = userBaseService.unFollow(follow);
+				if(result == 1) {
+					JSONUtils.writeJSON(response, new Msg(1, "取消成功"));
+				}else {
+					JSONUtils.writeJSON(response, new Msg(0, "取消失败"));
+				}
+			}else {
+				JSONUtils.writeJSON(response, new Msg(0, "取消异常"));
+			}
+		}else {
+			JSONUtils.writeJSON(response, new Msg(0, "请先登录"));
+		}
+	}
 	
 	/**
 	 * 查看的基本用户列表

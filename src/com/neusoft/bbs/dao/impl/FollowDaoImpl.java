@@ -1,6 +1,7 @@
 package com.neusoft.bbs.dao.impl;
 
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
 
 import com.neusoft.bbs.commons.util.db.BeanHandler;
@@ -191,5 +192,31 @@ public class FollowDaoImpl implements FollowDao{
 			e.printStackTrace();
 		}
 		return pageForm.getRowCount().intValue();
+	}
+
+	@Override
+	public Follow findFollowBy2ID(Long userId, Long followUserId) {
+		String sql = "SELECT * FROM B_FOLLOW WHERE USER_ID = ? AND FOLLOW_USER_ID = ?";
+		Object params[] = {userId,followUserId};
+		Follow result = null;
+		try {
+			result = (Follow) DatabaseUtil.query(sql, params, new BeanHandler(Follow.class));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	@Override
+	public int deleteFollowBy2ID(Long userId, Long followUserId) {
+		String sql = "DELETE FROM B_FOLLOW WHERE USER_ID = ? AND FOLLOW_USER_ID = ?";
+		Object params[] = {userId,followUserId};
+		int result = 0;
+		try {
+			result = DatabaseUtil.update(sql, params);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 }

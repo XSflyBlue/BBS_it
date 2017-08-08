@@ -2,6 +2,7 @@ package com.neusoft.bbs.service;
 
 import java.util.List;
 
+import com.neusoft.bbs.domain.Follow;
 import com.neusoft.bbs.domain.UserBase;
 import com.neusoft.bbs.domain.UserDetail;
 
@@ -90,4 +91,22 @@ public interface UserService {
 	 * @return
 	 */
 	int updateUser(UserBase userBase, UserDetail userDetail);
+	/**
+	 * 关注用户
+	 * @param follow
+	 * @return
+	 */
+	int follow(Follow follow);
+	/**
+	 * 取消关注用户
+	 * @param follow
+	 * @return
+	 */
+	int unFollow(Follow follow);
+	/**
+	 * 查找关注对
+	 * @param follow
+	 * @return
+	 */
+	Follow findFollowBy2ID(Follow follow);
 }

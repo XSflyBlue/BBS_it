@@ -5,14 +5,17 @@ import java.util.List;
 import com.neusoft.bbs.commons.util.db.TransactionProxy;
 import com.neusoft.bbs.dao.CoinDao;
 import com.neusoft.bbs.dao.ExpDao;
+import com.neusoft.bbs.dao.FollowDao;
 import com.neusoft.bbs.dao.UserDao;
 import com.neusoft.bbs.dao.UserDetailDao;
 import com.neusoft.bbs.dao.impl.CoinDaoImpl;
 import com.neusoft.bbs.dao.impl.ExpDaoImpl;
+import com.neusoft.bbs.dao.impl.FollowDaoImpl;
 import com.neusoft.bbs.dao.impl.UserDaoImpl;
 import com.neusoft.bbs.dao.impl.UserDetailDaoImpl;
 import com.neusoft.bbs.domain.Coin;
 import com.neusoft.bbs.domain.EXP;
+import com.neusoft.bbs.domain.Follow;
 import com.neusoft.bbs.domain.UserBase;
 import com.neusoft.bbs.domain.UserDetail;
 import com.neusoft.bbs.service.UserService;
@@ -32,6 +35,7 @@ public class UserServiceImpl implements UserService{
 	private UserDetailDao userDetailDao = new UserDetailDaoImpl();
 	private ExpDao expDao = new ExpDaoImpl();
 	private CoinDao coinDao = new CoinDaoImpl();
+	private FollowDao followDao = new FollowDaoImpl();
 	
 	/**
 	 * 取得实例
@@ -156,6 +160,24 @@ public class UserServiceImpl implements UserService{
 		if(result != 1) {
 			throw new RuntimeException("更新异常");
 		}
+		return result;
+	}
+
+	@Override
+	public int follow(Follow follow) {
+		int result  = followDao.insert(follow);
+		return result;
+	}
+
+	@Override
+	public Follow findFollowBy2ID(Follow follow) {
+		Follow result = followDao.findFollowBy2ID(follow.getUserId(), follow.getFollowUserId());
+		return result;
+	}
+
+	@Override
+	public int unFollow(Follow follow) {
+		int result = followDao.deleteFollowBy2ID(follow.getUserId(), follow.getFollowUserId());
 		return result;
 	}
 }

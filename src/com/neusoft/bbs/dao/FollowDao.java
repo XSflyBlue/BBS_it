@@ -74,4 +74,18 @@ public interface FollowDao {
 	 * @return
 	 */
 	List<FollowForm> findFormList(int pageSize, int rowNum, Follow follow);
+	/**
+	 * 查找关注对
+	 * @param userId
+	 * @param followUserId
+	 * @return
+	 */
+	Follow findFollowBy2ID(Long userId, Long followUserId);
+	/**
+	 * 删除关注对
+	 * @param userId
+	 * @param followUserId
+	 * @return
+	 */
+	int deleteFollowBy2ID(Long userId, Long followUserId);
 }
