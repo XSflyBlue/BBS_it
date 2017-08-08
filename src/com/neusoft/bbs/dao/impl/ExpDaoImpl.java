@@ -177,7 +177,7 @@ public class ExpDaoImpl implements ExpDao {
 
 	@Override
 	public List<ExpRecord> findSignExpRecord(Long userId, ExpRecord expRecord) {
-		StringBuffer sql = new StringBuffer("SELECT * FROM B_EXP_RECORD R,B_EXP E WHERE 1=1");
+		StringBuffer sql = new StringBuffer("SELECT R.* FROM B_EXP_RECORD R,B_EXP E WHERE 1=1");
 		List<Object> arrList = new ArrayList<Object>();
 		if(userId!=null){
 			sql.append(" AND E.USER_ID=?");
@@ -188,11 +188,11 @@ public class ExpDaoImpl implements ExpDao {
 		}
 		if(expRecord!=null){
 			if(expRecord.getExpGetCause()!=null){
-				sql.append(" AND R.EXP_GET_CAUSE=?");
-				arrList.add(expRecord.getExpGetCause());
+				sql.append(" AND R.EXP_GET_CAUSE LIKE '%"+expRecord.getExpGetCause().trim()+"%'");
 			}
 		}
 		sql.append(" ORDER BY EXP_GET_TIME DESC");
+		System.out.println("findSignSql:"+sql.toString());
 		Object params[] = arrList.toArray();
 		List<ExpRecord> expRecordList = null;
 		try {
