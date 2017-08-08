@@ -17,6 +17,7 @@
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 <script src='<c:url value="/js/bootstrap.min.js"></c:url>'></script>
 <link rel="stylesheet" href='<c:url value="/css/bbsStyle.css"></c:url>'>
+<script src='<c:url value="/js/bbs_utils.js"></c:url>'></script>
 </head>
 <body>
 	<%@include file='/common/nav.jsp' %>
@@ -29,8 +30,9 @@
 				<div style="border-top: 1px solid white;border-bottom: 1px solid white;">
 					<ul class="nav nav-tabs bbs_subNav">
 						<li role="presentation" class="j_admin_nav active" value="info"><a href="#">用户管理</a></li>
-						<li role="presentation" class="j_admin_nav" value="poster"><a href="#">区块管理</a></li>
+						<li role="presentation" class="j_admin_nav" value="dist"><a href="#">区块管理</a></li>
 						<li role="presentation" class="j_admin_nav" value="care"><a href="#">版块管理</a></li>
+						<li role="presentation" class="j_admin_nav" value="post"><a href="#">贴子管理</a></li>
 						<li role="presentation" class="j_admin_nav" value="save"><a href="#">举报中心</a></li>
 						<li role="presentation" class="j_admin_nav" value="safe"><a href="#">安全中心</a></li>
 					</ul>
@@ -98,25 +100,8 @@
 								  <button type="button" class="btn btn-info">查询</button>
 								</form>
 								<br>
-								<table class="table" id="">
-									<tr>
-										<th>ID</th>
-										<th>区块名</th>
-										<th>状态</th>
-										<th>区主数</th>
-										<th>操作</th>
-									</tr>
-									<tr>
-										<td>1</td>
-										<td>IT研发</td>
-										<td>正常</td>
-										<td><a href="#">18</a></td>
-										<td>
-											<a href="#">查看</a>
-											<a href="#">编辑</a>
-											<a href="#">禁用</a>
-										</td>
-									</tr>
+								<table class="table" id="j_distTable">
+									<!-- 区表 -->
 								</table>
 								<nav aria-label="Page navigation" style="text-align: center;">
 								  <ul class="pagination">
@@ -167,25 +152,8 @@
 								  </div>
 								</form>
 								<br>
-								<table class="table">
-									<tr>
-										<th>ID</th>
-										<th>版块名</th>
-										<th>状态</th>
-										<th>版主数</th>
-										<th>操作</th>
-									</tr>
-									<tr>
-										<td>1</td>
-										<td>C++</td>
-										<td>正常</td>
-										<td>18</td>
-										<td>
-											<a href="#">查看</a>
-											<a href="#">编辑</a>
-											<a href="#">禁用</a>
-										</td>
-									</tr>
+								<table class="table" id="j_sectTable">
+									<!-- 版块表 -->
 								</table>
 								<nav aria-label="Page navigation" style="text-align: center;">
 								  <ul class="pagination">
@@ -207,26 +175,13 @@
 								  </ul>
 								</nav>
 							</div>
+							<div id="bbs_admin_showPost">
+								贴子管理
+							</div>
 							
 							<div id="bbs_admin_showRept">
-								<table class="table">
-									<tr>
-										<th>ID</th>
-										<th>帖子名</th>
-										<th>举报时间</th>
-										<th>举报人</th>
-										<th>操作</th>
-									</tr>
-									<tr>
-										<td>1</td>
-										<td><a href="#">Java学习到放弃</a></td>
-										<td>2017-08-01</td>
-										<td>张三</td>
-										<td>
-											<a href="#">通过</a>
-											<a href="#">拒绝</a>
-										</td>
-									</tr>
+								<table class="table" id="j_repTable">
+									<!-- 举报信息 -->
 								</table>
 								<nav aria-label="Page navigation" style="text-align: center;">
 								  <ul class="pagination">
@@ -306,7 +261,7 @@
 <script type="text/javascript">
 
 	//获取用户列表
-	function follows(index){
+	function queryUsers(index){
 		var rowNum = index;
 		$.ajax({
 			type: 'POST',
@@ -325,6 +280,72 @@
 			}
 		});
 	}
+	
+	//获取区列表 
+	function queryDists(index){
+		var rowNum = index;
+		$.ajax({
+			type: 'POST',
+			url: '<c:url value="/DistrictServlet?action=findAll"></c:url>',
+			data:"pageSize=10&pageNum="+index,
+			success: function(data){
+				if(data != null && data.districtsFormsList.length > 0){
+					var str = '<tr><th>ID</th><th>区块名</th><th>状态</th><th>区主数</th><th>操作</th></tr>';
+					$(data.districtsFormsList).each(function(i, item){
+						str += '<tr><td>1</td><td>'+item.districtName+'</td>';
+						str += '<td>正常</td><td><a href="#">'+item.adminNum+'</a></td>';
+						str += '<td><a href="#">查看 </a><a href="#">编辑 </a><a href="#">禁用</a></td></tr>';
+					});
+					$('#j_distTable').append(str);
+					$('#j_pageCount').text(data.count);
+				}
+			}
+		});
+	}
+	
+	//获取版块列表 
+	function querySects(index){
+		var rowNum = index;
+		$.ajax({
+			type: 'POST',
+			url: '<c:url value="/SectionServlet?action=findAll"></c:url>',
+			data:"pageSize=10&pageNum="+index,
+			success: function(data){
+				if(data != null && data.sectionFormList.length > 0){
+					var str = '<tr><th>ID</th><th>版块名</th><th>状态</th><th>版主数</th><th>操作</th></tr>';
+					$(data.sectionFormList).each(function(i, item){
+						str += '<tr><td>'+item.sectionId+'</td><td>'+item.sectionName+'</td><td>正常</td><td>18</td>';
+						str += '<td><a href="#">查看 </a><a href="#">编辑 </a><a href="#"> 禁用</a></td></tr>';
+					});
+					$('#j_sectTable').append(str);
+					$('#j_pageCount').text(data.count);
+				}
+			}
+		});
+	}
+	//获取举报列表 
+	function queryReports(index,bId){
+		var rowNum = index;
+		$.ajax({
+			type: 'POST',
+			url: '<c:url value="/ReportServlet?action=findReportBySectionId"></c:url>',
+			data:"pageSize=10&pageNum="+index+"&bId="+12,
+			success: function(data){
+				if(data != null && data.reportFormList.length > 0){
+					var str = '<tr><th>ID</th><th>帖子名</th><th>举报时间</th><th>举报人</th><th>操作</th></tr>';
+					$(data.reportFormList).each(function(i, item){
+						str += '<tr><td>'+item.reportId+'</td><td><a href="<c:url value="/poster.jsp?post='+item.reportId+'"></c:url>">'
+							+ item.postTitle+'</a></td><td>'
+							+ date_fmt(item.reportTime)+'</td><td>'
+							+ item.reportUserName+'</td>';
+						str += '<td><a href="#">通过 </a><a href="#"> 拒绝</a></td></tr>';
+					});
+					$('#j_repTable').append(str);
+					$('#j_pageCount').text(data.count);
+				}
+			}
+		});
+	}
 
 	
 	$(function(){
@@ -337,7 +358,7 @@
 			$(this).addClass("active");
 			if(clickVal == 'info'){
 				$('#bbs_admin_showUser').css("display","inline");
-			}else if(clickVal == 'poster'){
+			}else if(clickVal == 'dist'){
 				$('#bbs_admin_showDist').css("display","inline");
 			}else if(clickVal == 'care'){
 				$('#bbs_admin_showMod').css("display","inline");
@@ -345,10 +366,18 @@
 				$('#bbs_admin_showRept').css("display","inline");
 			}else if(clickVal == 'safe'){
 				$('#bbs_admin_showSafe').css("display","inline");
+			}else if(clickVal == 'post'){
+				$('#bbs_admin_showPost').css("display","inline");
 			}
 		});
 		//初始化用户列表
-		follows(1);
+		queryUsers(1);
+		//初始化区块列表
+		queryDists(1);
+		//初始化版块列表
+		querySects(1);
+		//初始化举报列表
+		queryReports(1,12);
 	});
 </script>
 </html>

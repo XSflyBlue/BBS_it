@@ -156,13 +156,14 @@
 	</div>
 </body>
 <script type="text/javascript">
+	var userId = GetQueryString('user');
 	//获取关注列表
 	function follows(index){
 		var rowNum = index;
 		$.ajax({
 			type: 'POST',
 			url: '<c:url value="/UserServlet?action=queryFollows"></c:url>',
-			data:"rowNum="+rowNum+"",
+			data:"userId="+userId+"&rowNum="+rowNum,
 			success: function(data){
 				if(data!=null){
 					var len = data.length;
