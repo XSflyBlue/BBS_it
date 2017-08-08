@@ -138,7 +138,7 @@ public class ModeratorDaoImpl implements ModeratorDao {
 		}else{
 			return 0;
 		}
-		Object params[] = {areaId,userId};
+		Object params[] = {userId,areaId};
 		PageForm pageForm = null;
 		try {
 			pageForm = (PageForm) DatabaseUtil.query(find_sql.toString(), params, new BeanHandler(PageForm.class));
@@ -159,12 +159,12 @@ public class ModeratorDaoImpl implements ModeratorDao {
 			areaId = moderator.getAreaId();
 			userId = moderator.getUserId();
 			if(moderator.getModeratorType()==1){
-				find_sql.append("SELECT m.MODERATOR_ID,m.AREA_ID,m.MODERATOR_TYPE,m.USER_ID,u.USERNAME,d.DISTRICT_NAME SECTION_DISTR_NAME ");
+				find_sql.append("SELECT m.MODERATOR_ID,m.AREA_ID,m.MODERATOR_TYPE,m.USER_ID,u.USERNAME user_name,d.DISTRICT_NAME SECTION_DISTR_NAME ");
 				find_sql.append("FROM B_USER_BASE u,B_MODERATOR m,B_DISTRICTS d ");
 				find_sql.append("WHERE u.USER_ID = m.USER_ID and m.AREA_ID = d.DISTRICT_ID ");
 				find_sql.append("and u.user_id=? and m.area_id=?");
 			}else if(moderator.getModeratorType()==0){
-				find_sql.append("SELECT m.MODERATOR_ID,m.AREA_ID,m.MODERATOR_TYPE,m.USER_ID,u.USERNAME,s.SECTION_NAME SECTION_DISTR_NAME ");
+				find_sql.append("SELECT m.MODERATOR_ID,m.AREA_ID,m.MODERATOR_TYPE,m.USER_ID,u.USERNAME user_name,s.SECTION_NAME SECTION_DISTR_NAME ");
 				find_sql.append("FROM B_USER_BASE u,B_MODERATOR m,B_SECTION s ");
 				find_sql.append("WHERE u.USER_ID = m.USER_ID and m.AREA_ID = s.SECTION_ID ");
 				find_sql.append("and u.user_id=? and m.area_id=?");
@@ -176,8 +176,9 @@ public class ModeratorDaoImpl implements ModeratorDao {
 		String sql = "select*from (select a1.*,rownum rn from (" + find_sql.toString() + ") a1 where rownum<="
 				+ rowNum * pageSize + ") where rn>" + ((rowNum - 1) * pageSize);
 
-		System.out.println(sql);
-		Object params[] = {areaId,userId};
+//		System.out.println(sql);
+//		System.out.println(areaId+"=============="+userId);
+		Object params[] = {userId,areaId};
 		List<ModeratorForm> modFormList = null;
 		try {
 			modFormList = (List<ModeratorForm>) DatabaseUtil.query(sql, params, new BeanListHandler(ModeratorForm.class));

@@ -110,7 +110,7 @@ public class PostServlet extends HttpServlet {
 		// 所需封装参数封装
 		post = new Post();
 		try {
-			if (bId != null) {
+			if (bId != null) {//是否传参
 				post.setSectionId(Long.parseLong(bId));
 			}
 
@@ -118,39 +118,44 @@ public class PostServlet extends HttpServlet {
 			pageNum = Integer.parseInt(request.getParameter("pageNum"));
 
 			post.setIsHidden(Short.parseShort("1"));// 除去隐藏贴
-			if(userBase!=null) {
+			if(userBase!=null) {//登录用户权限判断
 				if (userBase.getUserId() != null) {
-					// 判断是否是版主
-					Moderator moderator = new Moderator();
-					moderator.setAreaId(Short.parseShort(bId));
-					moderator.setModeratorType(Short.parseShort("0"));//版块
-					moderator.setUserId(Short.parseShort(String.valueOf(userBase.getUserId())));// 需要底层支持
-					List<ModeratorForm> moderatorFormList = ModeratorServiceImpl.getInstance().findFormList(1, 1, moderator);
-					if(moderatorFormList!=null) {
-						for (ModeratorForm moderatorForm : moderatorFormList) {
-							if (Short.parseShort(String.valueOf(userBase.getUserId())) == moderatorForm.getUserId()) {
-								post.setIsHidden(null);// 所有帖子
+					// 判断是否是主页
+					if(bId != null) {
+						// 判断是否是版主
+						Moderator moderator = new Moderator();
+						moderator.setAreaId(Short.parseShort(bId));
+						moderator.setModeratorType(Short.parseShort("0"));//版块
+						moderator.setUserId(Short.parseShort(String.valueOf(userBase.getUserId())));// 需要底层支持
+						List<ModeratorForm> moderatorFormList = ModeratorServiceImpl.getInstance().findFormList(1, 1, moderator);
+//						System.out.println(moderatorFormList);
+						if(moderatorFormList!=null) {
+							for (ModeratorForm moderatorForm : moderatorFormList) {
+								if (Short.parseShort(String.valueOf(userBase.getUserId())) == moderatorForm.getUserId()) {
+									post.setIsHidden(null);// 所有帖子
+								}
 							}
 						}
 					}
 					
-					//本人可见自己隐藏和别人公开的帖子
+					//本人可见自己隐藏和别人公开的帖子（不是版主）
 					if(post.getIsHidden()!=null) {
 						//需要底层支持（select中where子句加入OR判断）
 						post.setUserId(userBase.getUserId());
-						post.setIsSelf("1");//1是本人
+						post.setIsHidden(null);// 所有帖子
 					}
-				}else {
+				}else {//参数传递不完整
 					post.setIsHidden(Short.parseShort("1"));// 除去隐藏贴
 				}
-			}else {
+			}else {//未登录用户
 				post.setIsHidden(Short.parseShort("1"));// 除去隐藏贴
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			pageSize = 10;
 			pageNum = 1;
 		}
-
+		
 		post.setIsOverhead(Short.parseShort("1"));// 置顶
 		// 获取服务
 		PostService postService = PostServiceImpl.getInstance();
@@ -198,16 +203,19 @@ public class PostServlet extends HttpServlet {
 
 			if(userBase!=null) {
 				if (userBase.getUserId() != null) {
-					// 判断是否是版主
-					Moderator moderator = new Moderator();
-					moderator.setAreaId(Short.parseShort(bId));
-					moderator.setModeratorType(Short.parseShort("0"));//版块
-					moderator.setUserId(Short.parseShort(String.valueOf(userBase.getUserId())));// 需要底层支持
-					List<ModeratorForm> moderatorFormList = ModeratorServiceImpl.getInstance().findFormList(1, 1, moderator);
-					if(moderatorFormList!=null) {
-						for (ModeratorForm moderatorForm : moderatorFormList) {
-							if (Short.parseShort(String.valueOf(userBase.getUserId())) == moderatorForm.getUserId()) {
-								post.setIsHidden(null);// 所有帖子
+					// 判断是否是主页
+					if(bId != null) {
+						// 判断是否是版主
+						Moderator moderator = new Moderator();
+						moderator.setAreaId(Short.parseShort(bId));
+						moderator.setModeratorType(Short.parseShort("0"));//版块
+						moderator.setUserId(Short.parseShort(String.valueOf(userBase.getUserId())));// 需要底层支持
+						List<ModeratorForm> moderatorFormList = ModeratorServiceImpl.getInstance().findFormList(1, 1, moderator);
+						if(moderatorFormList!=null) {
+							for (ModeratorForm moderatorForm : moderatorFormList) {
+								if (Short.parseShort(String.valueOf(userBase.getUserId())) == moderatorForm.getUserId()) {
+									post.setIsHidden(null);// 所有帖子
+								}
 							}
 						}
 					}
@@ -216,13 +224,13 @@ public class PostServlet extends HttpServlet {
 					if(post.getIsHidden()!=null) {
 						//需要底层支持（select中where子句加入OR判断）
 						post.setUserId(userBase.getUserId());
-						post.setIsSelf("1");//1是本人
+						post.setIsHidden(null);
 					}
-				}else {
-					post.setIsHidden(Short.parseShort("1"));// 除去隐藏贴
+				}else {//参数传递不完整
+					post.setIsHidden(Short.parseShort("1"));
 				}
-			}else {
-				post.setIsHidden(Short.parseShort("1"));// 除去隐藏贴
+			}else {//未登录用户
+				post.setIsHidden(Short.parseShort("1"));
 			}
 		} catch (Exception e) {
 			pageSize = 10;
@@ -275,16 +283,19 @@ public class PostServlet extends HttpServlet {
 
 			if(userBase!=null) {
 				if (userBase.getUserId() != null) {
-					// 判断是否是版主
-					Moderator moderator = new Moderator();
-					moderator.setAreaId(Short.parseShort(bId));
-					moderator.setModeratorType(Short.parseShort("0"));//版块
-					moderator.setUserId(Short.parseShort(String.valueOf(userBase.getUserId())));// 需要底层支持
-					List<ModeratorForm> moderatorFormList = ModeratorServiceImpl.getInstance().findFormList(1, 1, moderator);
-					if(moderatorFormList!=null) {
-						for (ModeratorForm moderatorForm : moderatorFormList) {
-							if (Short.parseShort(String.valueOf(userBase.getUserId())) == moderatorForm.getUserId()) {
-								post.setIsHidden(null);// 所有帖子
+					// 判断是否是主页
+					if(bId != null) {
+						// 判断是否是版主
+						Moderator moderator = new Moderator();
+						moderator.setAreaId(Short.parseShort(bId));
+						moderator.setModeratorType(Short.parseShort("0"));//版块
+						moderator.setUserId(Short.parseShort(String.valueOf(userBase.getUserId())));// 需要底层支持
+						List<ModeratorForm> moderatorFormList = ModeratorServiceImpl.getInstance().findFormList(1, 1, moderator);
+						if(moderatorFormList!=null) {
+							for (ModeratorForm moderatorForm : moderatorFormList) {
+								if (Short.parseShort(String.valueOf(userBase.getUserId())) == moderatorForm.getUserId()) {
+									post.setIsHidden(null);// 所有帖子
+								}
 							}
 						}
 					}
@@ -293,12 +304,12 @@ public class PostServlet extends HttpServlet {
 					if(post.getIsHidden()!=null) {
 						//需要底层支持（select中where子句加入OR判断）
 						post.setUserId(userBase.getUserId());
-						post.setIsSelf("1");//1是本人
+						post.setIsHidden(null);
 					}
-				}else {
+				}else {//参数传递不完整
 					post.setIsHidden(Short.parseShort("1"));// 除去隐藏贴
 				}
-			}else {
+			}else {//未登录用户
 				post.setIsHidden(Short.parseShort("1"));// 除去隐藏贴
 			}
 		} catch (Exception e) {

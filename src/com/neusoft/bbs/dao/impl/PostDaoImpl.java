@@ -156,17 +156,11 @@ public class PostDaoImpl implements PostDao {
 		if (post.getUserId() != null) {
 			// 根据用户ID查询
 			id = post.getUserId();
-			System.out.println("is self:"+post.getIsSelf());
-			if("1".equals(post.getIsSelf())){
-				// 是本人则可以查看自己所有帖子和别人公开的帖子
-				find_sql.append(" AND (USER_ID=?");
-				find_sql.append(" OR (USER_ID<>? AND IS_HIDDEN=1 ))");
-				arrList.add(id);
-				arrList.add(id);
-			}else {
-				// 如果不是本人则不能查看别人隐藏的帖子
-				find_sql.append(" AND IS_HIDDEN=1");
-			}
+			// 是本人则可以查看自己所有帖子和别人公开的帖子
+			find_sql.append(" AND (USER_ID=?");
+			find_sql.append(" OR (USER_ID<>? AND IS_HIDDEN=1 ))");
+			arrList.add(id);
+			arrList.add(id);
 		}
 		if (post.getIsElite() != null) {
 			// 查询精华帖
@@ -234,17 +228,11 @@ public class PostDaoImpl implements PostDao {
 		if (post.getUserId() != null) {
 			// 根据用户ID查询
 			id = post.getUserId();
-//			System.out.println("is self:"+post.getIsSelf());
-			if("1".equals(post.getIsSelf())){
-				// 是本人则可以查看自己所有帖子和别人公开的帖子
-				find_sql.append(" AND (P.USER_ID=?");
-				find_sql.append(" OR (P.USER_ID<>? AND P.IS_HIDDEN=1 ))");
-				arrList.add(id);
-				arrList.add(id);
-			}else {
-				// 如果不是本人则不能查看别人隐藏的帖子
-				find_sql.append(" AND P.IS_HIDDEN=1");
-			}
+			// 是本人则可以查看自己所有帖子和别人公开的帖子
+			find_sql.append(" AND (P.USER_ID=?");
+			find_sql.append(" OR (P.USER_ID<>? AND P.IS_HIDDEN=1 ))");
+			arrList.add(id);
+			arrList.add(id);
 		}
 		if (post.getIsElite() != null) {
 			// 查询精华帖
