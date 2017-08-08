@@ -55,6 +55,12 @@ public interface CoinService {
 	 * @return
 	 */
 	public int setCoinNum(Long userId,Coin coin);
+	/**
+	 * 金币类插入
+	 * @param coin
+	 * @return
+	 */
+	public int addCoin(Coin coin);
 	
 	/***
 	 * 获取最大页数
