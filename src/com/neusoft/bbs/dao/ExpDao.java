@@ -54,6 +54,14 @@ public interface ExpDao {
 	 */
 	List<ExpRecord> findExpRecord(Long userId,ExpRecord expRecord);
 	
+	/**
+	 * 根据条件查询用户今日的经验记录
+	 * @param userId
+	 * @param expRecord
+	 * @return
+	 */
+	List<ExpRecord> findSignExpRecord(Long userId,ExpRecord expRecord);
+	
 	/***
 	 * 获取最大页数
 	 * @param pageSize，每页显示信息条数

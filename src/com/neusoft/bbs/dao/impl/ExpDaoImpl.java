@@ -2,6 +2,7 @@ package com.neusoft.bbs.dao.impl;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.neusoft.bbs.commons.util.db.BeanHandler;
@@ -172,5 +173,33 @@ public class ExpDaoImpl implements ExpDao {
 			e.printStackTrace();
 		}
 		return expRecordFormList;
+	}
+
+	@Override
+	public List<ExpRecord> findSignExpRecord(Long userId, ExpRecord expRecord) {
+		StringBuffer sql = new StringBuffer("SELECT * FROM B_EXP_RECORD R,B_EXP E WHERE 1=1");
+		List<Object> arrList = new ArrayList<Object>();
+		if(userId!=null){
+			sql.append(" AND E.USER_ID=?");
+			sql.append(" AND E.EXP_ID=R.EXP_ID");
+			arrList.add(userId);
+		}else {
+			return null;
+		}
+		if(expRecord!=null){
+			if(expRecord.getExpGetCause()!=null){
+				sql.append(" AND R.EXP_GET_CAUSE=?");
+				arrList.add(expRecord.getExpGetCause());
+			}
+		}
+		sql.append(" ORDER BY EXP_GET_TIME DESC");
+		Object params[] = arrList.toArray();
+		List<ExpRecord> expRecordList = null;
+		try {
+			expRecordList = (List<ExpRecord>) DatabaseUtil.query(sql.toString(), params, new BeanListHandler(ExpRecord.class));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return expRecordList;
 	}
 }
