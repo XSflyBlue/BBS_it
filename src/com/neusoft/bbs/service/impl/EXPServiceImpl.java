@@ -108,4 +108,11 @@ public class EXPServiceImpl implements EXPService {
 		return expRecordFormList;
 	}
 
+	@Override
+	public int insertExp(EXP exp) {
+		int res = 0;
+		res = expDao.insertExp(exp);
+		return res;
+	}
+
 }

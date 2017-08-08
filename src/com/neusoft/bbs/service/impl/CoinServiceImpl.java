@@ -50,6 +50,7 @@ public class CoinServiceImpl implements CoinService{
 		Coin coin = null;
 		int record = 0;
 		coin = coinDao.findCoinNum(userId);
+		
 		if(coin!=null){
 			coinRecord.setCoinId(coin.getCoinId());
 			record = coinDao.insertCoinRecord(coinRecord);
@@ -58,7 +59,7 @@ public class CoinServiceImpl implements CoinService{
 		}
 		return record;
 	}
-
+	
 	@Override
 	public int setCoinRecord(Long userId,CoinRecord coinRecord) {
 		int record = 0;
@@ -106,5 +107,11 @@ public class CoinServiceImpl implements CoinService{
 		List<CoinRecordForm> coinRecordList = null;
 		coinRecordList = coinDao.findFormList(pageSize, rowNum, userId);
 		return coinRecordList;
+	}
+	@Override
+	public int addCoin(Coin coin) {
+		int a = 0;
+		a = coinDao.insertCoin(coin);
+		return a;
 	}
 }
