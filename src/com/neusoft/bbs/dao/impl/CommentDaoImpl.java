@@ -123,6 +123,7 @@ public class CommentDaoImpl implements CommentDao{
 		StringBuffer find_sql = new StringBuffer();
 		find_sql.append("SELECT count(*) ROW_COUNT  ");
 		Long id = null;
+		List<Object> list = new ArrayList<Object>();
 		// 参数确定
 		if (comment.getPostId() != null) {
 			id = comment.getPostId();
@@ -133,11 +134,18 @@ public class CommentDaoImpl implements CommentDao{
 			id = comment.getCommentUserId();
 			find_sql.append("from b_post p,b_comment c,b_user_base b ");
 			find_sql.append("where p.post_id = c.post_id and c.comment_user_id = b.user_id ");
-			find_sql.append("and b.user_id = ? ");
+			if("1".equals(comment.getIsSelf())){
+				find_sql.append(" and (c.comment_user_id=? ");
+				find_sql.append("OR (c.comment_user_id<>? AND c.IS_HIDDEN = 1))");
+				list.add(id);
+				list.add(id);
+			}else{
+				find_sql.append(" AND c.IS_HIDDEN = 1 ");
+			}
 		} else {
 			return 0;
 		}
-		Object params[] = { id };
+		Object params[] = list.toArray();
 		PageForm pageForm = null;
 		try {
 			pageForm = (PageForm) DatabaseUtil.query(find_sql.toString(), params, new BeanHandler(PageForm.class));
