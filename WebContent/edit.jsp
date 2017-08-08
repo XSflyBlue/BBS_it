@@ -48,6 +48,7 @@
 									<input type="radio" name="postType" value="1"> 主题贴
 									<input type="radio" name="postType" value="2"> 附件贴
 									<input type="radio" name="postType" value="3"> 置顶贴
+									<input type="text" name="accessoryStatus" value="3" style="display: none;">
 								</td>
 							</tr>
 							<tr>
