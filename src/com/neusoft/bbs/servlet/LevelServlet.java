@@ -72,30 +72,6 @@ public class LevelServlet extends HttpServlet {
 	}
 
 	/**
-	 * demo示例，仅供参考
-	 * 
-	 * @param request
-	 * @param response
-	 */
-	private void demo(HttpServletRequest request, HttpServletResponse response) {
-		// 从前端得到的经验修改类型
-		Long type = 0L;
-		// 取得应该修改的经验数
-		Long exp = ExpConfig.valueOfExpType(type);
-		// 从前端获取原因
-		String cause = "";
-		// 从后台获取userID
-		UserBase userBase = (UserBase) request.getSession().getAttribute("userBase");
-		if (userBase != null) {
-			Long userId = userBase.getUserId();
-		}
-		// do things...
-		/**
-		 * 要做两件事： 1、更新经验表，经验值和等级等。。 2、插入经验记录表
-		 */
-	}
-
-	/**
 	 * 1.添加ExpRecord 2.更新经验数和等级
 	 * 
 	 * @param request
@@ -121,7 +97,12 @@ public class LevelServlet extends HttpServlet {
 		} else {
 			// 自己修改，签到或者回复等产生经验
 			UserBase userBase = (UserBase) request.getSession().getAttribute("userBase");
-			userId = userBase.getUserId();
+			if (userBase == null) {
+				JSONUtils.writeJSON(response, new Msg(0, "请先登陆！"));
+				return;
+			} else {
+				userId = userBase.getUserId();
+			}
 		}
 		int res = 0;
 		if (userId != null) {
@@ -184,20 +165,19 @@ public class LevelServlet extends HttpServlet {
 		if (userBase != null) {
 			// 获取当前用户Id
 			Long userId = userBase.getUserId();
-
 			// 封装经验记录
 			ExpRecordJson expRecordJson = new ExpRecordJson();
 			List<ExpRecordForm> expRecordFormList = expService.findFormList(pageSize, pageNum, userId);
-			if(expRecordFormList!=null){
+			if (expRecordFormList != null) {
 				// 封装结果
 				expRecordJson.setExpRecordFormList(expRecordFormList);
 				expRecordJson.setMaxPage(expService.getListPageCount(pageSize, userId));
 				JSONUtils.writeJSON(response, expRecordJson);
-			}else{
-				JSONUtils.writeJSON(response, new Msg(0,"查询经验记录失败"));
+			} else {
+				JSONUtils.writeJSON(response, new Msg(0, "查询经验记录失败"));
 			}
-		}else{
-			JSONUtils.writeJSON(response, new Msg(0,"用户ID错误"));
+		} else {
+			JSONUtils.writeJSON(response, new Msg(0, "用户ID错误"));
 		}
 	}
 }
