@@ -86,7 +86,7 @@ public class CoinServlet extends HttpServlet {
 		String cause = "";
 		
 		//从后台获取userID
-		UserBase userBase = (UserBase) request.getAttribute("userBase");
+		UserBase userBase = (UserBase) request.getSession().getAttribute("userBase");
 		//测试使用
 //		UserBase userBase = new UserBase();
 //		userBase.setUserId(1L);
@@ -131,51 +131,7 @@ public class CoinServlet extends HttpServlet {
 			JSONUtils.writeJSON(response, new Msg(0, "更新失败！"));
 		}
 	}
-	/**
-	 * 插入金币记录
-	 * @param request
-	 * @param response
-	 */
-	private void insertCoin(HttpServletRequest request, HttpServletResponse response) {
-		//从前端得到的金币修改类型
-		Long type = 0L;
-		//从前端获取原因
-		String cause = "";
-		
-		//从后台获取userID
-//		UserBase userBase = (UserBase) request.getAttribute("userBase");
-		UserBase userBase = new UserBase();
-		userBase.setUserId(1L);
-		if(userBase != null) {
-			Long userId = userBase.getUserId();
-			if (userId!=null) {
-				cause = request.getParameter("mCause");
-				String mType = request.getParameter("mType");
-				Pattern pattern = Pattern.compile("^-?[0-9]+");//修改类型格式校验
-				if (pattern.matcher(mType).matches()&&StringUtils.isNotNullString(cause,mType)) {
-					type = Long.parseLong(mType);
-					//取得应该修改的金币数
-					Long coin = CoinConfig.valueOfCoinType(type);
-					CoinRecord coinRecord = new CoinRecord();
-					coinRecord.setCoinCause(cause);
-					coinRecord.setCoinGetNum(coin);
-					System.out.println("cause:"+cause+" userId"+userId+"coin:"+coin);
-					//插入金币记录
-					if(coinService.addCoinRecord(userId, coinRecord)!=0){
-						JSONUtils.writeJSON(response, new Msg(1, "添加记录成功！"));
-					}else{
-						JSONUtils.writeJSON(response, new Msg(0, "添加金币记录失败！"));
-					}
-				}else{
-					JSONUtils.writeJSON(response, new Msg(0, "修改类型的格式错误！"));
-				}	
-			}else{
-				JSONUtils.writeJSON(response, new Msg(0, "添加金币记录失败！"));
-			}
-		}else{
-			JSONUtils.writeJSON(response, new Msg(0, "添加金币记录失败！"));
-		}
-	}
+	
 	/**
 	 * 根据用户id查询金币记录，分页显示
 	 * @param request
@@ -188,10 +144,10 @@ public class CoinServlet extends HttpServlet {
 		//无需传递参数
 		UserBase userbase; // 用户基本
 		//获取并处理参数
-//		userbase = (UserBase)request.getSession().getAttribute("userBase");
+		userbase = (UserBase)request.getSession().getAttribute("userBase");
 		//测试
-		userbase = new UserBase();
-		userbase.setUserId(1L);
+//		userbase = new UserBase();
+//		userbase.setUserId(1L);
 		try {
 			pageSize = Integer.parseInt(request.getParameter("pageSize"));
 			pageNum = Integer.parseInt(request.getParameter("pageNum"));
