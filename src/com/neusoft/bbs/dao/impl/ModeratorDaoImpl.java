@@ -36,7 +36,7 @@ public class ModeratorDaoImpl implements ModeratorDao {
 
 	@Override
 	public int delete(Moderator moderator) {
-		String sql = "delete * from b_moderator where moderator_id=?";
+		String sql = "delete from b_moderator where moderator_id=?";
 		Object params[] = { moderator.getModeratorId() };
 		int res = 0;
 		try {
