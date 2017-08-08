@@ -1,6 +1,8 @@
 package com.neusoft.bbs.dao.impl;
 
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.neusoft.bbs.commons.util.db.BeanHandler;
@@ -52,15 +54,50 @@ public class UserDetailDaoImpl implements UserDetailDao {
 	@Override
 	public int update(UserDetail userDetail) {
 		int a = 0;
-		String sql = "update b_user_detail set icon=?,sex=?,signature=?"
-				+ ",intro=?,birthday=to_date(?,'yyyy-mm-dd'),region=?,website=?,qq=? where user_id=?";
+		StringBuffer find_sql = new StringBuffer();
+		List<Object> list = new ArrayList<Object>();
+		find_sql.append("update b_user_detail set ");
+		if(userDetail.getIcon()!=null){
+			find_sql.append("icon=?,");
+			list.add(userDetail.getIcon());
+			
+		}
+		if(userDetail.getSex()!=null){
+			find_sql.append("sex=?,");
+			list.add(userDetail.getSex());
+		}
+		if(userDetail.getSignature()!=null){
+			find_sql.append("signature=?,");
+			list.add(userDetail.getSignature());
+		}
+		if(userDetail.getIntro()!=null){
+			find_sql.append("intro=?,");
+			list.add(userDetail.getIntro());
+		}
+		if(userDetail.getBirthday()!=null){
+			find_sql.append("birthday=?,");
+			list.add(new java.sql.Date(userDetail.getBirthday().getTime()));
+		}
+		if(userDetail.getRegion()!=null){
+			find_sql.append("region=?,");
+			list.add(userDetail.getRegion());
+		}
+		if(userDetail.getWebsite()!=null){
+			find_sql.append("website=?,");
+			list.add(userDetail.getWebsite());
+		}
+		if(userDetail.getQq()!=null){
+			find_sql.append("qq=? ");
+			list.add(userDetail.getQq());
+		}
+		find_sql.append("where user_id=?");
+		list.add(userDetail.getUserId());
 		
-		System.out.println(sql);
-		Object params[] = { userDetail.getIcon(), userDetail.getSex(),
-				userDetail.getSignature(), userDetail.getIntro(), userDetail.getBirthday(), userDetail.getRegion(),
-				userDetail.getWebsite(), userDetail.getQq(), userDetail.getUserId() };
+		System.out.println(userDetail.getUserId());
+		System.out.println("list:"+list.size()+" ---"+find_sql);
+		Object params[] = list.toArray();
 		try {
-			a = DatabaseUtil.update(sql, params);
+			a = DatabaseUtil.update(find_sql.toString(), params);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
