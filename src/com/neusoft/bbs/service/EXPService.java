@@ -27,6 +27,13 @@ public interface EXPService {
 	public int deleteExpRecord(Long userId);
 	
 	/**
+	 * 插入Exp
+	 * @param userId
+	 * @return int
+	 */
+	public int insertExp(EXP exp);
+	
+	/**
 	 * 根据用户id插入记录
 	 * @param userId
 	 * @return int
