@@ -222,10 +222,6 @@
 			<div class="col-md-3">
 				<button type="button" class="btn btn-primary" style="width: 100%;" id="j_sign">签到</button>
 				<div class="bbs_rightBox">
-					<h4>签到</h4>
-					<div>已经连续签到了23天</div>
-				</div>
-				<div class="bbs_rightBox">
 					<h4>友情链接</h4>
 					<div>
 						<ul>
@@ -244,6 +240,21 @@
 			</div>
 		</div>
 	</div>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="signModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="text-align: center;">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">签到提示</h4>
+            </div>
+            <div class="modal-body" id="j_signAlert"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
 </body>
 <script type="text/javascript">
 	
@@ -415,7 +426,15 @@
 				data:"mType=1&mCause=签到奖励",
 				success: function(data){
 					if(data!=null){
-						alert(JSON.stringify(data));
+						var str = '<div style="text-align:center;">';
+						str += '<div>'+data.signResult+'</div>';
+						str += '<div>你已经签到了 <div style="font-size:2em;display:inline-block;">'+data.singedDays+' </div>天</div>';
+						str += '</div>';
+						$('#j_signAlert').empty();
+						$('#j_signAlert').append(str);
+						$('#signModel').modal({
+					        keyboard: true
+					    })
 					}
 				}
 			});
@@ -425,7 +444,7 @@
 				data:"mType=1&mCause=签到奖励",
 				success: function(data){
 					if(data!=null){
-						alert(JSON.stringify(data));
+						//alert(JSON.stringify(data));
 					}
 				}
 			});

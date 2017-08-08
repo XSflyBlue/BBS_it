@@ -88,56 +88,55 @@ public class UserDaoImpl implements UserDao{
 
 	@Override
 	public int update(UserBase userBase) {
-		//UPDATE B_USER_BASE SET USERNAME='',EMAIL='',PASSWORD='',LAST_LOGIN_TIME='',LAST_LOGIN_IP='',POWER='',REGIST_TIME='';
-		List<Object> arrList = new ArrayList<Object>();
-		StringBuilder sqlBuilder = new StringBuilder("UPDATE B_USER_BASE SET ");
-		String userName = userBase.getUsername();
-		if(StringUtils.isNotNullString(userName)) {
-			sqlBuilder.append("USERNAME=? ");
-			arrList.add(userName);
-		}
-		String email = userBase.getEmail();
-		if(StringUtils.isNotNullString(email)) {
-			sqlBuilder.append("EMAIL=? ");
-			arrList.add(email);
-		}
-		String password = userBase.getPassword();
-		if(StringUtils.isNotNullString(password)) {
-			sqlBuilder.append("PASSWORD=? ");
-			arrList.add(password);
-		}
-		java.util.Date uDate = userBase.getLastLoginTime();
-		if(uDate != null) {
-			Date lastLoginTtime = new Date(uDate .getTime());
-			sqlBuilder.append("LAST_LOGIN_TIME=? ");
-			arrList.add(lastLoginTtime);
-		}
-		String lastLoginIp = userBase.getLastLoginIp();
-		if(StringUtils.isNotNullString(lastLoginIp)) {
-			sqlBuilder.append("LAST_LOGIN_IP=? ");
-			arrList.add(lastLoginIp);
-		}
-		Short power = userBase.getPower();
-		if(power != null) {
-			sqlBuilder.append("POWER=? ");
-			arrList.add(power);
-		}
-		java.util.Date rDate = userBase.getRegistTime();
-		if(rDate != null) {
-			Date registTime = new Date(rDate .getTime());
-			sqlBuilder.append("REGIST_TIME=?");
-			arrList.add(registTime);
-		}
+		String sql = "UPDATE B_USER_BASE SET ";
 		
-		sqlBuilder.append(" WHERE USER_ID = ?");
-		arrList.add(userBase.getUserId());
-		System.out.println(sqlBuilder.toString());
-		System.out.println(arrList);
+		List<String> sqlList = new ArrayList<>();
+		List<Object> params = new ArrayList<>();
+		if(userBase.getUsername() != null) {
+			sqlList.add("USERNAME=?,");
+			params.add(userBase.getUsername());
+		}
+		if(userBase.getEmail() != null) {
+			sqlList.add( "EMAIL=?");
+			params.add(userBase.getEmail());
+		}
+		if(userBase.getPassword() != null) {
+			sqlList.add("PASSWORD=?");
+			params.add(userBase.getPassword());
+		}
+		if(userBase.getLastLoginTime() != null) {
+			sqlList.add("LAST_LOGIN_TIME=?");
+			params.add(userBase.getLastLoginTime());
+		}
+		if(userBase.getLastLoginIp() != null) {
+			sqlList.add("LAST_LOGIN_IP=?");
+			params.add(userBase.getLastLoginIp());
+		}
+		if(userBase.getPower() != null) {
+			sqlList.add("POWER=?");
+			params.add(userBase.getPower());
+		}
+		if(userBase.getRegistTime() != null) {
+			sqlList.add("REGIST_TIME=?");
+			params.add(userBase.getRegistTime());
+		}
+		for (int i = 0; i < sqlList.size(); i++) {
+			if(i == sqlList.size()-1) {
+				sql += sqlList.get(i);
+			}else {
+				sql += sqlList.get(i)+", ";
+			}
+		}
+		params.add(userBase.getUserId());
 		
-		Object params[] = arrList.toArray();
+		sql += " WHERE USER_ID = ?";
+		
+		System.out.println(sql);
+		Object[] paramsArr = params.toArray();
+		
 		int result = 0;
 		try {
-			result = DatabaseUtil.update(sqlBuilder.toString(), params);
+			result = DatabaseUtil.update(sql, paramsArr);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

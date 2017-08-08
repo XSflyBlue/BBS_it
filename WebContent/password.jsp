@@ -36,7 +36,7 @@
 			    <label>确认新密码</label>
 			    <input type="password" class="form-control" name="rePassWord" placeholder="请输入密码">
 			  </div>
-			  <button type="button" class="btn btn-primary" style="width: 100%;" onclick="updatePassword()">修改密码</button>
+			  <button id="j_submit" type="button" class="btn btn-primary" style="width: 100%;" onclick="updatePassword()">修改密码</button>
 			</form>
 			<div style="margin-top: 5px;">
 				<font color="" id="j_msg"></font>
@@ -60,10 +60,10 @@
 				}
 			}
 		});
-		//window.location.href='<c:url value="/admin/index.jsp"/>';
 	}
 	
 	$(function(){
+		$('#j_submit').attr("disabled","disabled");
 		$('input[name=oldPassword]').blur(function(){
 			$.ajax({
 				type: 'POST',
@@ -74,13 +74,30 @@
 						$('#j_msg').empty();
 						$('#j_msg').attr("color","green");
 						$('#j_msg').text(data.msg);
+						//$('#j_submit').removeAttr('disabled');
 					}else{
 						$('#j_msg').empty();
 						$('#j_msg').attr("color","red");
 						$('#j_msg').text(data.msg);
+						$('#j_submit').attr("disabled","disabled");
 					}
 				}
 			});
+		});
+		$('input[name=rePassWord]').blur(function(){
+			var pwd1 = $('input[name=password]').val();
+			var pwd2 = $('input[name=rePassWord]').val();
+			if(pwd1==pwd2){
+				$('#j_msg').empty();
+				$('#j_msg').attr("color","green");
+				$('#j_msg').text("点击按钮注册");
+				$('#j_submit').removeAttr('disabled');
+			}else{
+				$('#j_msg').empty();
+				$('#j_msg').attr("color","red");
+				$('#j_msg').text("密码不一致");
+				$('#j_submit').attr("disabled","disabled");
+			}
 		});
 	});
 </script>
