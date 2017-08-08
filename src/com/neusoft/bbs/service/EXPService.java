@@ -18,7 +18,13 @@ public interface EXPService {
 	 * @return 
 	 */
 	public List<ExpRecord> findEXPRecord(Long userId);
-	
+	/**
+	 * 根据用户id和条件查询签到获得的经验记录
+	 * @param userId
+	 * @param expRecord
+	 * @return
+	 */
+	public List<ExpRecord> findSignEXPRecord(Long userId,ExpRecord expRecord);
 	/**
 	 * 根据用户id删除经验记录
 	 * @param userId

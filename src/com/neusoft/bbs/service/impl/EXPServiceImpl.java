@@ -115,4 +115,11 @@ public class EXPServiceImpl implements EXPService {
 		return res;
 	}
 
+	@Override
+	public List<ExpRecord> findSignEXPRecord(Long userId, ExpRecord expRecord) {
+		List<ExpRecord> signExpRecordList = null;
+		signExpRecordList = expDao.findSignExpRecord(userId, expRecord);
+		return null;
+	}
+
 }
