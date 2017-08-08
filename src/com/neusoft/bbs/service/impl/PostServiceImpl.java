@@ -98,6 +98,11 @@ public class PostServiceImpl implements PostService {
 		if(post.getIsElite()!=null){
 			// 查询精华帖的时候才进行有效期判断
 			for(int i =0;i<postFormList.size();i++){
+				if(postFormList.get(i)==null
+						||postFormList.get(i).getRecomValidity()==null) {
+					return postFormList;
+				}
+				
 				String currentDate = new Date().toLocaleString();
 				String dbDate = postFormList.get(i).getRecomValidity().toLocaleString();
 				if(currentDate.compareTo(dbDate)<0){

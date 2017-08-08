@@ -42,7 +42,7 @@ public class PostDaoImpl implements PostDao {
 
 	@Override
 	public int delete(Post post) {
-		String sql = "delete * from b_post where post_id=?";
+		String sql = "delete from b_post where post_id=?";
 		Object params[] = { post.getPostId() };
 		int res = 0;
 		try {
@@ -136,7 +136,7 @@ public class PostDaoImpl implements PostDao {
 	public int getListRowCount(Post post) {
 		StringBuffer find_sql = new StringBuffer();
 		find_sql.append("SELECT COUNT(*) ROW_COUNT");
-		find_sql.append(" FROM B_POST");
+		find_sql.append(" FROM B_POST P");
 		find_sql.append(" WHERE 1=1");
 		Long id = null;
 		String str = null;
