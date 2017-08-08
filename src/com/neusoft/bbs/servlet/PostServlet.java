@@ -1041,12 +1041,18 @@ public class PostServlet extends HttpServlet {
 			}
 			//帖子存在
 			if (tId != null && post!=null) {
-				comment.setPostId(Long.parseLong(tId));
-				comment.setCommentContent(commentContent);
-				comment.setCommentIp(ClientAccessIpUtil.getIpAddress(request));
-				comment.setCommentTime(commentDate);
-				comment.setIsHidden(Short.valueOf("1"));//跟帖状态（默认打开）
-				comment.setCommentUserId(((UserBase)request.getSession().getAttribute("userBase")).getUserId());
+				if(post.getIsClose()!=null && post.getIsClose().shortValue()!=0) {
+					//判断帖子是否关闭
+					comment.setPostId(Long.parseLong(tId));
+					comment.setCommentContent(commentContent);
+					comment.setCommentIp(ClientAccessIpUtil.getIpAddress(request));
+					comment.setCommentTime(commentDate);
+					comment.setIsHidden(Short.valueOf("1"));//跟帖状态（默认打开）
+					comment.setCommentUserId(((UserBase)request.getSession().getAttribute("userBase")).getUserId());
+				}else {
+					JSONUtils.writeJSON(response, new Msg(0, "帖子已关闭，跟帖失败"));
+					return;
+				}
 			}
 		} catch (Exception e) {
 			JSONUtils.writeJSON(response, new Msg(0, "参数错误，跟帖失败"));

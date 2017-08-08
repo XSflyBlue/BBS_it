@@ -357,7 +357,8 @@
 						myPost += '<span class="bbs_listTitle bbs_bold"> '+item.postTitle+' </span>';
 						myPost += '<span class="bbs_listSubTitle block"></a>';
 						myPost += '<span>'+item.issueTime+'</span>';
-						myPost += '<span class="bbs_listCount"><a href="#">编辑</a> <a href="#">删除</a></span>';
+						myPost += '<span class="bbs_listCount"><a href="<c:url value="/edit.jsp?post='+item.postId+'"></c:url>">编辑 </a>'
+								+'<a href="#"> 删除</a></span>';
 						myPost += '</span></td></tr>';
 						$('#j_myPost').append(myPost);
 					});

@@ -260,7 +260,7 @@ K.options = {
 	minChangeSize : 50,
 	zIndex : 811213,
 	items : [
-		'source', '|', 'undo', 'redo', '|',
+		'source', '|', 'undo', 'redo', '|','fontsize',
 		'forecolor', 'hilitecolor', 'bold','italic', 'underline', 'strikethrough', 'image', 'emoticons', 'link',
 		'preview', 'code', '|', 'justifyleft', 'justifycenter', 'justifyright',
 		'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'quickformat', '|', 'fullscreen', '/'
