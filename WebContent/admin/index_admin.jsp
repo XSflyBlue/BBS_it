@@ -25,14 +25,14 @@
 		<div class="row">
 			<div class="col-md-9">
 				<div style="padding: 2em;">
-					<h3>欢迎您，管理员</h3>
+					<h3>欢迎您，管理员：${userBase.username}</h3>
 				</div>
 				<div style="border-top: 1px solid white;border-bottom: 1px solid white;">
 					<ul class="nav nav-tabs bbs_subNav">
 						<li role="presentation" class="j_admin_nav active" value="info"><a href="#">用户管理</a></li>
 						<li role="presentation" class="j_admin_nav" value="dist"><a href="#">区块管理</a></li>
 						<li role="presentation" class="j_admin_nav" value="care"><a href="#">版块管理</a></li>
-						<li role="presentation" class="j_admin_nav" value="post"><a href="#">贴子管理</a></li>
+						
 						<li role="presentation" class="j_admin_nav" value="save"><a href="#">举报中心</a></li>
 						<li role="presentation" class="j_admin_nav" value="safe"><a href="#">安全中心</a></li>
 					</ul>
@@ -70,21 +70,26 @@
 								<table class="table" id="j_userTab">
 									<!-- 用户表 -->
 								</table>
-								<nav aria-label="Page navigation" style="text-align: center;">
-								  <ul class="pagination">
-								    <li>
-								      <a href="#" aria-label="Previous">
-								        	上页
-								      </a>
-								    </li>
-								    <li>
-								      <a href="#" aria-label="Next">
-								        	下页
-								      </a>
-								    </li>
-								  </ul>
-								  <div>当前第 1 页，共 <span id="j_pageCount"></span> 页</div>
-								</nav>
+								<!-- 分页 -->
+								<div style="text-align: center;">
+									<span class="pageIndex">
+										当前第<font color="blue" id="j_curPage">1</font>页
+										&nbsp;&nbsp;&nbsp;共<font color="blue" id="j_pageCount"></font>页
+									</span>
+									<ul class="pager">
+										<li>
+											<a href="">上页</a>
+										</li>
+										<li>
+											<a href="">下页</a>
+										</li>
+										<li>
+											<input id="j_goal" style="width: 50px;border-radius: 33px;">
+											<a onclick='getGoalPage()' href="#">翻页</a>
+										</li>
+									</ul>
+								</div>
+								<!-- end 分页 -->
 							</div>
 							
 							<div id="bbs_admin_showDist">
@@ -103,25 +108,26 @@
 								<table class="table" id="j_distTable">
 									<!-- 区表 -->
 								</table>
-								<nav aria-label="Page navigation" style="text-align: center;">
-								  <ul class="pagination">
-								    <li>
-								      <a href="#" aria-label="Previous">
-								        <span aria-hidden="true">&laquo;</span>
-								      </a>
-								    </li>
-								    <li><a href="#">1</a></li>
-								    <li><a href="#">2</a></li>
-								    <li><a href="#">3</a></li>
-								    <li><a href="#">4</a></li>
-								    <li><a href="#">5</a></li>
-								    <li>
-								      <a href="#" aria-label="Next">
-								        <span aria-hidden="true">&raquo;</span>
-								      </a>
-								    </li>
-								  </ul>
-								</nav>
+								<!-- 分页 -->
+								<div style="text-align: center;">
+									<span class="pageIndex">
+										当前第<font color="blue" id="j_curPage">1</font>页
+										&nbsp;&nbsp;&nbsp;共<font color="blue" id="j_pageCount"></font>页
+									</span>
+									<ul class="pager">
+										<li>
+											<a href="">上页</a>
+										</li>
+										<li>
+											<a href="">下页</a>
+										</li>
+										<li>
+											<input id="j_goal" style="width: 50px;border-radius: 33px;">
+											<a onclick='getGoalPage()' href="#">翻页</a>
+										</li>
+									</ul>
+								</div>
+								<!-- end 分页 -->
 							</div>
 							<div id="bbs_admin_showMod">
 								<form class="form-inline">
@@ -155,27 +161,28 @@
 								<table class="table" id="j_sectTable">
 									<!-- 版块表 -->
 								</table>
-								<nav aria-label="Page navigation" style="text-align: center;">
-								  <ul class="pagination">
-								    <li>
-								      <a href="#" aria-label="Previous">
-								        <span aria-hidden="true">&laquo;</span>
-								      </a>
-								    </li>
-								    <li><a href="#">1</a></li>
-								    <li><a href="#">2</a></li>
-								    <li><a href="#">3</a></li>
-								    <li><a href="#">4</a></li>
-								    <li><a href="#">5</a></li>
-								    <li>
-								      <a href="#" aria-label="Next">
-								        <span aria-hidden="true">&raquo;</span>
-								      </a>
-								    </li>
-								  </ul>
-								</nav>
+								<!-- 分页 -->
+								<div style="text-align: center;">
+									<span class="pageIndex">
+										当前第<font color="blue" id="j_curPage">1</font>页
+										&nbsp;&nbsp;&nbsp;共<font color="blue" id="j_pageCount"></font>页
+									</span>
+									<ul class="pager">
+										<li>
+											<a href="">上页</a>
+										</li>
+										<li>
+											<a href="">下页</a>
+										</li>
+										<li>
+											<input id="j_goal" style="width: 50px;border-radius: 33px;">
+											<a onclick='getGoalPage()' href="#">翻页</a>
+										</li>
+									</ul>
+								</div>
+								<!-- end 分页 -->
 							</div>
-							<div id="bbs_admin_showPost">
+							<div id="bbs_admin_showPost" style="display: none;">
 								贴子管理
 							</div>
 							
@@ -183,25 +190,26 @@
 								<table class="table" id="j_repTable">
 									<!-- 举报信息 -->
 								</table>
-								<nav aria-label="Page navigation" style="text-align: center;">
-								  <ul class="pagination">
-								    <li>
-								      <a href="#" aria-label="Previous">
-								        <span aria-hidden="true">&laquo;</span>
-								      </a>
-								    </li>
-								    <li><a href="#">1</a></li>
-								    <li><a href="#">2</a></li>
-								    <li><a href="#">3</a></li>
-								    <li><a href="#">4</a></li>
-								    <li><a href="#">5</a></li>
-								    <li>
-								      <a href="#" aria-label="Next">
-								        <span aria-hidden="true">&raquo;</span>
-								      </a>
-								    </li>
-								  </ul>
-								</nav>
+								<!-- 分页 -->
+								<div style="text-align: center;">
+									<span class="pageIndex">
+										当前第<font color="blue" id="j_curPage">1</font>页
+										&nbsp;&nbsp;&nbsp;共<font color="blue" id="j_pageCount"></font>页
+									</span>
+									<ul class="pager">
+										<li>
+											<a href="">上页</a>
+										</li>
+										<li>
+											<a href="">下页</a>
+										</li>
+										<li>
+											<input id="j_goal" style="width: 50px;border-radius: 33px;">
+											<a onclick='getGoalPage()' href="#">翻页</a>
+										</li>
+									</ul>
+								</div>
+								<!-- end 分页 -->
 							</div>
 							<div id="bbs_admin_showSafe">
 								<div class="row">
@@ -242,15 +250,15 @@
 					<h4>友情链接</h4>
 					<div>
 						<ul>
-							<li><a href="#">百度</a></li>
-							<li><a href="#">阿里巴巴</a></li>
-							<li><a href="#">东软集团 天津</a></li>
-							<li><a href="#">百度</a></li>
-							<li><a href="#">阿里巴巴</a></li>
-							<li><a href="#">东软集团 天津</a></li>
-							<li><a href="#">百度</a></li>
-							<li><a href="#">阿里巴巴</a></li>
-							<li><a href="#">东软集团 天津</a></li>
+							<li><a href="http://www.neusoft.com/">东软</a></li>
+							<li><a href="http://www.baidu.com">百度搜索</a></li>
+							<li><a href="http://www.ithome.com">IT之家</a></li>
+							<li><a href="http://www.cqupt.edu.cn/cqupt/index.shtml">重庆邮电大学</a></li>
+							<li><a href="https://www.zaiqingyang.org/">杨再清的主页</a></li>
+							<li><a href="http://bbs.csdn.net">CSDN论坛</a></li>
+							<li><a href="http://yinwang.org">当然我在扯淡</a></li>
+							<li><a href="https://developers.google.cn/">谷歌开发者社区</a></li>
+							<li><a href="http://www.cnblogs.com">博客园</a></li>
 						</ul>
 					</div>
 				</div>
@@ -271,7 +279,7 @@
 				if(data != null && data.data.length > 0){
 					var str = '<tr><th>ID</th><th>用户名</th><th>状态</th><th>角色</th><th>操作</th></tr>';
 					$(data.data).each(function(i, item){
-						str += '<tr><td>'+item.userId+'</td><td>'+item.username+'</td><td>'+item.power+'</td><td>'+item.power+'</td>';
+						str += '<tr><td>'+item.userId+'</td><td>'+item.username+'</td><td>'+bbs_dealNull(item.power,"正常")+'</td><td>'+bbs_dealNull(item.power,"一般用户")+'</td>';
 						str += '<td><a href="#">查看</a> <a href="#">编辑</a> <a href="#">禁用</a></td></tr>';
 					});
 					$('#j_userTab').append(str);
@@ -378,6 +386,8 @@
 		querySects(1);
 		//初始化举报列表
 		queryReports(1,12);
+		//初始化贴子列表
+		getPostList(0,1);
 	});
 </script>
 </html>

@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>xiuno4采集免费分享，支持指定用户和马甲发贴。</title>
+<title>查看帖子</title>
 <!-- jquery -->
 <script src='<c:url value="/js/jquery-1.11.3.min.js"></c:url>'></script>
 <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
@@ -35,6 +35,8 @@
 					<div style="font-size: 1.2em;padding: 1em;" id="j_content">
 						<!-- 正文部分 -->
 					</div>
+					<div id="j_date" style="padding: 1em;">发布日期：</div>
+					<div style="padding: 1em;"><a href="#" onclick="report()">举报</a></div>
 				</div>
 				<div id="bbs_comment">
 					<div class="bbs_subTitle">最新回复</div>
@@ -88,9 +90,54 @@
 			</div>
 		</div>
 	</div>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="signModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="text-align: center;">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">签到提示</h4>
+            </div>
+            <div class="modal-body">
+            	<label id="j_signAlert"></label>
+            	<input type="text" name="reportContent" class="form-control">
+            </div>
+            <div class="modal-footer">
+            	<button class="btn btn-danger" id="j_modelSubmit">确认</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
 </body>
 <script>
+
 	var postId = GetQueryString('post');
+	
+	//举报
+	function report(){
+		$('#myModalLabel').text("举报提示");
+		$('#j_signAlert').text("举报理由");
+		$('#j_modelSubmit').css('display','inline');
+		$('#signModel').modal({
+	        keyboard: true
+	    });
+		$('#j_modelSubmit').click(function(){
+			var content = $('input[name=reportContent]').val();
+			var pId = postId;
+			var uId = '${userBase.userId}';
+			$.ajax({
+				type: 'POST',
+				url: '<c:url value="/ReportServlet?action=insertReport"></c:url>',
+				data: 'tId='+postId+'&uId='+uId+'&cause='+content,
+				success: function(data){
+					if(data != null){
+						alert(JSON.stringify(data));
+					}
+				}
+			});
+		});
+	}
 	//回贴
 	function submitPost(){
 		editor.sync();
@@ -102,7 +149,7 @@
 			success: function(data){
 				if(data != null){
 					if(data.code == 1){
-						alert("OK");
+						alert("跟贴成功！");
 						var str = '<tr><td class="bbs_comment_icon"><img  alt="头像" class="bbs_icon" src="<c:url value="/res/default_icon.jpg"></c:url>">';
 						str += '</td><td class="bbs_comment_body">';
 						str += '<div><span class="bbs_comment_name">'+'${userBase.username}'+'</span>';
@@ -140,9 +187,11 @@
 				success: function(data){
 					var str = '';
 					if(data != null){
+						//alert(JSON.stringify(data));
 						commentSwitch = data.postForm.isClose;
 						$('#j_content').append(data.postForm.themeContent);
 						$('#j_title').append(data.postForm.postTitle);
+						$('#j_date').append(date_fmt(data.postForm.issueTime));
 						$('#bbs_poster_name').text(data.postForm.userName);
 						$('#j_userIndex').attr('href','<c:url value="/userInfo.jsp?user='+data.postForm.userId+'"></c:url>');
 						//资源显示

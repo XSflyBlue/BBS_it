@@ -33,24 +33,22 @@
 						</a>
 						<div style="margin-bottom: 15px;">
 							<span id="j_userId" j_val="${userBase.userId}" style="display: none;"></span>
-							经验：<span id="j_exp"></span>
-							金币：<span id="j_coin"></span>
 						</div>
 					</div>
 					<div class="">
 						<table class="table">
 							<tr>
 								<td>
-									<div class="bbs_poster_tip">帖子数</div>
-									<div class="bbs_poster_val">2333</div>
+									<div class="bbs_poster_tip">等级</div>
+									<div class="bbs_poster_val" id="j_level"></div>
 								</td>
 								<td>
-									<div class="bbs_poster_tip">帖子数</div>
-									<div class="bbs_poster_val">2333</div>
+									<div class="bbs_poster_tip">经验</div>
+									<div class="bbs_poster_val" id="j_exp"></div>
 								</td>
 								<td>
-									<div class="bbs_poster_tip">帖子数</div>
-									<div class="bbs_poster_val">2333</div>
+									<div class="bbs_poster_tip">金币</div>
+									<div class="bbs_poster_val" id="j_coin"></div>
 								</td>
 							</tr>
 						</table>
@@ -122,73 +120,16 @@
 							<table class="table table-hover bbs_table"  id="j_myPost">
 								<!-- 我的贴子 -->	
 							</table>
-							<nav aria-label="Page navigation" style="text-align: center;">
-							  <ul class="pagination">
-							    <li>
-							      <a href="#" aria-label="Previous">
-							        <span aria-hidden="true">&laquo;</span>
-							      </a>
-							    </li>
-							    <li><a href="#">1</a></li>
-							    <li><a href="#">2</a></li>
-							    <li><a href="#">3</a></li>
-							    <li><a href="#">4</a></li>
-							    <li><a href="#">5</a></li>
-							    <li>
-							      <a href="#" aria-label="Next">
-							        <span aria-hidden="true">&raquo;</span>
-							      </a>
-							    </li>
-							  </ul>
-							</nav>
 							</div>
 							
 							<div id="bbs_admin_showCare">
 								<table class="table" id="j_follows">
 								</table>
-							<nav aria-label="Page navigation" style="text-align: center;">
-							  <ul class="pagination">
-							    <li>
-							      <a href="#" aria-label="Previous">
-							        <span aria-hidden="true">&laquo;</span>
-							      </a>
-							    </li>
-							    <li><a href="#">1</a></li>
-							    <li><a href="#">2</a></li>
-							    <li><a href="#">3</a></li>
-							    <li><a href="#">4</a></li>
-							    <li><a href="#">5</a></li>
-							    <li>
-							      <a href="#" aria-label="Next">
-							        <span aria-hidden="true">&raquo;</span>
-							      </a>
-							    </li>
-							  </ul>
-							</nav>
 							</div>
 							<div id="bbs_admin_showSave">
 							<table class="table table-hover bbs_table" id="j_mySave">
 								<!-- 我的收藏 -->
 							</table>
-							<nav aria-label="Page navigation" style="text-align: center;">
-							  <ul class="pagination">
-							    <li>
-							      <a href="#" aria-label="Previous">
-							        <span aria-hidden="true">&laquo;</span>
-							      </a>
-							    </li>
-							    <li><a href="#">1</a></li>
-							    <li><a href="#">2</a></li>
-							    <li><a href="#">3</a></li>
-							    <li><a href="#">4</a></li>
-							    <li><a href="#">5</a></li>
-							    <li>
-							      <a href="#" aria-label="Next">
-							        <span aria-hidden="true">&raquo;</span>
-							      </a>
-							    </li>
-							  </ul>
-							</nav>
 							</div>
 							<div id="bbs_admin_showSafe">
 								<div class="row">
@@ -225,15 +166,15 @@
 					<h4>友情链接</h4>
 					<div>
 						<ul>
-							<li><a href="#">百度</a></li>
-							<li><a href="#">阿里巴巴</a></li>
-							<li><a href="#">东软集团 天津</a></li>
-							<li><a href="#">百度</a></li>
-							<li><a href="#">阿里巴巴</a></li>
-							<li><a href="#">东软集团 天津</a></li>
-							<li><a href="#">百度</a></li>
-							<li><a href="#">阿里巴巴</a></li>
-							<li><a href="#">东软集团 天津</a></li>
+							<li><a href="http://www.neusoft.com/">东软</a></li>
+							<li><a href="http://www.baidu.com">百度搜索</a></li>
+							<li><a href="http://www.ithome.com">IT之家</a></li>
+							<li><a href="http://www.cqupt.edu.cn/cqupt/index.shtml">重庆邮电大学</a></li>
+							<li><a href="https://www.zaiqingyang.org/">杨再清的主页</a></li>
+							<li><a href="http://bbs.csdn.net">CSDN论坛</a></li>
+							<li><a href="http://yinwang.org">当然我在扯淡</a></li>
+							<li><a href="https://developers.google.cn/">谷歌开发者社区</a></li>
+							<li><a href="http://www.cnblogs.com">博客园</a></li>
 						</ul>
 					</div>
 				</div>
@@ -250,6 +191,7 @@
             </div>
             <div class="modal-body" id="j_signAlert"></div>
             <div class="modal-footer">
+            	<button class="btn btn-danger" id="j_modelSubmit">确认</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
             </div>
         </div><!-- /.modal-content -->
@@ -257,6 +199,17 @@
 </div>
 </body>
 <script type="text/javascript">
+
+	//删除贴子
+	function deletePost(pId){
+		//alert(pId);
+		$('#myModalLabel').text("删除提示");
+		$('#j_signAlert').text("确认删除吗？");
+		$('#j_modelSubmit').css('display','inline');
+		$('#signModel').modal({
+	        keyboard: true
+	    });
+	}
 	
 	//获取关注列表
 	function follows(index){
@@ -297,6 +250,8 @@
 	
 	$(function(){
 		
+		
+		$('#j_modelSubmit').css('display','none');
 		//获取用户资料
 		var userId = $('#j_userId').attr("j_val");
 		$.ajax({
@@ -328,6 +283,8 @@
 					$('input[name=birthday]').val(date_fmt(bbs_dealNull(data.birthday)));
 					$('input[name=qq]').val(bbs_dealNull(data.qq));
 					$('input[name=website]').val(bbs_dealNull(data.website));
+					//用户头部显示
+					$('#j_level').text(bbs_dealNull(data.levelName,0));
 				}
 			}
 		});
@@ -367,9 +324,9 @@
 						myPost += '<span class="bbs_listSubTitle">[程序发布]</span>';
 						myPost += '<span class="bbs_listTitle bbs_bold"> '+item.postTitle+' </span>';
 						myPost += '<span class="bbs_listSubTitle block"></a>';
-						myPost += '<span>'+item.issueTime+'</span>';
+						myPost += '<span>'+date_fmt(item.issueTime)+'</span>';
 						myPost += '<span class="bbs_listCount"><a href="<c:url value="/edit.jsp?post='+item.postId+'"></c:url>">编辑 </a>'
-								+'<a href="#"> 删除</a></span>';
+								+'<a href="#" onclick="deletePost('+item.postId+')"> 删除</a></span>';
 						myPost += '</span></td></tr>';
 						$('#j_myPost').append(myPost);
 					});
@@ -451,6 +408,12 @@
 					}
 				}
 			});
+		});
+		
+		
+		//模态框确认点击(删除)
+		$('#j_modelSubmit').click(function(){
+			
 		});
 	});
 </script>

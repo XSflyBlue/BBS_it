@@ -93,7 +93,7 @@ public class UserDaoImpl implements UserDao{
 		List<String> sqlList = new ArrayList<>();
 		List<Object> params = new ArrayList<>();
 		if(userBase.getUsername() != null) {
-			sqlList.add("USERNAME=?,");
+			sqlList.add("USERNAME=?");
 			params.add(userBase.getUsername());
 		}
 		if(userBase.getEmail() != null) {

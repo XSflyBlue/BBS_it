@@ -37,10 +37,6 @@
 	</div>
 </body>
 <script type="text/javascript">
-	function updatePassword(){
-		
-		//window.location.href='<c:url value="/admin/index.jsp"/>';
-	}
 	$(function(){
 		$("#j_submitButton").attr({"disabled":"disabled"});
 		$('input[name=email]').blur(function(){
@@ -60,6 +56,18 @@
 						$('#j_msg').attr("color","red");
 						$('#j_msg').text(data.msg);
 					}
+				}
+			});
+		});
+		
+		$('#j_submitButton').click(function(){
+			$.ajax({
+				type: 'POST',
+				url: '<c:url value="/UserServlet?action=resetPassword"></c:url>',
+				data:"email="+$('input[name=email]').val(),
+				success: function(data){
+					alert(data.code);
+					window.location.href='<c:url value="/"/>';
 				}
 			});
 		});

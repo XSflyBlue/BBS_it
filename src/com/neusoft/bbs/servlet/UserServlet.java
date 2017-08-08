@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.mail.MessagingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,6 +19,8 @@ import com.google.gson.GsonBuilder;
 import com.neusoft.bbs.commons.struct.Msg;
 import com.neusoft.bbs.commons.util.FormToObjUtils;
 import com.neusoft.bbs.commons.util.JSONUtils;
+import com.neusoft.bbs.commons.util.MailServiceTool;
+import com.neusoft.bbs.commons.util.PasswordUtils;
 import com.neusoft.bbs.commons.util.ServletUtils;
 import com.neusoft.bbs.commons.util.StringUtils;
 import com.neusoft.bbs.commons.util.db.JdbcUtil_DBCP;
@@ -34,6 +37,8 @@ import com.neusoft.bbs.service.UserService;
 import com.neusoft.bbs.service.impl.FollowServiceImpl;
 import com.neusoft.bbs.service.impl.UserDetailServiceImpl;
 import com.neusoft.bbs.service.impl.UserServiceImpl;
+
+import oracle.net.aso.e;
 
 /**
  * 用户 UserServlet
@@ -155,15 +160,35 @@ public class UserServlet extends HttpServlet {
 	}
 	
 	/**
-	 * 找回密码
+	 * 密码重置
 	 * @param request
 	 * @param response
 	 */
-	private void findBackPassword(HttpServletRequest request, HttpServletResponse response) {
-		UserBase userBase = (UserBase) request.getSession().getAttribute("userBase");
-		String password = request.getParameter("password");
-		if(userBase != null && password!=null && !password.trim().equals("")) {
-			//修改密码
+	private void resetPassword(HttpServletRequest request, HttpServletResponse response) {
+		String email = request.getParameter("email");
+		if(StringUtils.isNotNullString(email)) {
+			UserBase userBase = userBaseService.findUserEmail(email);
+			if(userBase != null) {
+				String newPwd = PasswordUtils.createRandomNumPwd(6);
+				userBase.setPassword(newPwd);
+				int result = userBaseService.updateUser(userBase, null);
+				String content = "您好，您本次密码重置为："+newPwd;
+				try {
+					MailServiceTool.sendMail(email, "[ 密码重置 ]天津IT特工队", content );
+				} catch (MessagingException e) {
+					e.printStackTrace();
+					JSONUtils.writeJSON(response, new Msg(0, "重置异常，请联系管理员"));
+				}
+				if(result == 1) {
+					JSONUtils.writeJSON(response, new Msg(1, "新密码已经发送到您的邮箱"));
+				}else {
+					JSONUtils.writeJSON(response, new Msg(0, "重置异常，请联系管理员"));
+				}
+			}else {
+				JSONUtils.writeJSON(response, new Msg(0, "邮箱不存在"));
+			}
+		}else {
+			JSONUtils.writeJSON(response, new Msg(0, "邮箱格式非法"));
 		}
 	}
 	
