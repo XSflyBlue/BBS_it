@@ -32,9 +32,9 @@ public class CoinServiceImpl implements CoinService{
 	CoinDao coinDao = new CoinDaoImpl();
 	
 	@Override
-	public List<CoinRecord> findCoinRecord(Coin coin) {
+	public List<CoinRecord> findCoinRecord(Long userId,CoinRecord record) {
 		List<CoinRecord> list = null;
-		list= coinDao.findCoinRecordByCoinId(coin.getCoinId());
+		list= coinDao.findCoinRecordByCoinId(userId, record);
 		return list;
 	}
 

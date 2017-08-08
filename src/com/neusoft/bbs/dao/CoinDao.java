@@ -18,7 +18,7 @@ public interface CoinDao {
 	 * @param coinId
 	 * @return
 	 */
-	public List<CoinRecord> findCoinRecordByCoinId(Long coinId);
+	public List<CoinRecord> findCoinRecordByCoinId(Long userId,CoinRecord record);
 	
 	/**
 	 * 根据用户id删除金币记录

@@ -1,6 +1,7 @@
 package com.neusoft.bbs.dao.impl;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.neusoft.bbs.commons.util.db.BeanHandler;
@@ -20,12 +21,27 @@ import com.neusoft.bbs.domain.form.PageForm;
  */
 public class CoinDaoImpl implements CoinDao{
 	@Override
-	public List<CoinRecord> findCoinRecordByCoinId(Long coinId) {
-		String sql = "select coin_cause,coin_get_num,coin_get_time from b_coin_record  where coin_id=?";
-		Object params[] = {coinId};
+	public List<CoinRecord> findCoinRecordByCoinId(Long userId,CoinRecord record) {
+		StringBuffer sql = new StringBuffer("SELECT R.* FROM B_COIN_RECORD R,B_COIN C WHERE 1=1 ");
+		List<Object> list = new ArrayList<Object>();
+		if(userId!=null){
+			sql.append("and r.coin_id = c.coin_id ");
+			sql.append("and c.user_id =? ");
+			list.add(userId);
+		}else{
+			return null;
+		}
+		if(record!=null){
+			if(record.getCoinCause()!=null){
+				sql.append("and r.coin_cause like '%"+record.getCoinCause().trim()+"%'");
+			}
+		}
+		sql.append(" order by r.coin_get_time desc");
+		System.out.println("金币记录:sql:"+sql);
+		Object params[] = list.toArray();
 		List<CoinRecord> coinRecordList = null;
 		try {
-			coinRecordList = (List<CoinRecord>)DatabaseUtil.query(sql, params, new BeanListHandler(CoinRecord.class));
+			coinRecordList = (List<CoinRecord>)DatabaseUtil.query(sql.toString(), params, new BeanListHandler(CoinRecord.class));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

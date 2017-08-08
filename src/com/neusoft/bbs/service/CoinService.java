@@ -17,7 +17,7 @@ public interface CoinService {
 	 * @param userId
 	 * @return
 	 */
-	public List<CoinRecord> findCoinRecord(Coin coin);
+	public List<CoinRecord> findCoinRecord(Long userId,CoinRecord record);
 	
 	/**
 	 * 根据用户id删除金币记录

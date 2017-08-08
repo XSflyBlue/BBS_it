@@ -1,6 +1,8 @@
 package com.neusoft.bbs.servlet;
 
 import java.io.IOException;
+import java.util.Date;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
@@ -18,6 +20,7 @@ import com.neusoft.bbs.domain.Coin;
 import com.neusoft.bbs.domain.CoinRecord;
 import com.neusoft.bbs.domain.UserBase;
 import com.neusoft.bbs.domain.json.CoinRecordJson;
+import com.neusoft.bbs.domain.json.SignReturnJson;
 import com.neusoft.bbs.service.CoinService;
 import com.neusoft.bbs.service.impl.CoinServiceImpl;
 
@@ -100,12 +103,44 @@ public class CoinServlet extends HttpServlet {
 					type = Long.parseLong(mType);
 					//取得应该修改的金币数
 					Long coin = CoinConfig.valueOfCoinType(type);
+					
 					CoinRecord coinRecord = new CoinRecord();
 					coinRecord.setCoinCause(cause);
 					coinRecord.setCoinGetNum(coin);
 					System.out.println("cause:"+cause+" userId"+userId+"coin:"+coin);
+					
+					List<CoinRecord> coinRecordList = null;
+					coinRecordList = coinService.findCoinRecord(userId, coinRecord);
+					CoinRecord tmpRecord = new CoinRecord();
+					if(coinRecordList!=null&&coinRecordList.size()>0){
+						tmpRecord = coinRecordList.get(0);// 获取最近一次签到经验记录
+						
+						// 截取日期
+						String lastSignDay = tmpRecord.getCoinGetTime().toLocaleString().substring(0, 8);
+						System.out.println("上次签到日期：" + lastSignDay);
+						String today = new Date().toLocaleString().substring(0, 8);
+						System.out.println("现在时间：" + today);
+						
+						// 构造签到结果Json对象
+						SignReturnJson signReturnJson = new SignReturnJson();
+						if(today.compareTo(lastSignDay)>0){
+							// 今天还没签到
+							signReturnJson.setSignResult("还没签到");
+							signReturnJson.setSingedDays(coinRecordList.size());
+							JSONUtils.writeJSON(response, signReturnJson);
+						}else {
+							// 已经签过到
+							signReturnJson.setSignResult("今天已经签过到了");
+							signReturnJson.setSingedDays(coinRecordList.size());
+							JSONUtils.writeJSON(response, signReturnJson);
+							return ;
+						}
+					}
+					
+						
 					//更新金币记录
 					if(coinService.addCoinRecord(userId, coinRecord)!=0){
+						
 						//查询金币数
 						Long coinNum = coinService.findCoinNum(userId);
 						System.out.println("金币总数："+coinNum);
@@ -114,7 +149,7 @@ public class CoinServlet extends HttpServlet {
 							//查询到金币总数coinNum,再+-coin,更新金币总数
 							bCoin.setCoinNum(coinNum+coin);
 							coinService.setCoinNum(userId, bCoin);
-							JSONUtils.writeJSON(response, new Msg(1, "更新成功！"));
+							JSONUtils.writeJSON(response, new Msg(1, "添加成功！"));
 						}else{
 							JSONUtils.writeJSON(response, new Msg(0, "更新失败！"));
 						}
@@ -187,10 +222,10 @@ public class CoinServlet extends HttpServlet {
 		String cause = "";
 		
 		//从后台获取userID
-//		UserBase userBase = (UserBase) request.getSession().getAttribute("userBase");
+		UserBase userBase = (UserBase) request.getSession().getAttribute("userBase");
 		//测试使用
-		UserBase userBase = new UserBase();
-		userBase.setUserId(1L);
+//		UserBase userBase = new UserBase();
+//		userBase.setUserId(1L);
 		if(userBase != null) {
 			Long userId = userBase.getUserId();
 			if (userId!=null) {
