@@ -26,9 +26,12 @@
 			<div class="col-md-9">
 				<div>
 					<div id="bbs_map">
-						<a href="#">论坛</a>
+						<a href='<c:url value="/"></c:url>'>论坛</a>
 						 >
-						<a href="#">首页</a>
+						 <c:if test="${s_sectionId != null}">
+						 	<a id="j_subNav" href='<c:url value="/PageServlet?action=navTo&nav=${s_sectionId}"></c:url>'></a>
+						 </c:if>
+						<div style="display:none;" id="j_sectionId" j_val="${s_sectionId}"></div>
 					</div>
 					<ul class="nav nav-tabs bbs_subNav">
 						<li class="j_subNav active" value="nomal" role="presentation"><a href="#">主题帖</a></li>
@@ -37,25 +40,26 @@
 					<table class="table table-hover bbs_table" id="j_postList">
 						
 					</table>
-					<nav aria-label="Page navigation" style="text-align: center;">
-					  <ul class="pagination">
-					    <li>
-					      <a href="#" aria-label="Previous">
-					        <span aria-hidden="true">&laquo;</span>
-					      </a>
-					    </li>
-					    <li><a href="#">1</a></li>
-					    <li><a href="#">2</a></li>
-					    <li><a href="#">3</a></li>
-					    <li><a href="#">4</a></li>
-					    <li><a href="#">5</a></li>
-					    <li>
-					      <a href="#" aria-label="Next">
-					        <span aria-hidden="true">&raquo;</span>
-					      </a>
-					    </li>
-					  </ul>
-					</nav>
+					<!-- 分页 -->
+					<div style="text-align: center;">
+						<span class="pageIndex">
+							当前第<font color="blue" id="j_curPage">1</font>页
+							&nbsp;&nbsp;&nbsp;共<font color="blue" id="j_maxPage"></font>页
+						</span>
+						<ul class="pager">
+							<li>
+								<a href="">上页</a>
+							</li>
+							<li>
+								<a href="">下页</a>
+							</li>
+							<li>
+								<input id="j_goal" style="width: 50px;border-radius: 33px;">
+								<a onclick='getGoalPage()' href="#">翻页</a>
+							</li>
+						</ul>
+					</div>
+					<!-- end 分页 -->
 				</div>
 			</div>
 			<div class="col-md-3">
@@ -88,7 +92,7 @@
 	<%@include file='/common/bottom.jsp' %>
 </body>
 <script type="text/javascript">
-
+	
 	//获取精华帖
 	function getBetter(bId,index){
 		var req;
@@ -184,21 +188,51 @@
 						str += '</span></a></td></tr>';
 						$('#j_postList').append(str);
 					});
+					if(data.maxPage == 0){
+						$('#j_maxPage').text(1);
+					}else{
+						$('#j_maxPage').text(data.maxPage);
+					}
 				}
 			}
 		});
 	}
 	
+	//分页
+	function getGoalPage(){
+		var bId = $("#j_sectionId").attr("j_val");
+		if(bId == null || bId == ""){
+			bId = 0;
+		}
+		var page = $('#j_goal').val();
+		if( page!=null && page.trim() !=""){
+			getPostList(bId,page);
+			$('#j_curPage').text(page);
+		}
+	}
+
+	
 	$(function(){
-		getPostList(0,1);
+		var bId = $("#j_sectionId").attr("j_val");
+		if(GetQueryString('nav')==null){//首页
+			bId = 0;
+			$('#j_subNav').text('');
+			$("#j_sectionId").attr("j_val",null);
+		}else{
+			$('#j_subNav').text(sections[bId]);
+		}
+		if(bId == null){
+			bId = 0;
+		}
+		getPostList(bId,1);
 		$('.j_subNav').click(function(){
 			var clickVal = $(this).attr("value");
 			$('.j_subNav').removeClass("active");
 			$(this).addClass("active");
 			if(clickVal == 'nomal'){
-				getPostList(0,1);
+				getPostList(bId,1);
 			}else if(clickVal == 'better'){
-				getBetter(0,1);
+				getBetter(bId,1);
 			}
 		});
 	});

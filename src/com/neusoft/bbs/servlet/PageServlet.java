@@ -90,5 +90,20 @@ public class PageServlet extends HttpServlet {
 			JSONUtils.writeJSON(response, result);
 		}
 	}
+	
+	/**
+	 * 导航定向
+	 * @param request
+	 * @param response
+	 * @throws IOException 
+	 * @throws ServletException 
+	 */
+	private void navTo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String navURL = request.getParameter("nav");
+		if(StringUtils.isNotNullString(navURL)) {
+			request.getSession().setAttribute("s_sectionId", Integer.parseInt(navURL));
+			request.getRequestDispatcher("/home.jsp").forward(request, response);
+		}
+	}
 
 }

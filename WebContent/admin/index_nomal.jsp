@@ -420,7 +420,7 @@
 			});
 			$.ajax({//能插入但是有问题
 				type: 'POST',
-				url: '<c:url value="/CoinServlet?action=insertCoin"></c:url>',
+				url: '<c:url value="/CoinServlet?action=updateCoin"></c:url>',
 				data:"mType=1&mCause='签到奖励'",
 				success: function(data){
 					if(data!=null){

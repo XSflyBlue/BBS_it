@@ -80,7 +80,7 @@
 <script type="text/javascript">
 	var sections = [];
 	$(function(){
-		
+		//导航初始化
 		var subNavs = $('.j_section');
 		var len = subNavs.length;
 		for(i=0;i < len;i++){
@@ -93,7 +93,7 @@
 				success: function(data){
 					if(data != null){
 						$(data).each(function(index,item){
-							$('#j_section_'+sectionId).append('<li><a href="#">'+item.sectionName+'</a></li>');
+							$('#j_section_'+sectionId).append('<li><a href="<c:url value="/PageServlet?action=navTo&nav='+item.sectionId+'"></c:url>">'+item.sectionName+'</a></li>');
 							sections[item.sectionId] = item.sectionName;
 						});
 					}
