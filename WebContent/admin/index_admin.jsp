@@ -332,11 +332,11 @@
 			data:"pageSize=10&pageNum="+index+"&bId="+12,
 			success: function(data){
 				if(data != null && data.reportFormList.length > 0){
-					var str = '<tr><th>ID</th><th>帖子名</th><th>举报时间</th><th>举报人</th><th>操作</th></tr>';
+					var str = '<tr><th>ID</th><th>帖子名</th><th>举报时间</th><th>举报原因</th><th>举报人</th><th>操作</th></tr>';
 					$(data.reportFormList).each(function(i, item){
 						str += '<tr><td>'+item.reportId+'</td><td><a href="<c:url value="/poster.jsp?post='+item.reportId+'"></c:url>">'
 							+ item.postTitle+'</a></td><td>'
-							+ date_fmt(item.reportTime)+'</td><td>'
+							+ date_fmt(item.reportTime)+'</td><td>'+item.reportCause+'</td><td>'
 							+ item.reportUserName+'</td>';
 						str += '<td><a href="#">通过 </a><a href="#"> 拒绝</a></td></tr>';
 					});

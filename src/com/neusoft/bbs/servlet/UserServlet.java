@@ -138,11 +138,23 @@ public class UserServlet extends HttpServlet {
 	 */
 	private void updatePassword(HttpServletRequest request, HttpServletResponse response) {
 		UserBase userBase = (UserBase) request.getSession().getAttribute("userBase");
+		UserBase newUser = FormToObjUtils.parseToObject(request, UserBase.class);
+		
+	}
+	
+	/**
+	 * 找回密码
+	 * @param request
+	 * @param response
+	 */
+	private void findBackPassword(HttpServletRequest request, HttpServletResponse response) {
+		UserBase userBase = (UserBase) request.getSession().getAttribute("userBase");
 		String password = request.getParameter("password");
 		if(userBase != null && password!=null && !password.trim().equals("")) {
 			//修改密码
 		}
 	}
+	
 	/**
 	 * 检查注册邮箱是否存在
 	 * @param request

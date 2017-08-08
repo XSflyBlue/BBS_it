@@ -412,7 +412,7 @@
 			$.ajax({//限制一天一次
 				type: 'POST',
 				url: '<c:url value="/LevelServlet?action=addExp"></c:url>',
-				data:"mType=1&mCause='签到奖励'",
+				data:"mType=1&mCause=签到奖励",
 				success: function(data){
 					if(data!=null){
 						alert(JSON.stringify(data));
@@ -422,7 +422,7 @@
 			$.ajax({//能插入但是有问题
 				type: 'POST',
 				url: '<c:url value="/CoinServlet?action=updateCoin"></c:url>',
-				data:"mType=1&mCause='签到奖励'",
+				data:"mType=1&mCause=签到奖励",
 				success: function(data){
 					if(data!=null){
 						alert(JSON.stringify(data));
