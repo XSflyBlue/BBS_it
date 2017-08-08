@@ -40,6 +40,7 @@
 								<td>贴子标题</td>
 								<td>
 									<input type="text" name="postTitle">
+									<input type="text" name="postId" style="display: none;">
 								</td>
 							</tr>
 							<tr>
@@ -148,6 +149,10 @@
 	});
 	
 	$(function(){
+		
+		//初始化input id
+		$('input[name=postId]').val(postId);
+		
 		//文件上传显示
 		$(".j_fileInput").hide();
 		$('input[name=postType]').click(function(){

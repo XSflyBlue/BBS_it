@@ -139,6 +139,18 @@ public class UserServlet extends HttpServlet {
 	private void updatePassword(HttpServletRequest request, HttpServletResponse response) {
 		UserBase userBase = (UserBase) request.getSession().getAttribute("userBase");
 		UserBase newUser = FormToObjUtils.parseToObject(request, UserBase.class);
+		if(userBase != null && newUser != null) {
+			String inPwd = newUser.getPassword();
+			if(StringUtils.isNotNullString(inPwd)) {
+				userBase.setPassword(inPwd);
+				int result = userBaseService.updateUser(userBase, null);
+				if(result == 1) {
+					JSONUtils.writeJSON(response, new Msg(1, "修改成功"));
+				}else {
+					JSONUtils.writeJSON(response, new Msg(0, "修改失败"));
+				}
+			}
+		}
 		
 	}
 	
