@@ -156,11 +156,16 @@ public class PostDaoImpl implements PostDao {
 		if (post.getUserId() != null) {
 			// 根据用户ID查询
 			id = post.getUserId();
-			// 是本人则可以查看自己所有帖子和别人公开的帖子
-			find_sql.append(" AND (USER_ID=?");
-			find_sql.append(" OR (USER_ID<>? AND IS_HIDDEN=1 ))");
-			arrList.add(id);
-			arrList.add(id);
+			if(post.getIsSelf()!=null && "1".equals(post.getIsSelf())) {//自看本人
+				find_sql.append(" AND USER_ID=?");
+				arrList.add(id);
+			}else {
+				// 是本人则可以查看自己所有帖子和别人公开的帖子
+				find_sql.append(" AND (P.USER_ID=?");
+				find_sql.append(" OR (P.USER_ID<>? AND P.IS_HIDDEN=1 ))");
+				arrList.add(id);
+				arrList.add(id);
+			}
 		}
 		if (post.getIsElite() != null) {
 			// 查询精华帖
@@ -228,11 +233,16 @@ public class PostDaoImpl implements PostDao {
 		if (post.getUserId() != null) {
 			// 根据用户ID查询
 			id = post.getUserId();
-			// 是本人则可以查看自己所有帖子和别人公开的帖子
-			find_sql.append(" AND (P.USER_ID=?");
-			find_sql.append(" OR (P.USER_ID<>? AND P.IS_HIDDEN=1 ))");
-			arrList.add(id);
-			arrList.add(id);
+			if(post.getIsSelf()!=null && "1".equals(post.getIsSelf())) {//自看本人
+				find_sql.append(" AND P.USER_ID=?");
+				arrList.add(id);
+			}else {
+				// 是本人则可以查看自己所有帖子和别人公开的帖子
+				find_sql.append(" AND (P.USER_ID=?");
+				find_sql.append(" OR (P.USER_ID<>? AND P.IS_HIDDEN=1 ))");
+				arrList.add(id);
+				arrList.add(id);
+			}
 		}
 		if (post.getIsElite() != null) {
 			// 查询精华帖
@@ -269,8 +279,8 @@ public class PostDaoImpl implements PostDao {
 		String sql = "select * from (select a1.*,rownum rn from (" + find_sql.toString() + ") a1 where rownum<="
 				+ rowNum * pageSize + ") where rn>" + ((rowNum - 1) * pageSize);
 		Object params[] = arrList.toArray();
-//		System.out.println(arrList);
-//		System.out.println(sql);
+		System.out.println(arrList);
+		System.out.println(sql);
 		List<PostForm> postFormList = null;
 		try {
 			postFormList = (List)DatabaseUtil.query(sql, params, new BeanListHandler(PostForm.class));

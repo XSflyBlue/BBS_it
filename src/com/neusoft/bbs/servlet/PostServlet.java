@@ -528,27 +528,31 @@ public class PostServlet extends HttpServlet {
 		PostJson postJson;// json结构
 		// 获取并处理参数
 		uId = request.getParameter("uId");
+		System.out.println(uId);
 		userBase = (UserBase)request.getSession().getAttribute("userBase");
 		// 所需封装参数封装
 		post = new Post();
 		post.setIsHidden(Short.parseShort("1"));//默认只查看未隐藏帖子
 		try {
 			//判断用户身份
-			if(userBase == null && uId == null) {//未登录且未传参
+			if(uId == null) {//未传参
 				JSONUtils.writeJSON(response, new Msg(0, "无效参数，查看最近发帖失败"));
 				return;
-			}else if(uId == null||uId.equals(String.valueOf(userBase.getUserId()))){
-				//查看本人
-				post.setIsHidden(null);// 本人可见被隐藏的帖子
-			}else if(uId != null
-					&& (!uId.equals(String.valueOf(userBase.getUserId())))) {
-				//查看他人
+			}else if(uId != null) {//传入参数
 				post.setUserId(Long.parseLong(uId));
+				post.setIsSelf("1");   // 是本人（只看本人）
+				if(userBase!=null
+						&&uId.equals(String.valueOf(userBase.getUserId()))) {
+					//查看自己
+					post.setIsHidden(null);// 本人可见被隐藏的帖子
+					post.setUserId(userBase.getUserId());
+				}
 			}
 			
 			pageSize = Integer.parseInt(request.getParameter("pageSize"));
 			pageNum = Integer.parseInt(request.getParameter("pageNum"));
 		} catch (Exception e) {
+//			e.printStackTrace();
 			pageSize = 10;
 			pageNum = 1;
 		}
@@ -557,6 +561,7 @@ public class PostServlet extends HttpServlet {
 		PostService postService = PostServiceImpl.getInstance();
 		postJson = new PostJson();
 		// 获取分页结果
+		System.out.println(post);
 		postJson.setPostFormList(postService.findFormList(pageSize, pageNum, post));
 		// 获取最大页数
 		postJson.setMaxPage(postService.getListPageCount(pageSize, post));
@@ -1111,7 +1116,7 @@ public class PostServlet extends HttpServlet {
 
 		int result = commentService.deleteComment(comment);
 		// 传回json
-		if (result == 1) {
+		if (result == 1) {//删除回复数
 			Post post = postService.findByPostId(comment.getPostId());
 			post.setAnswerSum(post.getAnswerSum()-1L);
 			result = postService.setPost(post);
