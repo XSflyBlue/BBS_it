@@ -348,11 +348,12 @@ public class PostServlet extends HttpServlet {
 		Post postcopy;
 		// 获取服务
 		PostService postService = PostServiceImpl.getInstance();
-		if(tId!=null) {
+		if(tId!=null&&!tId.equals("")) {//参数限定
 			post = postService.findByPostId(Long.parseLong(tId));
+			System.out.println(post);
 			if(post!=null) {
 				postcopy = new Post();
-				postcopy.setUserId(post.getUserId());
+				postcopy.setPostId(post.getPostId());;
 			}else {
 				JSONUtils.writeJSON(response, new PostFormJson());
 				return;
@@ -362,8 +363,7 @@ public class PostServlet extends HttpServlet {
 			return;
 		}
 		try {
-			if(userBase!=null) {
-				System.out.println(userBase);
+			if(userBase!=null) {//登陆用户
 				if (post!=null) {
 					if(userBase.getUserId().longValue()==post.getUserId().longValue()) {
 						// 本人可见被隐藏的帖子
@@ -378,7 +378,7 @@ public class PostServlet extends HttpServlet {
 						if(moderatorFormList!=null) {
 							for (ModeratorForm moderatorForm : moderatorFormList) {
 								if (Short.parseShort(String.valueOf(userBase.getUserId())) == moderatorForm.getUserId()) {
-									post.setIsHidden(null);// 所有帖子
+									postcopy.setIsHidden(null);// 所有帖子
 								}
 							}
 						}else {
@@ -396,6 +396,7 @@ public class PostServlet extends HttpServlet {
 		}
 		
 		// 获取帖子详情
+		System.out.println(postcopy);
 		List<PostForm> postFormList = postService.findFormList(1, 1, postcopy);
 		if(postFormList!=null) {
 			postForm = postFormList.get(0);

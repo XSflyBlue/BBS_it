@@ -234,7 +234,7 @@ public class PostDaoImpl implements PostDao {
 		if (post.getUserId() != null) {
 			// 根据用户ID查询
 			id = post.getUserId();
-			System.out.println("is self:"+post.getIsSelf());
+//			System.out.println("is self:"+post.getIsSelf());
 			if("1".equals(post.getIsSelf())){
 				// 是本人则可以查看自己所有帖子和别人公开的帖子
 				find_sql.append(" AND (P.USER_ID=?");
