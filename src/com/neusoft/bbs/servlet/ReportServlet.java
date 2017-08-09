@@ -14,6 +14,7 @@ import com.neusoft.bbs.commons.util.JSONUtils;
 import com.neusoft.bbs.commons.util.ServletUtils;
 import com.neusoft.bbs.commons.util.StringUtils;
 import com.neusoft.bbs.domain.Districts;
+import com.neusoft.bbs.domain.Post;
 import com.neusoft.bbs.domain.Report;
 import com.neusoft.bbs.domain.Section;
 import com.neusoft.bbs.domain.UserBase;
@@ -21,6 +22,7 @@ import com.neusoft.bbs.domain.form.SectionForm;
 import com.neusoft.bbs.domain.json.ReportJson;
 import com.neusoft.bbs.service.ReportService;
 import com.neusoft.bbs.service.SectionService;
+import com.neusoft.bbs.service.impl.PostServiceImpl;
 import com.neusoft.bbs.service.impl.ReportServiceImpl;
 import com.neusoft.bbs.service.impl.SectionServiceImpl;
 
@@ -32,6 +34,7 @@ public class ReportServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
      
     private ReportService reportService = ReportServiceImpl.getInstance();
+    
     public ReportServlet() {
         super();
     }
@@ -66,24 +69,25 @@ public class ReportServlet extends HttpServlet {
 		Long uId = null;//举报人id
 		String cause = null;//举报原因
 		//后台参数
-		Section section = null;
+		Post post = null;
 		
 		//设置值
 		tId = Long.parseLong(request.getParameter("tId"));
 		uId = Long.parseLong(request.getParameter("uId"));
 		cause = request.getParameter("cause");
-//		section = (Section)request.getSession().getAttribute("section");
+		
+		post = PostServiceImpl.getInstance().findByPostId(tId);
 		//测试
-		section = new Section();
-		section.setSectionId(1L);
+//		section = new Section();
+//		section.setSectionId(1L);
 		if(StringUtils.isNotNullString(tId.toString(),uId.toString(),cause)){
-			if(section!=null){
+			if(post!=null){
 				Report report = new Report();
 				report.setReportCause(cause);
 				report.setReportPostId(tId);
 				report.setReportState("0");//举报后，初始状态为0（未审核）
 				report.setReportUserId(uId);
-				report.setSectionId(section.getSectionId());
+				report.setSectionId(post.getSectionId());
 				int i = reportService.addReport(report);
 				if(i==1){
 					JSONUtils.writeJSON(response, new Msg(0, "举报成功！"));
