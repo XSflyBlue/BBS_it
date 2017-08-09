@@ -48,10 +48,10 @@
 						</span>
 						<ul class="pager">
 							<li>
-								<a href="">上页</a>
+								<a href="#" onclick="up()">上页</a>
 							</li>
 							<li>
-								<a href="">下页</a>
+								<a href="#" onclick="down()">下页</a>
 							</li>
 							<li>
 								<input id="j_goal" style="width: 50px;border-radius: 33px;">
@@ -165,7 +165,6 @@
 				}
 			}
 		});
-		
 		//获取普通贴子
 		$.ajax({
 			type: 'POST',
@@ -198,7 +197,7 @@
 		});
 	}
 	
-	//分页
+	//调到指定页
 	function getGoalPage(){
 		var bId = $("#j_sectionId").attr("j_val");
 		if(bId == null || bId == ""){
@@ -208,6 +207,28 @@
 		if( page!=null && page.trim() !=""){
 			getPostList(bId,page);
 			$('#j_curPage').text(page);
+		}
+	}
+	
+	//上页
+	function up(){
+		var cur = $('#j_curPage').text();
+		if( cur!=null && cur.trim() !=""){
+			var p = parseInt(cur) - 1;
+			if(p < 0 ){
+				p = 0;
+			}
+			getPostList(0,p);
+			$('#j_curPage').text(p);
+		}
+	}
+	//下页
+	function down(){
+		var cur = $('#j_curPage').text();
+		if( cur!=null && cur.trim() !=""){
+			var p = parseInt(cur) + 1;
+			getPostList(0,p);
+			$('#j_curPage').text(p);
 		}
 	}
 
