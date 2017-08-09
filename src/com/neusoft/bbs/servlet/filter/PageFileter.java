@@ -10,6 +10,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 
+import com.neusoft.bbs.domain.UserBase;
+
 /**
  * 页面定位过滤器
  */
@@ -34,6 +36,13 @@ public class PageFileter implements Filter {
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+		String uri = ((HttpServletRequest)request).getRequestURI();
+		if(uri.contains("admin/index")) {
+			UserBase userBase = (UserBase) ((HttpServletRequest)request).getSession().getAttribute("userBase");
+			if(userBase == null) {
+				request.getRequestDispatcher("/login.jsp").forward(request, response);
+			}
+		}
 		chain.doFilter(request, response);
 	}
 

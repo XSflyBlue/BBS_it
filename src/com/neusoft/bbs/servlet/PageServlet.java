@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.neusoft.bbs.commons.struct.Msg;
 import com.neusoft.bbs.commons.util.JSONUtils;
 import com.neusoft.bbs.commons.util.ServletUtils;
 import com.neusoft.bbs.commons.util.StringUtils;
@@ -75,6 +76,7 @@ public class PageServlet extends HttpServlet {
 		if(result != null && result.size() > 0 ) {
 			request.getSession().setAttribute("s_districts", result);
 		}
+		JSONUtils.writeJSON(response, new Msg(1, "ok"));
 		request.getRequestDispatcher("/home.jsp").forward(request, response);
 	}
 	/**
