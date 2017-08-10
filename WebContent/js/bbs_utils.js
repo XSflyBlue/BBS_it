@@ -11,6 +11,9 @@ function bbs_dealNull(text,symbol){
 			return "";
 		}
 	}else{
+		if(text == 99){
+			return "管理员";
+		}
 		return text;
 	}
 }

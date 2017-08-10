@@ -132,7 +132,10 @@
 				data: 'tId='+postId+'&uId='+uId+'&cause='+content,
 				success: function(data){
 					if(data != null){
-						alert(JSON.stringify(data));
+						if(data.code == 0){
+							alert(data.msg);
+							location.reload();
+						}
 					}
 				}
 			});

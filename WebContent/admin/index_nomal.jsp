@@ -321,7 +321,7 @@
 				if(data!=null){
 					$(data.postFormList).each(function(index,item){
 						var myPost = '<tr><td><a class="bbs_list" href="<c:url value="/poster.jsp?post='+item.postId+'"></c:url>">';
-						myPost += '<span class="bbs_listSubTitle">[程序发布]</span>';
+						myPost += '<span class="bbs_listSubTitle">['+sections[item.sectionId]+']</span>';
 						myPost += '<span class="bbs_listTitle bbs_bold"> '+item.postTitle+' </span>';
 						myPost += '<span class="bbs_listSubTitle block"></a>';
 						myPost += '<span>'+date_fmt(item.issueTime)+'</span>';
