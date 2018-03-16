@@ -1,24 +1,14 @@
 package com.neusoft.bbs.dao.impl;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.logging.SimpleFormatter;
-
-import oracle.net.aso.r;
-import javafx.scene.chart.PieChart.Data;
-
-import com.neusoft.bbs.commons.util.GetDateUtil;
 import com.neusoft.bbs.commons.util.db.BeanHandler;
 import com.neusoft.bbs.commons.util.db.BeanListHandler;
 import com.neusoft.bbs.commons.util.db.DatabaseUtil;
 import com.neusoft.bbs.dao.ReportDao;
 import com.neusoft.bbs.domain.Report;
-import com.neusoft.bbs.domain.form.FollowForm;
 import com.neusoft.bbs.domain.form.PageForm;
 import com.neusoft.bbs.domain.form.ReportForm;
-import com.neusoft.bbs.domain.form.SectionForm;
 
 /**
  * 举报dao实现类

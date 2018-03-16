@@ -4,17 +4,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import com.neusoft.bbs.commons.util.db.BeanHandler;
 import com.neusoft.bbs.commons.util.db.BeanListHandler;
 import com.neusoft.bbs.commons.util.db.DatabaseUtil;
 import com.neusoft.bbs.dao.SectionDao;
 import com.neusoft.bbs.domain.Section;
-import com.neusoft.bbs.domain.form.FollowForm;
 import com.neusoft.bbs.domain.form.PageForm;
 import com.neusoft.bbs.domain.form.SectionForm;
-
-import oracle.net.aso.f;
 
 /**
  * 板块Dao实现类

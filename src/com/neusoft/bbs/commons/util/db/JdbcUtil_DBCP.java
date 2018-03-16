@@ -13,6 +13,8 @@ import javax.sql.DataSource;
 
 import org.apache.tomcat.dbcp.dbcp2.BasicDataSourceFactory;
 
+import com.alibaba.druid.pool.DruidDataSourceFactory;
+
 /**
  * @ClassName: JdbcUtil_DBCP
  * @Description: 数据库连接工具类
@@ -35,7 +37,7 @@ public class JdbcUtil_DBCP {
 		try {
 			prop.load(in);
 			// 创建数据源
-			ds = BasicDataSourceFactory.createDataSource(prop);
+			ds = DruidDataSourceFactory.createDataSource(prop);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (Throwable e) {

@@ -13,7 +13,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.neusoft.bbs.commons.struct.Msg;
@@ -37,8 +36,6 @@ import com.neusoft.bbs.service.UserService;
 import com.neusoft.bbs.service.impl.FollowServiceImpl;
 import com.neusoft.bbs.service.impl.UserDetailServiceImpl;
 import com.neusoft.bbs.service.impl.UserServiceImpl;
-
-import oracle.net.aso.e;
 
 /**
  * 用户 UserServlet

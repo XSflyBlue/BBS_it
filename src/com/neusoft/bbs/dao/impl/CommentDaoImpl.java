@@ -3,16 +3,12 @@ package com.neusoft.bbs.dao.impl;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import oracle.net.aso.f;
-
 import com.neusoft.bbs.commons.util.db.BeanHandler;
 import com.neusoft.bbs.commons.util.db.BeanListHandler;
 import com.neusoft.bbs.commons.util.db.DatabaseUtil;
 import com.neusoft.bbs.dao.CommentDao;
 import com.neusoft.bbs.domain.Comment;
 import com.neusoft.bbs.domain.form.CommentForm;
-import com.neusoft.bbs.domain.form.FollowForm;
 import com.neusoft.bbs.domain.form.PageForm;
 /**
  * 跟帖Dao实现类
