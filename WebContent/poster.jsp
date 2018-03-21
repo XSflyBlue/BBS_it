@@ -71,10 +71,6 @@
 										<div class="bbs_poster_tip">等级</div>
 										<div class="bbs_poster_val">2</div>
 									</td>
-									<td>
-										<div class="bbs_poster_tip">关注人数</div>
-										<div class="bbs_poster_val">3</div>
-									</td>
 								</tr>
 							</table>
 						</div>
