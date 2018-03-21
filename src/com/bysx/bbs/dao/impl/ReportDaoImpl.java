@@ -2,31 +2,13 @@ package com.bysx.bbs.dao.impl;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-<<<<<<< HEAD:src/com/neusoft/bbs/dao/impl/ReportDaoImpl.java
-import com.neusoft.bbs.commons.util.db.BeanHandler;
-import com.neusoft.bbs.commons.util.db.BeanListHandler;
-import com.neusoft.bbs.commons.util.db.DatabaseUtil;
-import com.neusoft.bbs.dao.ReportDao;
-import com.neusoft.bbs.domain.Report;
-import com.neusoft.bbs.domain.form.PageForm;
-import com.neusoft.bbs.domain.form.ReportForm;
-=======
-import java.util.logging.SimpleFormatter;
-
-import com.bysx.bbs.commons.util.GetDateUtil;
 import com.bysx.bbs.commons.util.db.BeanHandler;
 import com.bysx.bbs.commons.util.db.BeanListHandler;
 import com.bysx.bbs.commons.util.db.DatabaseUtil;
 import com.bysx.bbs.dao.ReportDao;
 import com.bysx.bbs.domain.Report;
-import com.bysx.bbs.domain.form.FollowForm;
 import com.bysx.bbs.domain.form.PageForm;
 import com.bysx.bbs.domain.form.ReportForm;
-import com.bysx.bbs.domain.form.SectionForm;
-
-import oracle.net.aso.r;
-import javafx.scene.chart.PieChart.Data;
->>>>>>> creator:src/com/bysx/bbs/dao/impl/ReportDaoImpl.java
 
 /**
  * 举报dao实现类

@@ -2,27 +2,14 @@ package com.bysx.bbs.dao.impl;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-<<<<<<< HEAD:src/com/neusoft/bbs/dao/impl/SectionDaoImpl.java
-import com.neusoft.bbs.commons.util.db.BeanHandler;
-import com.neusoft.bbs.commons.util.db.BeanListHandler;
-import com.neusoft.bbs.commons.util.db.DatabaseUtil;
-import com.neusoft.bbs.dao.SectionDao;
-import com.neusoft.bbs.domain.Section;
-import com.neusoft.bbs.domain.form.PageForm;
-import com.neusoft.bbs.domain.form.SectionForm;
-=======
-
 import com.bysx.bbs.commons.util.db.BeanHandler;
 import com.bysx.bbs.commons.util.db.BeanListHandler;
 import com.bysx.bbs.commons.util.db.DatabaseUtil;
 import com.bysx.bbs.dao.SectionDao;
 import com.bysx.bbs.domain.Section;
-import com.bysx.bbs.domain.form.FollowForm;
 import com.bysx.bbs.domain.form.PageForm;
 import com.bysx.bbs.domain.form.SectionForm;
->>>>>>> creator:src/com/bysx/bbs/dao/impl/SectionDaoImpl.java
 
 /**
  * 板块Dao实现类

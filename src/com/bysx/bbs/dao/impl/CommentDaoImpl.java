@@ -3,16 +3,6 @@ package com.bysx.bbs.dao.impl;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-<<<<<<< HEAD:src/com/neusoft/bbs/dao/impl/CommentDaoImpl.java
-import com.neusoft.bbs.commons.util.db.BeanHandler;
-import com.neusoft.bbs.commons.util.db.BeanListHandler;
-import com.neusoft.bbs.commons.util.db.DatabaseUtil;
-import com.neusoft.bbs.dao.CommentDao;
-import com.neusoft.bbs.domain.Comment;
-import com.neusoft.bbs.domain.form.CommentForm;
-import com.neusoft.bbs.domain.form.PageForm;
-=======
-
 import com.bysx.bbs.commons.util.db.BeanHandler;
 import com.bysx.bbs.commons.util.db.BeanListHandler;
 import com.bysx.bbs.commons.util.db.DatabaseUtil;
@@ -23,7 +13,6 @@ import com.bysx.bbs.domain.form.FollowForm;
 import com.bysx.bbs.domain.form.PageForm;
 
 import oracle.net.aso.f;
->>>>>>> creator:src/com/bysx/bbs/dao/impl/CommentDaoImpl.java
 /**
  * 跟帖Dao实现类
  * @author yangmiao
