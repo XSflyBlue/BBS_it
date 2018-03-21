@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import="com.neusoft.bbs.commons.util.StringUtils"%>
+<%@ page import="com.bysx.bbs.commons.util.StringUtils"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <title>编辑贴子</title>
 <!-- jquery -->
 <script src='<c:url value="/js/jquery-1.11.3.min.js"></c:url>'></script>
@@ -27,7 +28,7 @@
 </head>
 <body>
 	<%@include file='/common/nav.jsp' %>
-	<div class="container">
+	<div class="container"> 
 		<div class="row">
 			<div class="col-md-9">
 				<div class="bbs_mainBox">
@@ -133,6 +134,7 @@
 			</div>
 		</div>
 	</div>
+	<%@include file='/common/bottom.jsp' %>
 </body>
 <script>
 	var postId = GetQueryString('post');

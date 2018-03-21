@@ -1,4 +1,4 @@
-<%@page import="com.neusoft.bbs.commons.util.StringUtils"%>
+<%@page import="com.bysx.bbs.commons.util.StringUtils"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -7,6 +7,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>查看帖子</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <!-- jquery -->
 <script src='<c:url value="/js/jquery-1.11.3.min.js"></c:url>'></script>
 <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
@@ -109,6 +110,7 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
+<%@include file='/common/bottom.jsp' %>
 </body>
 <script>
 
