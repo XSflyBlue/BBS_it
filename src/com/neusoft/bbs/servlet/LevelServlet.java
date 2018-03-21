@@ -119,9 +119,9 @@ public class LevelServlet extends HttpServlet {
 					
 					// 截取日期
 					String lastSignDay = tmpRecord.getExpGetTime().toLocaleString().substring(0, 8);
-					System.out.println("上次签到日期：" + lastSignDay);
+//					System.out.println("上次签到日期：" + lastSignDay);
 					String today = new Date().toLocaleString().substring(0, 8);
-					System.out.println("现在时间：" + today);
+//					System.out.println("现在时间：" + today);
 					
 					// 构造签到结果Json对象
 					SignReturnJson signReturnJson = new SignReturnJson();

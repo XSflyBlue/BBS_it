@@ -131,7 +131,7 @@ public class UserDaoImpl implements UserDao{
 		
 		sql += " WHERE USER_ID = ?";
 		
-		System.out.println(sql);
+//		System.out.println(sql);
 		Object[] paramsArr = params.toArray();
 		
 		int result = 0;
@@ -247,7 +247,7 @@ public class UserDaoImpl implements UserDao{
 		String sql = "select*from (select a1.*,rownum rn from (" + find_sql.toString() + ") a1 where rownum<="
 				+ rowNum * pageSize + ") where rn>" + ((rowNum - 1) * pageSize);
 
-		System.out.println(sql);
+//		System.out.println(sql);
 		
 		Object params[] = arrList.toArray();
 		List<UserBase> userBaseList = null;

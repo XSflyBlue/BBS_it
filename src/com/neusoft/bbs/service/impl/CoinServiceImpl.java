@@ -66,7 +66,7 @@ public class CoinServiceImpl implements CoinService{
 		if(coin!=null){
 			coinRecord.setCoinId(coin.getCoinId());
 			record = coinDao.updateCoinRecord(coinRecord);
-			System.out.println("record:"+record);
+//			System.out.println("record:"+record);
 		}
 		System.out.println(coinRecord.getCoinCause()+"=== "+coinRecord.getCoinGetNum());
 		return record;

@@ -84,7 +84,7 @@ public class UserServiceImpl implements UserService{
 		int result2 = 0;
 		result1 = addUser(userBase);
 		UserBase tempUser = userDao.findByEmail(userBase.getEmail());
-		System.out.println(tempUser.getUserId());
+//		System.out.println(tempUser.getUserId());
 		if(tempUser != null ) {
 			userDetail.setUserId(tempUser.getUserId());
 			//用户详细初始化

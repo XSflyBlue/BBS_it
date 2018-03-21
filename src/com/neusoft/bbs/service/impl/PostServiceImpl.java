@@ -106,7 +106,7 @@ public class PostServiceImpl implements PostService {
 				String currentDate = new Date().toLocaleString();
 				String dbDate = postFormList.get(i).getRecomValidity().toLocaleString();
 				if(currentDate.compareTo(dbDate)<0){
-					System.out.println("忽略的帖子id:"+postFormList.get(i).getPostId());
+//					System.out.println("忽略的帖子id:"+postFormList.get(i).getPostId());
 					// 当前时间早于帖子精华有效时间，不用处理
 				}else{
 					// 帖子精华有效期已过（两者相等的话查询出来也已经过期），更改isElite字段并从返回的list中移除

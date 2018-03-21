@@ -107,7 +107,7 @@ public class CoinServlet extends HttpServlet {
 					CoinRecord coinRecord = new CoinRecord();
 					coinRecord.setCoinCause(cause);
 					coinRecord.setCoinGetNum(coin);
-					System.out.println("cause:"+cause+" userId"+userId+"coin:"+coin);
+//					System.out.println("cause:"+cause+" userId"+userId+"coin:"+coin);
 					
 					List<CoinRecord> coinRecordList = null;
 					coinRecordList = coinService.findCoinRecord(userId, coinRecord);
@@ -117,9 +117,9 @@ public class CoinServlet extends HttpServlet {
 						
 						// 截取日期
 						String lastSignDay = tmpRecord.getCoinGetTime().toLocaleString().substring(0, 8);
-						System.out.println("上次签到日期：" + lastSignDay);
+//						System.out.println("上次签到日期：" + lastSignDay);
 						String today = new Date().toLocaleString().substring(0, 8);
-						System.out.println("现在时间：" + today);
+//						System.out.println("现在时间：" + today);
 						
 						// 构造签到结果Json对象
 						SignReturnJson signReturnJson = new SignReturnJson();
@@ -143,7 +143,7 @@ public class CoinServlet extends HttpServlet {
 						
 						//查询金币数
 						Long coinNum = coinService.findCoinNum(userId);
-						System.out.println("金币总数："+coinNum);
+//						System.out.println("金币总数："+coinNum);
 						if(coinNum!=null){
 							Coin bCoin = new Coin();
 							//查询到金币总数coinNum,再+-coin,更新金币总数
@@ -193,8 +193,8 @@ public class CoinServlet extends HttpServlet {
 		}
 		if(userbase!=null){
 			CoinRecordJson coinRecordJson = new CoinRecordJson();//封装最大页，json数据
-			System.out.println("userId:"+userbase.getUserId());
-			System.out.println(coinService.findFormList(pageSize, pageNum, userbase.getUserId()));
+//			System.out.println("userId:"+userbase.getUserId());
+//			System.out.println(coinService.findFormList(pageSize, pageNum, userbase.getUserId()));
 			if(coinService.findFormList(pageSize, pageNum, userbase.getUserId())!=null){
 				//获取查询结果
 				coinRecordJson.setCoinRecordFormList(
@@ -239,10 +239,10 @@ public class CoinServlet extends HttpServlet {
 					CoinRecord coinRecord = new CoinRecord();
 					coinRecord.setCoinCause(cause);
 					coinRecord.setCoinGetNum(coin);
-					System.out.println("cause:"+cause+" userId"+userId+"coin:"+coin);
+//					System.out.println("cause:"+cause+" userId"+userId+"coin:"+coin);
 					//查询金币数
 					Long coinNum = coinService.findCoinNum(userId);
-					System.out.println("已有的金币总数："+coinNum);
+//					System.out.println("已有的金币总数："+coinNum);
 					if(coinNum>=coin){
 						//更新金币记录
 						if(coinService.addCoinRecord(userId, coinRecord)!=0){

@@ -74,7 +74,7 @@ public class UserDetailServiceImpl implements UserDetailService {
 		UserForm userForm = null;
 		userForm = userDetailDao.findUserForm(userId);
 		if(userForm!=null){
-			System.out.println("in UserDetailServiceImpl,userFOrm 不为空"+userForm.toString());
+//			System.out.println("in UserDetailServiceImpl,userFOrm 不为空"+userForm.toString());
 			if(userForm.getExpNum()==null){
 				// 新注册用户创建经验表和经验记录表
 				EXP exp = new EXP();
@@ -92,18 +92,18 @@ public class UserDetailServiceImpl implements UserDetailService {
 				expDao.insertExpRecord(userId, expRecord);				
 			}
 			if(userForm.getCoinNum()==null){
-				System.out.println("coinNum====");
+//				System.out.println("coinNum====");
 				//第一次注册
 				Coin c = new Coin();
 				c.setCoinNum(0L);//奖励10个金币
 				c.setUserId(userId);
 				int i = coinDao.insertCoin(c);//添加一条金币记录到金币表
-				System.out.println("i"+i);
+//				System.out.println("i"+i);
 				if(i!=0){
 					CoinRecord coinRe = new CoinRecord();
 					
 					Coin findCoin = coinDao.findCoinByUserId(userId);
-					System.out.println("  查询金币数："+findCoin.getCoinNum());
+//					System.out.println("  查询金币数："+findCoin.getCoinNum());
 					coinRe.setCoinId(findCoin.getCoinId());//获取coinId
 					coinRe.setCoinCause("注册");
 					coinRe.setCoinGetNum(0L);

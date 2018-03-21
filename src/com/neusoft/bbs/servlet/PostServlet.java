@@ -528,7 +528,7 @@ public class PostServlet extends HttpServlet {
 		PostJson postJson;// json结构
 		// 获取并处理参数
 		uId = request.getParameter("uId");
-		System.out.println(uId);
+//		System.out.println(uId);
 		userBase = (UserBase)request.getSession().getAttribute("userBase");
 		// 所需封装参数封装
 		post = new Post();
@@ -561,7 +561,7 @@ public class PostServlet extends HttpServlet {
 		PostService postService = PostServiceImpl.getInstance();
 		postJson = new PostJson();
 		// 获取分页结果
-		System.out.println(post);
+//		System.out.println(post);
 		postJson.setPostFormList(postService.findFormList(pageSize, pageNum, post));
 		// 获取最大页数
 		postJson.setMaxPage(postService.getListPageCount(pageSize, post));
@@ -752,7 +752,7 @@ public class PostServlet extends HttpServlet {
 	 * @param response
 	 */
 	private void updatePost(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("updatePost-------------------");
+//		System.out.println("updatePost-------------------");
 		// （用户）参数声明
 		String postId;       // 帖子Id（前端参数）
 		String postTitle;    // 帖子标题（前端参数）

@@ -149,9 +149,9 @@ public class DistrictsDaoImpl implements DistrictsDao{
 		String sql = "select*from (select a1.*,rownum rn from (" + find_sql.toString() + ") a1 where rownum<="
 				+ rowNum * pageSize + ") where rn>" + ((rowNum - 1) * pageSize);
 
-		System.out.println(sql);
+//		System.out.println(sql);
 		Object params[] = object.toArray();
-		System.out.println(sql);
+//		System.out.println(sql);
 		List<DistrictsForm> followFormList = null;
 		try {
 			followFormList = (List<DistrictsForm>) DatabaseUtil.query(sql, params, new BeanListHandler(DistrictsForm.class));

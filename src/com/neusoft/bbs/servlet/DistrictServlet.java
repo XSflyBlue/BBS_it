@@ -94,7 +94,7 @@ public class DistrictServlet extends HttpServlet {
 		DistrictsForm districtsForm = null;
 		// 获取页面传入的参数
 		String distrId = request.getParameter("qId");
-		System.out.println(distrId);
+//		System.out.println(distrId);
 		if (distrId != null&&!distrId.trim().equals("")) {
 			// 判断获取到的id是否为数字
 			Pattern pattern = Pattern.compile("^-?[0-9]+");
@@ -153,7 +153,7 @@ public class DistrictServlet extends HttpServlet {
 			if (pattern.matcher(districtId).matches()) {
 				districts.setDistrictId(Long.parseLong(districtId));
 				districts.setDistrictName(districtName);
-				System.out.println("districtName"+districtName);
+//				System.out.println("districtName"+districtName);
 				districts.setDistrictDescri(districtDescri);
 				if (districts != null) {
 					int i = distService.setDistricts(districts);

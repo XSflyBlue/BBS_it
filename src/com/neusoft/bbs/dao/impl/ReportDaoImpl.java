@@ -84,7 +84,7 @@ public class ReportDaoImpl implements ReportDao {
 		}
 		sql.append("where report_id=?");
 		list.add(report.getReportId());
-		System.out.println(sql);
+//		System.out.println(sql);
 		//时间
 //		java.util.Date utilDate = new Date();
 //		SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
@@ -185,7 +185,7 @@ public class ReportDaoImpl implements ReportDao {
 			return 0;
 		}
 		Object params[] = { id };
-		System.out.println("report:"+find_sql);
+//		System.out.println("report:"+find_sql);
 		PageForm pageForm = null;
 		try {
 			pageForm = (PageForm) DatabaseUtil.query(find_sql.toString(), params, new BeanHandler(PageForm.class));
@@ -240,7 +240,7 @@ public class ReportDaoImpl implements ReportDao {
 		String sql = "select * from (select a1.*,rownum rn from (" + find_sql.toString() + ") a1 where rownum<="
 				+ rowNum * pageSize + ") where rn>" + ((rowNum - 1) * pageSize);
 
-		System.out.println(sql);
+//		System.out.println(sql);
 		Object params[] = { id };
 		List<ReportForm> reportFormList = null;
 		try {

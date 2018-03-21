@@ -133,7 +133,7 @@ public class FollowDaoImpl implements FollowDao{
 		String sql = "select*from (select a1.*,rownum rn from (" + find_sql.toString() + ") a1 where rownum<="
 				+ rowNum * pageSize + ") where rn>" + ((rowNum - 1) * pageSize);
 
-		System.out.println(sql);
+//		System.out.println(sql);
 		Object params[] = {id};
 		List<FollowForm> followFormList = null;
 		try {

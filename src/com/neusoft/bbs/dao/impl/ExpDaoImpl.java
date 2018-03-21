@@ -163,7 +163,7 @@ public class ExpDaoImpl implements ExpDao {
 		String sql = "select*from (select a1.*,rownum rn from (" + find_sql.toString() + ") a1 where rownum<="
 				+ rowNum * pageSize + ") where rn>" + ((rowNum - 1) * pageSize);
 
-		System.out.println(sql);
+//		System.out.println(sql);
 		Object params[] = { userId };
 		List<ExpRecordForm> expRecordFormList = null;
 		try {
@@ -192,7 +192,7 @@ public class ExpDaoImpl implements ExpDao {
 			}
 		}
 		sql.append(" ORDER BY EXP_GET_TIME DESC");
-		System.out.println("findSignSql:"+sql.toString());
+//		System.out.println("findSignSql:"+sql.toString());
 		Object params[] = arrList.toArray();
 		List<ExpRecord> expRecordList = null;
 		try {

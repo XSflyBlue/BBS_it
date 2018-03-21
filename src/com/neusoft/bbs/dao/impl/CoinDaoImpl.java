@@ -37,7 +37,7 @@ public class CoinDaoImpl implements CoinDao{
 			}
 		}
 		sql.append(" order by r.coin_get_time desc");
-		System.out.println("金币记录:sql:"+sql);
+//		System.out.println("金币记录:sql:"+sql);
 		Object params[] = list.toArray();
 		List<CoinRecord> coinRecordList = null;
 		try {
@@ -173,7 +173,7 @@ public class CoinDaoImpl implements CoinDao{
 			String sql = "select*from (select a1.*,rownum rn from (" + find_sql.toString() + ") a1 where rownum<="
 					+ rowNum * pageSize + ") where rn>" + ((rowNum - 1) * pageSize);
 	
-			System.out.println(sql);
+//			System.out.println(sql);
 			Object params[] = {userId};
 			List<CoinRecordForm> coinRecordFormList = null;
 			try {

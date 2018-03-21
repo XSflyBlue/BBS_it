@@ -153,7 +153,7 @@ public class ReportServlet extends HttpServlet {
 			Report report = new Report();
 			report.setReportId(Long.parseLong(jId));
 			report.setReportState(status);
-			System.out.println("jId:"+jId+"----status:"+status);
+//			System.out.println("jId:"+jId+"----status:"+status);
 			int i = reportService.setReport(report);
 			if(i==1){
 				JSONUtils.writeJSON(response, new Msg(0, "修改举报状态成功！"));

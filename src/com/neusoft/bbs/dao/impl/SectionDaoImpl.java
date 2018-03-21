@@ -153,7 +153,7 @@ public class SectionDaoImpl implements SectionDao {
 				arrList.add(id);
 			}
 		} 
-		System.out.println(find_sql.toString());
+//		System.out.println(find_sql.toString());
 		Object params[] = arrList.toArray();
 		PageForm pageForm = null;
 		try {
@@ -161,7 +161,7 @@ public class SectionDaoImpl implements SectionDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		System.out.println("in SectionDaoImpl :"+pageForm.getRowCount().intValue());
+//		System.out.println("in SectionDaoImpl :"+pageForm.getRowCount().intValue());
 		return pageForm.getRowCount().intValue();
 	}
 
@@ -213,7 +213,7 @@ public class SectionDaoImpl implements SectionDao {
 				+ rowNum * pageSize + ") where rn>" + ((rowNum - 1) * pageSize);
 
 		Object params[] = arrList.toArray();
-		System.out.println(Arrays.toString(params));
+//		System.out.println(Arrays.toString(params));
 		List<SectionForm> sectionFormList = null;
 		try {
 			sectionFormList = (List<SectionForm>) DatabaseUtil.query(sql, params,
