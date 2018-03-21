@@ -133,6 +133,7 @@
 			</div>
 		</div>
 	</div>
+	<%@include file='/common/bottom.jsp' %>
 </body>
 <script>
 	var postId = GetQueryString('post');

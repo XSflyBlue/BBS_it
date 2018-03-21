@@ -47,6 +47,7 @@
 			</div>
 		</div>
 	</div>
+	<%@include file='/common/bottom.jsp' %>
 </body>
 <script type="text/javascript">
 

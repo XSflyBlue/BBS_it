@@ -116,24 +116,24 @@
 						<div>
 							<a href='<c:url value="/userInfo.jsp"></c:url>'>
 								<img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">
-								<span id="bbs_poster_name">鲁班不住这</span>
+								<span id="bbs_poster_name">未登录</span>
 							</a>
-							<div>社区元老</div>
+							<div>未登录</div>
 						</div>
 						<div class="">
 							<table class="table">
 								<tr>
 									<td>
 										<div class="bbs_poster_tip">帖子数</div>
-										<div class="bbs_poster_val">2333</div>
+										<div class="bbs_poster_val">----</div>
 									</td>
 									<td>
 										<div class="bbs_poster_tip">帖子数</div>
-										<div class="bbs_poster_val">2333</div>
+										<div class="bbs_poster_val">----</div>
 									</td>
 									<td>
 										<div class="bbs_poster_tip">帖子数</div>
-										<div class="bbs_poster_val">2333</div>
+										<div class="bbs_poster_val">----</div>
 									</td>
 								</tr>
 							</table>
@@ -144,10 +144,11 @@
 					<h4>楼主最近发布</h4>
 					<div>
 						<ul>
-							<li><a href="#">震惊！UC居然要解散震惊部全体员工</a></li>
+							<!--  <li><a href="#">震惊！UC居然要解散震惊部全体员工</a></li>
 							<li><a href="#">小米6全新发布</a></li>
 							<li><a href="#">论现代社会与深居丛林？</a></li>
 							<li><a href="#">Java快速入门</a></li>
+							-->
 						</ul>
 					</div>
 				</div><!-- end right box -->

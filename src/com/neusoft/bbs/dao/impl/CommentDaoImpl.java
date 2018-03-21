@@ -184,9 +184,12 @@ public class CommentDaoImpl implements CommentDao{
 				find_sql.append("order by c.comment_time desc");
 				list.add(id);
 			}else {//跟帖用户
+				id = comment.getPostId();
+				list.add(id);
 				id = comment.getCommentUserId();
 				find_sql.append("from b_post p,b_comment c,b_user_base b ");
 				find_sql.append("where p.post_id = c.post_id ");
+				find_sql.append("and c.post_id=? ");
 				find_sql.append("and c.comment_user_id = b.user_id ");
 				find_sql.append(" and (c.comment_user_id=? ");
 				find_sql.append("OR (c.comment_user_id<>? AND c.IS_HIDDEN = 1))");

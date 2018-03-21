@@ -109,6 +109,7 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
+<%@include file='/common/bottom.jsp' %>
 </body>
 <script>
 
