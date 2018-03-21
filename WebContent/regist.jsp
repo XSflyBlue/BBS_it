@@ -6,6 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>用户注册</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <!-- jquery -->
 <script src='<c:url value="/js/jquery-1.11.3.min.js"></c:url>'></script>
 <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->

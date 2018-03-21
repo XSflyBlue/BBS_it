@@ -11,7 +11,7 @@
   </welcome-file-list>
   <filter>
   	<filter-name>PageFileter</filter-name>
-  	<filter-class>com.neusoft.bbs.servlet.filter.PageFileter</filter-class>
+  	<filter-class>com.bysx.bbs.servlet.filter.PageFileter</filter-class>
   </filter>
   <filter-mapping>
   	<filter-name>PageFileter</filter-name>

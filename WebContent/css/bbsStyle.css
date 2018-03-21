@@ -4,6 +4,9 @@
 	border-radius:0px;
 	background-color: rgba(0,0,0,.8)!important;
 }
+.icon-bar{
+	background: #eee;
+}
 nav a{
 	color: #c0c0c0;
 }

@@ -6,6 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>查看用户</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <!-- jquery -->
 <script src='<c:url value="/js/jquery-1.11.3.min.js"></c:url>'></script>
 <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
@@ -50,8 +51,8 @@
 									<div class="bbs_poster_val" id="j_level">2333</div>
 								</td>
 								<td>
-									<div class="bbs_poster_tip">关注人数</div>
-									<div class="bbs_poster_val">2333</div>
+									<div class="bbs_poster_tip">金币</div>
+									<div class="bbs_poster_val" id="j_Coin">2333</div>
 								</td>
 							</tr>
 						</table>
@@ -125,20 +126,7 @@
 			</div>
 			<div class="col-md-3">
 				<div class="bbs_rightBox" style="margin-top: 0px;">
-					<h4>友情链接</h4>
-					<div>
-						<ul>
-							<li><a href="http://www.neusoft.com/">东软</a></li>
-							<li><a href="http://www.baidu.com">百度搜索</a></li>
-							<li><a href="http://www.ithome.com">IT之家</a></li>
-							<li><a href="http://www.cqupt.edu.cn/cqupt/index.shtml">重庆邮电大学</a></li>
-							<li><a href="https://www.zaiqingyang.org/">杨再清的主页</a></li>
-							<li><a href="http://bbs.csdn.net">CSDN论坛</a></li>
-							<li><a href="http://yinwang.org">当然我在扯淡</a></li>
-							<li><a href="https://developers.google.cn/">谷歌开发者社区</a></li>
-							<li><a href="http://www.cnblogs.com">博客园</a></li>
-						</ul>
-					</div>
+					<%@include file='/common/friendLinks.jsp' %>
 				</div><!-- end right box -->
 			</div>
 		</div>
@@ -227,6 +215,7 @@
 					$('#bbs_poster_name').text(data.username);
 					$('#j_userId').text(data.userId);
 					$('#j_level').text(bbs_dealNull(data.levelName,0));
+					$('#j_Coin').text(bbs_dealNull(data.coinNum,0));
 				}
 			}
 		});

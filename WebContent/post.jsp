@@ -1,12 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import="com.neusoft.bbs.commons.util.StringUtils"%>
+<%@ page import="com.bysx.bbs.commons.util.StringUtils"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>发布新贴</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <!-- jquery -->
 <script src='<c:url value="/js/jquery-1.11.3.min.js"></c:url>'></script>
 <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
@@ -102,7 +103,7 @@
 							<tr>
 								<td></td>
 								<td>
-									<button type="submit" class="btn btn-primary">发新贴</button>
+									<button id="postBtn" type="submit" class="btn btn-primary">发新贴</button>
 								</td>
 							</tr>
 						</table>
@@ -110,50 +111,12 @@
 					</form>
 				</div>
 			</div>
-			<div class="col-md-3">
-				<div class="bbs_rightBox" style="margin-top: 0px;">
-					<div class="bbs_poster">
-						<div>
-							<a href='<c:url value="/userInfo.jsp"></c:url>'>
-								<img  alt="头像" class="bbs_icon" src="https://bbs.xiuno.com/upload/avatar/000/1.png?1350049293">
-								<span id="bbs_poster_name">未登录</span>
-							</a>
-							<div>未登录</div>
-						</div>
-						<div class="">
-							<table class="table">
-								<tr>
-									<td>
-										<div class="bbs_poster_tip">帖子数</div>
-										<div class="bbs_poster_val">----</div>
-									</td>
-									<td>
-										<div class="bbs_poster_tip">帖子数</div>
-										<div class="bbs_poster_val">----</div>
-									</td>
-									<td>
-										<div class="bbs_poster_tip">帖子数</div>
-										<div class="bbs_poster_val">----</div>
-									</td>
-								</tr>
-							</table>
-						</div>
-					</div>
-				</div><!-- end right box -->
-				<div class="bbs_rightBox">
-					<h4>楼主最近发布</h4>
-					<div>
-						<ul>
-							<!--  <li><a href="#">震惊！UC居然要解散震惊部全体员工</a></li>
-							<li><a href="#">小米6全新发布</a></li>
-							<li><a href="#">论现代社会与深居丛林？</a></li>
-							<li><a href="#">Java快速入门</a></li>
-							-->
-						</ul>
-					</div>
-				</div><!-- end right box -->
-			</div>
 		</div>
+	</div>
+	<div id="loginFlag" style="display: none;">
+	<c:if test="${userBase == null}">
+		未登录标识
+	</c:if>
 	</div>
 </body>
 <script>
@@ -202,6 +165,14 @@
 					}
 				}
 			});
+		});
+		
+		//发帖按钮
+		$('#postBtn').click(function(){
+			if($.trim($('#loginFlag').text()) == "未登录标识"){
+				alert("未登录用户不能发帖，请先登录。");
+				return false;
+			}
 		});
 		
 	});
