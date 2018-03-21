@@ -95,7 +95,7 @@ public class PostServiceImpl implements PostService {
 	public List<PostForm> findFormList(int pageSize, int rowNum, Post post) {
 		List<PostForm> postFormList = null;
 		postFormList = postDao.findFormList(pageSize, rowNum, post);
-		if(post.getIsElite()!=null){
+		if(post.getIsElite()!=null&&postFormList!=null){
 			// 查询精华帖的时候才进行有效期判断
 			for(int i =0;i<postFormList.size();i++){
 				if(postFormList.get(i)==null

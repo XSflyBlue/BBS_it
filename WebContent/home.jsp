@@ -18,79 +18,6 @@
 <script src='<c:url value="/js/bootstrap.min.js"></c:url>'></script>
 <script src='<c:url value="/js/bbs_utils.js"></c:url>'></script>
 <link rel="stylesheet" href='<c:url value="/css/bbsStyle.css"></c:url>'>
-</head>
-<body>
-	<%@include file='/common/nav.jsp' %>
-	<div class="container">
-		<div class="row">
-			<div class="col-md-9">
-				<div>
-					<div id="bbs_map">
-						<a href='<c:url value="/"></c:url>'>论坛</a>
-						 >
-						 <c:if test="${s_sectionId != null}">
-						 	<a id="j_subNav" href='<c:url value="/PageServlet?action=navTo&nav=${s_sectionId}"></c:url>'></a>
-						 </c:if>
-						<div style="display:none;" id="j_sectionId" j_val="${s_sectionId}"></div>
-					</div>
-					<ul class="nav nav-tabs bbs_subNav">
-						<li class="j_subNav active" value="nomal" role="presentation"><a href="#">主题帖</a></li>
-						<li class="j_subNav" value="better" role="presentation"><a href="#">精华帖</a></li>
-					</ul>
-					<table class="table table-hover bbs_table" id="j_postList">
-						
-					</table>
-					<!-- 分页 -->
-					<div style="text-align: center;">
-						<span class="pageIndex">
-							当前第<font color="blue" id="j_curPage">1</font>页
-							&nbsp;&nbsp;&nbsp;共<font color="blue" id="j_maxPage"></font>页
-						</span>
-						<ul class="pager">
-							<li>
-								<a href="#" onclick="up()">上页</a>
-							</li>
-							<li>
-								<a href="#" onclick="down()">下页</a>
-							</li>
-							<li>
-								<input id="j_goal" style="width: 50px;border-radius: 33px;">
-								<a onclick='getGoalPage()' href="#">翻页</a>
-							</li>
-						</ul>
-					</div>
-					<!-- end 分页 -->
-				</div>
-			</div>
-			<div class="col-md-3">
-				<a href='<c:url value="/post.jsp"></c:url>'>
-					<button type="button" class="btn btn-primary" style="width: 100%;">发新贴</button>
-				</a>
-				<div class="bbs_rightBox">
-					<h4>论坛介绍</h4>
-					<div>这是简单理解为发帖回帖讨论的平台。是Internet上的一种电子信息服务系统。它提供一块公共电子白板，每个用户都可以在上面书写，可发布信息或提出看法。</div>
-				</div>
-				<div class="bbs_rightBox">
-					<h4>友情链接</h4>
-					<div>
-						<ul>
-							<li><a href="http://www.neusoft.com/">东软</a></li>
-							<li><a href="http://www.baidu.com">百度搜索</a></li>
-							<li><a href="http://www.ithome.com">IT之家</a></li>
-							<li><a href="http://www.cqupt.edu.cn/cqupt/index.shtml">重庆邮电大学</a></li>
-							<li><a href="https://www.zaiqingyang.org/">杨再清的主页</a></li>
-							<li><a href="http://bbs.csdn.net">CSDN论坛</a></li>
-							<li><a href="http://yinwang.org">当然我在扯淡</a></li>
-							<li><a href="https://developers.google.cn/">谷歌开发者社区</a></li>
-							<li><a href="http://www.cnblogs.com">博客园</a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<%@include file='/common/bottom.jsp' %>
-</body>
 <script type="text/javascript">
 	
 	//获取精华帖
@@ -258,4 +185,77 @@
 		});
 	});
 </script>
+</head>
+<body>
+	<%@include file='/common/nav.jsp' %>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-9">
+				<div>
+					<div id="bbs_map">
+						<a href='<c:url value="/"></c:url>'>论坛</a>
+						 >
+						 <c:if test="${s_sectionId != null}">
+						 	<a id="j_subNav" href='<c:url value="/PageServlet?action=navTo&nav=${s_sectionId}"></c:url>'></a>
+						 </c:if>
+						<div style="display:none;" id="j_sectionId" j_val="${s_sectionId}"></div>
+					</div>
+					<ul class="nav nav-tabs bbs_subNav">
+						<li class="j_subNav active" value="nomal" role="presentation"><a href="#">主题帖</a></li>
+						<li class="j_subNav" value="better" role="presentation"><a href="#">精华帖</a></li>
+					</ul>
+					<table class="table table-hover bbs_table" id="j_postList">
+						
+					</table>
+					<!-- 分页 -->
+					<div style="text-align: center;">
+						<span class="pageIndex">
+							当前第<font color="blue" id="j_curPage">1</font>页
+							&nbsp;&nbsp;&nbsp;共<font color="blue" id="j_maxPage"></font>页
+						</span>
+						<ul class="pager">
+							<li>
+								<a href="#" onclick="up()">上页</a>
+							</li>
+							<li>
+								<a href="#" onclick="down()">下页</a>
+							</li>
+							<li>
+								<input id="j_goal" style="width: 50px;border-radius: 33px;">
+								<a onclick='getGoalPage()' href="#">翻页</a>
+							</li>
+						</ul>
+					</div>
+					<!-- end 分页 -->
+				</div>
+			</div>
+			<div class="col-md-3">
+				<a href='<c:url value="/post.jsp"></c:url>'>
+					<button type="button" class="btn btn-primary" style="width: 100%;">发新贴</button>
+				</a>
+				<div class="bbs_rightBox">
+					<h4>论坛介绍</h4>
+					<div>这是简单理解为发帖回帖讨论的平台。是Internet上的一种电子信息服务系统。它提供一块公共电子白板，每个用户都可以在上面书写，可发布信息或提出看法。</div>
+				</div>
+				<div class="bbs_rightBox">
+					<h4>友情链接</h4>
+					<div>
+						<ul>
+							<li><a href="http://www.neusoft.com/">东软</a></li>
+							<li><a href="http://www.baidu.com">百度搜索</a></li>
+							<li><a href="http://www.ithome.com">IT之家</a></li>
+							<li><a href="http://www.cqupt.edu.cn/cqupt/index.shtml">重庆邮电大学</a></li>
+							<li><a href="https://www.zaiqingyang.org/">杨再清的主页</a></li>
+							<li><a href="http://bbs.csdn.net">CSDN论坛</a></li>
+							<li><a href="http://yinwang.org">当然我在扯淡</a></li>
+							<li><a href="https://developers.google.cn/">谷歌开发者社区</a></li>
+							<li><a href="http://www.cnblogs.com">博客园</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<%@include file='/common/bottom.jsp' %>
+</body>
 </html>

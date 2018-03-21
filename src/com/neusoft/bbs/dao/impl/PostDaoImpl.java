@@ -218,18 +218,6 @@ public class PostDaoImpl implements PostDao {
 		Long id = null;
 		String str = null;
 		List<Object> arrList = new ArrayList<Object>();
-		if (post.getSectionId() != null) {
-			// 根据版块ID查询
-			id = post.getSectionId();
-			find_sql.append(" AND SECTION_ID=?");
-			arrList.add(id);
-		}
-		if (post.getPostId() != null) {
-			// 根据postID查询
-			id = post.getPostId();
-			find_sql.append(" AND P.POST_ID=?");
-			arrList.add(id);
-		}
 		if (post.getUserId() != null) {
 			// 根据用户ID查询
 			id = post.getUserId();
@@ -243,6 +231,18 @@ public class PostDaoImpl implements PostDao {
 				arrList.add(id);
 				arrList.add(id);
 			}
+		}
+		if (post.getSectionId() != null) {
+			// 根据版块ID查询
+			id = post.getSectionId();
+			find_sql.append(" AND SECTION_ID=?");
+			arrList.add(id);
+		}
+		if (post.getPostId() != null) {
+			// 根据postID查询
+			id = post.getPostId();
+			find_sql.append(" AND P.POST_ID=?");
+			arrList.add(id);
 		}
 		if (post.getIsElite() != null) {
 			// 查询精华帖
